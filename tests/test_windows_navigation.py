@@ -1,8 +1,8 @@
 """Exercise the WebView2 policy and startup ordering without a native window."""
 
 import json
-from types import SimpleNamespace
 import sys
+from types import SimpleNamespace
 import unittest
 from unittest.mock import Mock, patch
 
@@ -22,8 +22,13 @@ class Hooks(list):
 class WindowsNavigationTests(unittest.TestCase):
     def setUp(self):
         self.url = 'http://127.0.0.1:8989/index.html?desktop=1'
+        self.permission_state = SimpleNamespace(Default=object(), Deny=object())
+        self.enterContext(patch.dict(sys.modules, {
+            'Microsoft.Web.WebView2.Core': SimpleNamespace(CoreWebView2PermissionState=self.permission_state),
+        }))
         self.core = SimpleNamespace(
             NewWindowRequested=Hooks(), LaunchingExternalUriScheme=Hooks(), FrameNavigationStarting=Hooks(),
+            PermissionRequested=Hooks(),
         )
         self.control = SimpleNamespace(
             CoreWebView2=None, NavigationStarting=Hooks(), CoreWebView2InitializationCompleted=Hooks(),
@@ -50,6 +55,13 @@ class WindowsNavigationTests(unittest.TestCase):
     def test_loads_local_page_only_after_native_guards_are_ready(self):
         self.assertIsNone(self.window.real_url)
         self.browser.load_url.assert_not_called()
+
+        def check_permission_guard(_url):
+            request = SimpleNamespace(State=self.permission_state.Default)
+            self.core.PermissionRequested[0](self.core, request)
+            self.assertIs(request.State, self.permission_state.Deny)
+
+        self.browser.load_url.side_effect = check_permission_guard
         self.control.CoreWebView2 = self.core
         self.control.CoreWebView2InitializationCompleted[0](self.control, SimpleNamespace(IsSuccess=True))
         self.assertEqual(self.window.real_url, self.url)

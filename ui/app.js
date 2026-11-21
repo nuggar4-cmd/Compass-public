@@ -4,6 +4,7 @@
   const desktop = new URLSearchParams(window.location.search).get('desktop') === '1';
   const all = 'All apps';
   const state = { apps: [], category: all, query: '', sort: 'featured', view: 'discover', selected: null, busy: false };
+  const blocked = new Map();
   let desktopApi;
   let connecting = false;
   let startupTimer;
@@ -49,6 +50,31 @@
     render();
   }
 
+  function updatePublisherLabel(label, isBlocked) {
+    label.textContent = isBlocked ? 'Blocked' : 'Verified publisher';
+    label.className = isBlocked ? 'security-label security-label--blocked' : 'security-label security-label--verified';
+  }
+
+  function hasNotice(app) {
+    return typeof app.notice === 'string' && app.notice.trim() !== '';
+  }
+
+  function showBlocked(message) {
+    const cardLabel = Array.from($('cards').children)
+      .find(card => card.dataset.appId === state.selected.id)?.querySelector('.security-label');
+    if (cardLabel) updatePublisherLabel(cardLabel, true);
+    $('detail-verification').hidden = true;
+    $('verification-scope').hidden = true;
+    $('dialog-note').textContent = 'Choose another listing to visit a website.';
+    const openButton = $('open-official');
+    const hadFocus = document.activeElement === openButton;
+    openButton.disabled = true;
+    const label = text('strong', 'Blocked', 'security-label security-label--blocked');
+    $('dialog-status').textContent = '';
+    $('blocked-destination').replaceChildren(label, ' ', text('span', message));
+    if (hadFocus) document.querySelector('.dialog-close').focus();
+  }
+
   function showDetails(app) {
     state.selected = app;
     $('dialog-title').textContent = app.name;
@@ -58,11 +84,18 @@
     $('detail-description').textContent = app.description;
     $('detail-host').textContent = app.host;
     $('detail-url').textContent = app.url;
+    const notice = hasNotice(app) ? app.notice : '';
+    $('detail-notice').hidden = !notice;
+    $('detail-notice').textContent = notice;
     $('dialog-note').textContent = desktopApi
       ? 'Compass asks for confirmation before opening this address in your default browser.'
       : 'Open Compass for desktop to visit this website.';
     $('open-official').disabled = !desktopApi;
+    $('detail-verification').hidden = false;
+    $('verification-scope').hidden = false;
     $('dialog-status').textContent = '';
+    $('blocked-destination').textContent = '';
+    if (blocked.has(app.id)) showBlocked(blocked.get(app.id));
     $('app-dialog').showModal();
   }
 
@@ -79,6 +112,7 @@
     $('cards').replaceChildren();
     apps.forEach(app => {
       const card = text('article', '', 'card');
+      card.dataset.appId = app.id;
       const heading = text('div', '', 'card-heading');
       const icon = text('span', app.glyph, `app-icon app-${app.id}`);
       icon.setAttribute('aria-hidden', 'true');
@@ -87,12 +121,19 @@
       identity.append(text('h3', app.name), text('span', app.category, 'category'));
       heading.append(identity);
       const bottom = text('div', '', 'card-bottom');
+      const publisher = text('div', '', 'publisher');
+      const badges = text('div', '', 'publisher-badges');
+      const label = document.createElement('span');
+      updatePublisherLabel(label, blocked.has(app.id));
+      badges.append(label);
+      if (hasNotice(app)) badges.append(text('span', 'Caution', 'security-label security-label--caution'));
       const source = text('span', app.host, 'source');
       source.title = app.url;
-      const button = text('button', 'View app  ↗', 'details-button');
-      button.setAttribute('aria-label', `View ${app.name}`);
+      publisher.append(badges, source);
+      const button = text('button', 'Details', 'details-button');
+      button.setAttribute('aria-label', `Details for ${app.name}`);
       button.addEventListener('click', () => showDetails(app));
-      bottom.append(source, button);
+      bottom.append(publisher, button);
       card.append(heading, text('p', app.description, 'card-description'), bottom);
       $('cards').append(card);
     });
@@ -200,7 +241,7 @@
     if (state.busy && event.key === 'Escape') event.preventDefault();
   });
   $('open-official').addEventListener('click', async () => {
-    if (state.busy || !state.selected || !desktopApi) return;
+    if (state.busy || !state.selected || !desktopApi || blocked.has(state.selected.id)) return;
     const openButton = $('open-official');
     const closeButton = document.querySelector('.dialog-close');
     state.busy = true;
@@ -209,11 +250,16 @@
     $('dialog-status').textContent = 'Waiting for confirmation…';
     try {
       const response = await desktopApi.open_official(state.selected.id);
-      if (response.ok) {
+      const message = typeof response?.message === 'string' ? response.message : '';
+      if (response?.status === 'blocked') {
+        const reason = message || 'The destination did not pass Compass’s catalog checks.';
+        blocked.set(state.selected.id, reason);
+        showBlocked(reason);
+      } else if (response?.ok === true) {
         $('app-dialog').close();
-        notify(response.message);
+        notify(message || 'Opened the publisher website.');
       } else {
-        $('dialog-status').textContent = response.message;
+        $('dialog-status').textContent = message || 'Could not open the website. Try again.';
       }
     } catch (_) {
       $('dialog-status').textContent = 'The desktop connection is unavailable. Restart Compass to try again.';

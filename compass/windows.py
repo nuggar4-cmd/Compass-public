@@ -153,11 +153,17 @@ def install_windows_navigation_guard(window):
             args.Handled = True
 
         def configure_core(core):
+            from Microsoft.Web.WebView2.Core import CoreWebView2PermissionState
+
+            def deny_permission(_, args):
+                args.State = CoreWebView2PermissionState.Deny
+
             # pywebview's default popup handler can open the system browser or navigate this view.
             core.NewWindowRequested -= browser.on_new_window_request
             core.NewWindowRequested += suppress_popup
             core.LaunchingExternalUriScheme += cancel_request
             core.FrameNavigationStarting += cancel_request
+            core.PermissionRequested += deny_permission
             window.real_url = allowed_url
             browser.load_url(allowed_url)
 

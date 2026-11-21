@@ -22,14 +22,18 @@ class Bridge:
         try:
             url = destination(app_id)
         except ValueError:
-            return {'ok': False, 'message': 'This destination is not allowed.'}
+            return {
+                'ok': False,
+                'status': 'blocked',
+                'message': 'Compass blocked this address because it did not pass the catalog check.',
+            }
         app = BY_ID[app_id]
+        notice = f'\n\n{app.notice}' if app.notice else ''
         return self._open_confirmed(
             url, 'Open official website?',
-            f'{app.name}\n\n{url}\n\nThis opens your default browser. '
-            'The website has its own privacy policy. Compass cannot guarantee '
-            'the safety of third-party websites or downloads.',
-            f'Opened the official {app.name} website.',
+            f'{app.name}\n\n{url}{notice}\n\nThis opens your default browser. '
+            'Review redirects and downloads before continuing.',
+            f'Sent the official {app.name} link to your browser.',
         )
 
     def suggest_link(self):

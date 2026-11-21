@@ -16,7 +16,7 @@ Both packages are available without signing in to GitHub.
 
 [Download the RC5 Debian/Ubuntu package (.deb)](https://github.com/nuggar4-cmd/Compass-public/releases/download/v1.0.0rc5/Compass-1.0.0rc5-Linux-all.deb) · [SHA-256 checksum](https://github.com/nuggar4-cmd/Compass-public/releases/download/v1.0.0rc5/Compass-1.0.0rc5-Linux-all.deb.sha256)
 
-Install the package and its GTK and WebKitGTK dependencies with APT:
+Install the package and its dependencies with APT. It requires Python 3.11 or newer and WebKitGTK 2.40 or newer.
 
 ```sh
 sudo apt install ./Compass-1.0.0rc5-Linux-all.deb
@@ -26,7 +26,9 @@ Launch **Compass** from the application menu or run `compass-desktop`. The Debia
 
 ## Use Compass
 
-Enter an app name or keyword in search, or narrow the list by category. Press Ctrl+K to focus search, or Escape to close app details. Select **View app** to see the publisher and complete destination. **Visit official website** asks for native confirmation before opening the default browser.
+Enter an app name or keyword in search, or narrow the list by category. Press Ctrl+K to focus search, or Escape to close app details. Select **Details** to see the publisher and complete destination. **Visit official website** asks for native confirmation before opening the default browser.
+
+**Verified publisher** identifies a reviewed starting address. **Caution** describes details such as a publisher preview or external downloads. If an address fails the catalog check, Compass shows **Blocked** and skips opening it. The Gaming category includes Steam, Epic Games Launcher, GOG GALAXY, and the itch.io app.
 
 The [approved publisher destinations](APPROVED_SITES.md) are bundled. Compass has no accounts, telemetry, search-history storage, downloads, installers or automatic updates. Its Windows loopback listener serves only the four bundled interface assets and closes with the app. The initial publisher address is checked against the catalog. Once the browser opens it, redirects, privacy and downloads are handled by the browser and publisher.
 

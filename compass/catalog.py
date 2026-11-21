@@ -13,6 +13,7 @@ class App:
     color: str
     glyph: str
     tags: tuple[str, ...]
+    notice: str | None = None
 
 CATALOG = (
     App('firefox', 'Firefox', 'Browsers', 'A fresh perspective on the web. Browse, explore and make it yours.', 'https://www.firefox.com/en-US/', 'www.firefox.com', '#ff9862', 'F', ('browser', 'web', 'mozilla')),
@@ -151,6 +152,31 @@ CATALOG = (
         url='https://sqlitebrowser.org/dl/', host='sqlitebrowser.org',
         color='#a1cfe8', glyph='DB', tags=('sqlite', 'database', 'sql', 'editor'),
     ),
+    App(
+        id='steam', name='Steam', category='Gaming',
+        description='Browse the Steam store and install the client for your game library.',
+        url='https://store.steampowered.com/about/', host='store.steampowered.com',
+        color='#9fc8f1', glyph='St', tags=('games', 'store', 'launcher', 'valve'),
+    ),
+    App(
+        id='epic-games', name='Epic Games Launcher', category='Gaming',
+        description='Get the Epic Games client for the store and your game library.',
+        url='https://launcher.epicgames.com/', host='launcher.epicgames.com',
+        color='#d2d6e2', glyph='Ep', tags=('games', 'store', 'launcher', 'epic'),
+        notice='Epic currently offers this launcher as a preview. Some features may change or be unavailable.',
+    ),
+    App(
+        id='gog-galaxy', name='GOG GALAXY', category='Gaming',
+        description='Manage your GOG library and connect supported game accounts.',
+        url='https://www.gog.com/galaxy', host='www.gog.com',
+        color='#c6a6f1', glyph='Go', tags=('games', 'store', 'launcher', 'library'),
+    ),
+    App(
+        id='itch-io', name='itch.io app', category='Gaming',
+        description='Find independent games and manage your itch.io library.',
+        url='https://itch.io/app', host='itch.io',
+        color='#f4a0ab', glyph='It', tags=('games', 'indie', 'store', 'launcher'),
+    ),
 )
 BY_ID = {app.id: app for app in CATALOG}
 
@@ -169,4 +195,4 @@ def public_catalog() -> list[dict]:
     return [dict(id=app.id, name=app.name, category=app.category,
                  description=app.description, url=destination(app.id),
                  host=app.host, color=app.color, glyph=app.glyph,
-                 tags=list(app.tags)) for app in CATALOG]
+                 tags=list(app.tags), notice=app.notice) for app in CATALOG]

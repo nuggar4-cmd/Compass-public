@@ -38,4 +38,13 @@ The project owner delegated review and inclusion of these publisher destinations
 | python | https://www.python.org/downloads/ | www.python.org |
 | sqlitebrowser | https://sqlitebrowser.org/dl/ | sqlitebrowser.org |
 
+## Gaming destinations
+
+| Catalog ID | Publisher page | Exact initial hostname |
+| --- | --- | --- |
+| steam | https://store.steampowered.com/about/ | store.steampowered.com |
+| epic-games | https://launcher.epicgames.com/ | launcher.epicgames.com |
+| gog-galaxy | https://www.gog.com/galaxy | www.gog.com |
+| itch-io | https://itch.io/app | itch.io |
+
 Approval applies to the exact initial publisher URLs above. Website safety, subsequent redirects, and downloaded binaries require separate evaluation. Additions and destination changes require owner review before inclusion. The application reads the fixed catalog in `compass/catalog.py`.

@@ -13,7 +13,8 @@ window.COMPASS_CATALOG = [
       "browser",
       "web",
       "mozilla"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "vscode",
@@ -28,7 +29,8 @@ window.COMPASS_CATALOG = [
       "editor",
       "code",
       "programming"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "obs",
@@ -43,7 +45,8 @@ window.COMPASS_CATALOG = [
       "video",
       "streaming",
       "recording"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "7zip",
@@ -58,7 +61,8 @@ window.COMPASS_CATALOG = [
       "archive",
       "zip",
       "files"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "vlc",
@@ -74,7 +78,8 @@ window.COMPASS_CATALOG = [
       "video",
       "audio",
       "videolan"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "gimp",
@@ -90,7 +95,8 @@ window.COMPASS_CATALOG = [
       "image",
       "graphics",
       "layers"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "audacity",
@@ -106,7 +112,8 @@ window.COMPASS_CATALOG = [
       "sound",
       "podcast",
       "editor"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "libreoffice",
@@ -122,7 +129,8 @@ window.COMPASS_CATALOG = [
       "documents",
       "spreadsheet",
       "presentation"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "keepassxc",
@@ -138,7 +146,8 @@ window.COMPASS_CATALOG = [
       "vault",
       "credentials",
       "offline"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "thunderbird",
@@ -154,7 +163,8 @@ window.COMPASS_CATALOG = [
       "mail",
       "calendar",
       "contacts"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "git",
@@ -170,7 +180,8 @@ window.COMPASS_CATALOG = [
       "repository",
       "code",
       "terminal"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "notepad-plus-plus",
@@ -186,7 +197,8 @@ window.COMPASS_CATALOG = [
       "code",
       "editor",
       "windows"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "brave",
@@ -202,7 +214,8 @@ window.COMPASS_CATALOG = [
       "web",
       "privacy",
       "chromium"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "vivaldi",
@@ -218,7 +231,8 @@ window.COMPASS_CATALOG = [
       "web",
       "tabs",
       "customization"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "shotcut",
@@ -234,7 +248,8 @@ window.COMPASS_CATALOG = [
       "editor",
       "audio",
       "filters"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "krita",
@@ -250,7 +265,8 @@ window.COMPASS_CATALOG = [
       "drawing",
       "brush",
       "illustration"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "handbrake",
@@ -266,7 +282,8 @@ window.COMPASS_CATALOG = [
       "transcoder",
       "encoder",
       "convert"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "kdenlive",
@@ -282,7 +299,8 @@ window.COMPASS_CATALOG = [
       "editor",
       "timeline",
       "kde"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "joplin",
@@ -298,7 +316,8 @@ window.COMPASS_CATALOG = [
       "markdown",
       "notebooks",
       "tasks"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "zotero",
@@ -314,7 +333,8 @@ window.COMPASS_CATALOG = [
       "citations",
       "references",
       "pdf"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "calibre",
@@ -330,7 +350,8 @@ window.COMPASS_CATALOG = [
       "reader",
       "library",
       "epub"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "sumatra-pdf",
@@ -346,7 +367,8 @@ window.COMPASS_CATALOG = [
       "reader",
       "documents",
       "windows"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "localsend",
@@ -362,7 +384,8 @@ window.COMPASS_CATALOG = [
       "sharing",
       "local network",
       "lan"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "syncthing",
@@ -378,7 +401,8 @@ window.COMPASS_CATALOG = [
       "folders",
       "files",
       "peer to peer"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "python",
@@ -394,7 +418,8 @@ window.COMPASS_CATALOG = [
       "interpreter",
       "programming",
       "scripting"
-    ]
+    ],
+    "notice": null
   },
   {
     "id": "sqlitebrowser",
@@ -410,6 +435,75 @@ window.COMPASS_CATALOG = [
       "database",
       "sql",
       "editor"
-    ]
+    ],
+    "notice": null
+  },
+  {
+    "id": "steam",
+    "name": "Steam",
+    "category": "Gaming",
+    "description": "Browse the Steam store and install the client for your game library.",
+    "url": "https://store.steampowered.com/about/",
+    "host": "store.steampowered.com",
+    "color": "#9fc8f1",
+    "glyph": "St",
+    "tags": [
+      "games",
+      "store",
+      "launcher",
+      "valve"
+    ],
+    "notice": null
+  },
+  {
+    "id": "epic-games",
+    "name": "Epic Games Launcher",
+    "category": "Gaming",
+    "description": "Get the Epic Games client for the store and your game library.",
+    "url": "https://launcher.epicgames.com/",
+    "host": "launcher.epicgames.com",
+    "color": "#d2d6e2",
+    "glyph": "Ep",
+    "tags": [
+      "games",
+      "store",
+      "launcher",
+      "epic"
+    ],
+    "notice": "Epic currently offers this launcher as a preview. Some features may change or be unavailable."
+  },
+  {
+    "id": "gog-galaxy",
+    "name": "GOG GALAXY",
+    "category": "Gaming",
+    "description": "Manage your GOG library and connect supported game accounts.",
+    "url": "https://www.gog.com/galaxy",
+    "host": "www.gog.com",
+    "color": "#c6a6f1",
+    "glyph": "Go",
+    "tags": [
+      "games",
+      "store",
+      "launcher",
+      "library"
+    ],
+    "notice": null
+  },
+  {
+    "id": "itch-io",
+    "name": "itch.io app",
+    "category": "Gaming",
+    "description": "Find independent games and manage your itch.io library.",
+    "url": "https://itch.io/app",
+    "host": "itch.io",
+    "color": "#f4a0ab",
+    "glyph": "It",
+    "tags": [
+      "games",
+      "indie",
+      "store",
+      "launcher"
+    ],
+    "notice": null
   }
 ];

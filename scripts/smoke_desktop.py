@@ -52,12 +52,20 @@ SCRIPT = r"""
     const search = document.getElementById('search');
     search.value = 'OBS Studio'; search.dispatchEvent(new Event('input'));
     check('search', document.querySelectorAll('.card').length === 1 &&
-      document.querySelector('.details-button[aria-label="View OBS Studio"]'));
+      document.querySelector('.card[data-app-id="obs"] .details-button'));
     search.value = ''; search.dispatchEvent(new Event('input'));
+    document.querySelector('[data-category="Gaming"]').click();
+    document.querySelector('.card[data-app-id="epic-games"] .details-button').click();
+    check('verified publisher and preview caution',
+      document.getElementById('detail-verification').textContent === 'Verified publisher' &&
+      !document.getElementById('detail-notice').hidden &&
+      document.getElementById('detail-notice').textContent.includes('preview') &&
+      document.getElementById('detail-url').textContent === 'https://launcher.epicgames.com/');
+    document.querySelector('.dialog-close').click();
     document.querySelector('[data-category="Utilities"]').click();
     const utilitiesCount = catalog.filter(app => app.category === 'Utilities').length;
     check('category', utilitiesCount > 0 && document.querySelectorAll('.card').length === utilitiesCount);
-    document.querySelector('.details-button[aria-label="View 7-Zip"]').click();
+    document.querySelector('.card[data-app-id="7zip"] .details-button').click();
     check('details dialog', document.getElementById('app-dialog').open);
     check('exact destination', document.getElementById('detail-url').textContent === 'https://www.7-zip.org/');
     check('native bridge ready', !document.getElementById('open-official').disabled);
@@ -68,7 +76,7 @@ SCRIPT = r"""
       const confirmationCases = [
         [false, false, 'Opening cancelled.', 'native confirmation cancels'],
         [true, false, 'Could not open your browser. Please try again.', 'Windows Shell failure can be retried'],
-        [true, true, 'Opened the official 7-Zip website.', 'native confirmation accepts on retry'],
+        [true, true, 'Sent the official 7-Zip link to your browser.', 'native confirmation accepts on retry'],
       ];
       for (const [approve, ok, message, label] of confirmationCases) {
         const [chosen, result] = await Promise.all([

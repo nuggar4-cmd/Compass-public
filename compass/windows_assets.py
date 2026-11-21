@@ -44,6 +44,7 @@ def serve_windows_assets(ui_directory):
         def _respond(self, status, media_type='text/plain; charset=utf-8', data=b''):
             self.send_response(status)
             self.send_header('Cache-Control', 'no-store')
+            self.send_header('Content-Security-Policy', "frame-ancestors 'none'")
             self.send_header('X-Content-Type-Options', 'nosniff')
             self.send_header('Content-Type', media_type)
             self.send_header('Content-Length', str(len(data)))

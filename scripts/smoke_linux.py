@@ -20,6 +20,7 @@ APPROVED_URL = 'https://www.7-zip.org/'
 SUGGESTION_URL = 'https://github.com/nuggar4-cmd/Compass-public/issues/new?template=catalog-suggestion.yml'
 SCRIPT = """
 const $ = id => document.getElementById(id);
+const details = id => document.querySelector(`.card[data-app-id="${id}"] .details-button`);
 const checks = [];
 const expectedCount = EXPECTED_CATALOG_COUNT;
 function check(name, condition) {
@@ -41,11 +42,18 @@ check('unknown app ID rejected', !(await api.open_official('unlisted')).ok);
 $('search').value = 'OBS Studio';
 $('search').dispatchEvent(new Event('input'));
 check('search', document.querySelectorAll('.card').length === 1 &&
-  document.querySelector('.details-button[aria-label="View OBS Studio"]'));
+  details('obs'));
 $('search').value = '';
 $('search').dispatchEvent(new Event('input'));
+document.querySelector('[data-category="Gaming"]').click();
+details('epic-games').click();
+check('verified publisher and preview caution',
+  $('detail-verification').textContent === 'Verified publisher' &&
+  !$('detail-notice').hidden && $('detail-notice').textContent.includes('preview') &&
+  $('detail-url').textContent === 'https://launcher.epicgames.com/');
+document.querySelector('.dialog-close').click();
 document.querySelector('[data-category="Utilities"]').click();
-document.querySelector('.details-button[aria-label="View 7-Zip"]').click();
+details('7zip').click();
 check('exact publisher address', $('detail-url').textContent === 'https://www.7-zip.org/');
 $('open-official').click();
 check('cancellation stays in Compass', await waitFor(() => $('dialog-status').textContent === 'Opening cancelled.'));
@@ -106,7 +114,7 @@ def smoke():
         def finish_script(webview, response, _data):
             try:
                 value = webview.call_async_javascript_function_finish(response)
-                for index in range(8):
+                for index in range(9):
                     results.append(value.object_get_property_at_index(index).to_string())
                 if opened != [APPROVED_URL, SUGGESTION_URL]:
                     errors.append(f'Unexpected browser launcher calls: {opened}')
@@ -138,7 +146,7 @@ def smoke():
         main.main()
     for result in results:
         print(f'PASS: {result}')
-    if errors or len(results) != 10:
+    if errors or len(results) != 11:
         raise SystemExit('\n'.join(errors) or 'Missing Linux smoke results')
 
 

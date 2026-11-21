@@ -16,6 +16,10 @@ def startup_failed(message):
 
 def main():
     on_windows = sys.platform == 'win32'
+    on_linux = sys.platform.startswith('linux')
+    if not on_windows and not on_linux:
+        startup_failed('Compass Desktop supports Windows and Linux. Open ui/index.html for a catalog preview.')
+
     if on_windows:
         import winreg
 
@@ -35,7 +39,7 @@ def main():
                            '_internal folder next to Compass.exe.')
         startup_failed('Compass files are missing. Reinstall the package or restore the source checkout.')
 
-    if sys.platform.startswith('linux'):
+    if on_linux:
         from compass.linux import run
 
         run(index.parent, version)
@@ -48,20 +52,17 @@ def main():
                        'and keep the _internal folder next to Compass.exe. For a source checkout, '
                        'follow the setup steps in the README.')
 
-    if on_windows:
-        from compass.windows_assets import serve_windows_assets
+    from compass.windows_assets import serve_windows_assets
 
-        try:
-            with serve_windows_assets(index.parent) as url:
-                start_webview(webview, url, version, on_windows=True)
-        except OSError:
-            startup_failed('Compass could not load its bundled interface. Verify the extracted '
-                           'files and try opening Compass again.')
-    else:
-        start_webview(webview, f'{index}?desktop=1', version, on_windows=False)
+    try:
+        with serve_windows_assets(index.parent) as url:
+            start_webview(webview, url, version)
+    except OSError:
+        startup_failed('Compass could not load its bundled interface. Verify the extracted '
+                       'files and try opening Compass again.')
 
 
-def start_webview(webview, url, version, *, on_windows):
+def start_webview(webview, url, version):
     webview.settings.update({
         'ALLOW_DOWNLOADS': False,
         'IGNORE_SSL_ERRORS': False,
@@ -71,11 +72,9 @@ def start_webview(webview, url, version, *, on_windows):
     })
 
     def confirm_link(title, message):
-        if on_windows:
-            return confirm_windows_link(window, title, message)
-        return window.create_confirmation_dialog(title, message)
+        return confirm_windows_link(window, title, message)
 
-    bridge = Bridge(confirm_link, launch_default_browser if on_windows else None, version=version)
+    bridge = Bridge(confirm_link, launch_default_browser, version=version)
     window = webview.create_window(
         'Compass', url,
         width=1100, height=740, min_size=(600, 480),
@@ -90,13 +89,12 @@ def start_webview(webview, url, version, *, on_windows):
             unsupported_renderer = True
             return False
 
-    if on_windows:
-        window.events.initialized += verify_renderer
-        navigation_guard_failed = install_windows_navigation_guard(window)
-    webview.start(gui='edgechromium' if on_windows else None, debug=False, private_mode=True)
+    window.events.initialized += verify_renderer
+    navigation_guard_failed = install_windows_navigation_guard(window)
+    webview.start(gui='edgechromium', debug=False, private_mode=True)
     if unsupported_renderer:
         startup_failed(WEBVIEW2_HELP)
-    if on_windows and navigation_guard_failed():
+    if navigation_guard_failed():
         startup_failed('Compass could not initialize the protected WebView2 window.')
 
 

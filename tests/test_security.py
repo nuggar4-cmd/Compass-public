@@ -52,8 +52,25 @@ class SecurityTests(unittest.TestCase):
         calls = []
         bridge = Bridge(lambda *_: calls.append('confirm'), lambda _: calls.append('open'))
         for value in ['https://evil.test', {}, None, 'invalid']:
-            self.assertFalse(bridge.open_official(value)['ok'])
+            result = bridge.open_official(value)
+            self.assertFalse(result['ok'])
+            self.assertEqual(result['status'], 'blocked')
         self.assertEqual(calls, [])
+
+    def test_catalog_mismatch_is_blocked_before_confirmation(self):
+        app = catalog.BY_ID['steam']
+        unapproved = dataclasses.replace(app, host='example.test')
+        with patch.dict(catalog.BY_ID, {'steam': unapproved}):
+            bridge = Bridge(lambda *_: self.fail('Invalid link reached confirmation'))
+            self.assertEqual(bridge.open_official('steam')['status'], 'blocked')
+
+    def test_preview_notice_is_in_native_confirmation(self):
+        app = catalog.BY_ID['epic-games']
+        messages = []
+        bridge = Bridge(lambda _, message: messages.append(message) or False)
+        self.assertFalse(bridge.open_official(app.id)['ok'])
+        self.assertIn(app.url, messages[0])
+        self.assertIn(app.notice, messages[0])
 
     def test_browser_failure(self):
         self.assertFalse(Bridge(lambda *_: True, lambda _: False).open_official('obs')['ok'])
