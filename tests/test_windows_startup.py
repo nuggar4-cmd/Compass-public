@@ -41,10 +41,21 @@ class WindowsStartupTests(unittest.TestCase):
 
     def test_rejects_missing_or_invalid_runtime(self):
         self.assertEqual(startup_issue(self.registry), WEBVIEW2_HELP)
-        for value in ('', '0.0.0.0', 'invalid', None):
+        for value in ('', '0.0.0.0', 'invalid', '９９９.0.0.0', '9' * 5000 + '.0.0.0', None):
             with self.subTest(value=value):
                 self.keys[self.user_key] = {'pv': value}
                 self.assertEqual(startup_issue(self.registry), WEBVIEW2_HELP)
+
+    def test_rejects_runtimes_that_predate_the_external_scheme_guard(self):
+        for value in ('0.0.0.1', '86.0.705.50', '114.0.1823.31'):
+            with self.subTest(value=value):
+                self.keys[self.user_key] = {'pv': value}
+                self.assertEqual(startup_issue(self.registry), WEBVIEW2_HELP)
+
+    def test_accepts_compatible_machine_runtime_when_user_runtime_is_old(self):
+        self.keys[self.user_key] = {'pv': '114.0.1823.31'}
+        self.keys[self.machine_key] = {'pv': '114.0.1823.32'}
+        self.assertIsNone(startup_issue(self.registry))
 
     def test_reports_missing_framework_before_starting_webview(self):
         self.keys.pop(self.framework_key)

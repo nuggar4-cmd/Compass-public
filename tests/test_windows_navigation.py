@@ -23,12 +23,16 @@ class WindowsNavigationTests(unittest.TestCase):
     def setUp(self):
         self.url = 'http://127.0.0.1:8989/index.html?desktop=1'
         self.permission_state = SimpleNamespace(Default=object(), Deny=object())
+        self.process_failure = SimpleNamespace(BrowserProcessExited=object(), RenderProcessExited=object(),
+                                               GpuProcessExited=object())
         self.enterContext(patch.dict(sys.modules, {
-            'Microsoft.Web.WebView2.Core': SimpleNamespace(CoreWebView2PermissionState=self.permission_state),
+            'Microsoft.Web.WebView2.Core': SimpleNamespace(
+                CoreWebView2PermissionState=self.permission_state, CoreWebView2ProcessFailedKind=self.process_failure,
+            ),
         }))
         self.core = SimpleNamespace(
             NewWindowRequested=Hooks(), LaunchingExternalUriScheme=Hooks(), FrameNavigationStarting=Hooks(),
-            PermissionRequested=Hooks(),
+            PermissionRequested=Hooks(), ProcessFailed=Hooks(), Settings=SimpleNamespace(IsBuiltInErrorPageEnabled=True),
         )
         self.control = SimpleNamespace(
             CoreWebView2=None, NavigationStarting=Hooks(), CoreWebView2InitializationCompleted=Hooks(),
@@ -60,6 +64,7 @@ class WindowsNavigationTests(unittest.TestCase):
             request = SimpleNamespace(State=self.permission_state.Default)
             self.core.PermissionRequested[0](self.core, request)
             self.assertIs(request.State, self.permission_state.Deny)
+            self.assertFalse(self.core.Settings.IsBuiltInErrorPageEnabled)
 
         self.browser.load_url.side_effect = check_permission_guard
         self.control.CoreWebView2 = self.core
@@ -105,6 +110,7 @@ class WindowsNavigationTests(unittest.TestCase):
         start(self.control, SimpleNamespace(Uri='about:blank', Cancel=False, NavigationId=2))
         complete(self.control, SimpleNamespace(IsSuccess=False, NavigationId=2))
         self.browser.on_navigation_completed.assert_not_called()
+        self.assertFalse(self.failed())
 
         success = SimpleNamespace(IsSuccess=True, NavigationId=1)
         self.control.Source = self.url + '#main-content'
@@ -112,14 +118,53 @@ class WindowsNavigationTests(unittest.TestCase):
         complete(self.control, success)
         self.browser.on_navigation_completed.assert_called_once_with(self.control, success)
 
-        self.browser.on_navigation_completed.reset_mock()
-        for navigation_id, source, succeeded in (
-            (3, 'about:blank', True), (4, self.url, False),
-        ):
-            start(self.control, SimpleNamespace(Uri=self.url, Cancel=False, NavigationId=navigation_id))
-            self.control.Source = source
-            complete(self.control, SimpleNamespace(IsSuccess=succeeded, NavigationId=navigation_id))
+    def test_approved_navigation_failure_closes_and_disables_bridge(self):
+        start = self.control.NavigationStarting[0]
+        start(self.control, SimpleNamespace(Uri=self.url, Cancel=False, NavigationId=1))
+        with self.assertLogs(level='ERROR'):
+            self.control.NavigationCompleted[0](self.control, SimpleNamespace(IsSuccess=False, NavigationId=1))
+        self.assertTrue(self.failed())
+        self.assertIsNone(self.window.real_url)
+        self.form.BeginInvoke.assert_called_once_with(self.form.Close)
         self.browser.on_navigation_completed.assert_not_called()
+
+        args = SimpleNamespace(Uri=self.url, Cancel=False, NavigationId=2)
+        start(self.control, args)
+        self.assertTrue(args.Cancel)
+        self.control.WebMessageReceived[0](self.control, SimpleNamespace(
+            Source=self.url, get_WebMessageAsJson=lambda: json.dumps(['catalog', '[]', '1']),
+        ))
+        self.browser.on_script_notify.assert_not_called()
+
+    def test_unexpected_final_source_closes_without_exposing_bridge(self):
+        self.control.NavigationStarting[0](self.control, SimpleNamespace(Uri=self.url, Cancel=False, NavigationId=1))
+        self.control.Source = 'about:blank'
+        with self.assertLogs(level='ERROR'):
+            self.control.NavigationCompleted[0](self.control, SimpleNamespace(IsSuccess=True, NavigationId=1))
+        self.assertTrue(self.failed())
+        self.form.BeginInvoke.assert_called_once_with(self.form.Close)
+        self.browser.on_navigation_completed.assert_not_called()
+
+    def test_bridge_initialization_exception_closes_protected_window(self):
+        self.browser.on_navigation_completed.side_effect = RuntimeError('Bridge failed')
+        self.control.NavigationStarting[0](self.control, SimpleNamespace(Uri=self.url, Cancel=False, NavigationId=1))
+        with self.assertLogs(level='ERROR'):
+            self.control.NavigationCompleted[0](self.control, SimpleNamespace(IsSuccess=True, NavigationId=1))
+        self.assertTrue(self.failed())
+        self.form.BeginInvoke.assert_called_once_with(self.form.Close)
+
+    def test_terminal_view_process_exit_closes_without_affecting_recoverable_events(self):
+        self.control.CoreWebView2 = self.core
+        self.control.CoreWebView2InitializationCompleted[0](self.control, SimpleNamespace(IsSuccess=True))
+        process_failed = self.core.ProcessFailed[0]
+        process_failed(self.core, SimpleNamespace(ProcessFailedKind=self.process_failure.GpuProcessExited))
+        self.assertFalse(self.failed())
+        self.form.BeginInvoke.assert_not_called()
+        with self.assertLogs(level='ERROR'):
+            for kind in (self.process_failure.RenderProcessExited, self.process_failure.BrowserProcessExited):
+                process_failed(self.core, SimpleNamespace(ProcessFailedKind=kind))
+        self.assertTrue(self.failed())
+        self.form.BeginInvoke.assert_called_once_with(self.form.Close)
 
     def test_forwards_only_authorized_messages_from_the_bundled_document(self):
         self.window._functions['sentinel'] = Mock()

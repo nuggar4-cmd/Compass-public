@@ -39,17 +39,18 @@
     </section>
     <h1 id="library-title" hidden>All apps</h1>
     <section class="catalog" aria-label="App catalog">
-      <p id="catalog-loading" class="empty" role="status" tabindex="-1" hidden>Loading the app catalog…</p>
-      <div id="load-error" class="empty" hidden>
-        <h2>We couldn’t load the catalog</h2>
-        <p id="load-error-message">Try again. If the catalog still doesn’t load, restart Compass.</p>
-        <button id="retry-catalog" class="primary">Retry</button>
+      <noscript><p class="empty">Enable JavaScript to browse the Compass catalog.</p></noscript>
+      <p id="catalog-loading" class="empty" role="status" tabindex="-1" hidden></p>
+      <div id="load-error" class="empty" role="group" aria-labelledby="load-error-title" hidden>
+        <h2 id="load-error-title">We couldn’t load the catalog</h2>
+        <p id="load-error-message"></p>
+        <button id="retry-catalog" class="primary" aria-describedby="load-error-message">Retry</button>
       </div>
       <div id="catalog-results" hidden>
         <div class="search-box">
           <span class="search-icon" aria-hidden="true"></span>
           <input id="search" type="search" aria-keyshortcuts="Control+K Meta+K" maxlength="160"
-                 placeholder="Search by name, category, or task" aria-label="Search apps" autocomplete="off" spellcheck="false">
+                 placeholder="Search by app, task, or publisher" aria-label="Search apps" autocomplete="off" spellcheck="false">
           <kbd aria-hidden="true">Ctrl K</kbd>
         </div>
         <div class="filter-row">

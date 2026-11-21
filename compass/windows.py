@@ -5,8 +5,10 @@ import logging
 import re
 
 WEBVIEW2_CLIENT = r'Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}'
+# WebView2 SDK 1.0.1823.32 added the required LaunchingExternalUriScheme guard.
+WEBVIEW2_MINIMUM_VERSION = (114, 0, 1823, 32)
 WEBVIEW2_HELP = (
-    'Install or repair the Microsoft Edge WebView2 Evergreen Runtime, then open Compass again.\n\n'
+    'Install, update, or repair the Microsoft Edge WebView2 Evergreen Runtime, then open Compass again.\n\n'
     'https://developer.microsoft.com/microsoft-edge/webview2/'
 )
 
@@ -33,11 +35,9 @@ def startup_issue(registry):
         (registry.HKEY_LOCAL_MACHINE, rf'SOFTWARE\WOW6432Node\{WEBVIEW2_CLIENT}'),
     ):
         value = _registry_value(registry, hive, path, 'pv')
-        if isinstance(value, str):
-            parts = value.split('.')
-            if len(parts) == 4 and all(part.isascii() and part.isdecimal() for part in parts):
-                if any(part.strip('0') for part in parts):
-                    return None
+        if isinstance(value, str) and re.fullmatch(r'[0-9]{1,10}(?:\.[0-9]{1,10}){3}', value):
+            if tuple(map(int, value.split('.'))) >= WEBVIEW2_MINIMUM_VERSION:
+                return None
     return WEBVIEW2_HELP
 
 
@@ -120,6 +120,8 @@ def install_windows_navigation_guard(window):
 
         def close_protected_window():
             nonlocal failed
+            if failed:
+                return
             failed = True
             window.real_url = None
             if not form.IsDisposed:
@@ -127,21 +129,28 @@ def install_windows_navigation_guard(window):
 
         def restrict_navigation(_, args):
             nonlocal pending_navigation
-            if str(args.Uri).partition('#')[0] != allowed_url:
+            if failed or str(args.Uri).partition('#')[0] != allowed_url:
                 args.Cancel = True
             else:
                 pending_navigation = args.NavigationId
 
         def complete_navigation(sender, args):
             nonlocal pending_navigation
-            if args.NavigationId != pending_navigation:
+            if failed or args.NavigationId != pending_navigation:
                 return
             pending_navigation = None
-            if args.IsSuccess and str(sender.Source).partition('#')[0] == allowed_url:
+            if not args.IsSuccess or str(sender.Source).partition('#')[0] != allowed_url:
+                logging.error('WebView2 did not finish loading the bundled Compass page.')
+                close_protected_window()
+                return
+            try:
                 browser.on_navigation_completed(sender, args)
+            except Exception:
+                logging.exception('Could not initialize the Compass bridge.')
+                close_protected_window()
 
         def restrict_browser_message(sender, args):
-            if str(args.Source).partition('#')[0] == allowed_url and _allowed_bridge_message(
+            if not failed and str(args.Source).partition('#')[0] == allowed_url and _allowed_bridge_message(
                 args.get_WebMessageAsJson(), methods,
             ):
                 browser.on_script_notify(sender, args)
@@ -153,10 +162,18 @@ def install_windows_navigation_guard(window):
             args.Handled = True
 
         def configure_core(core):
-            from Microsoft.Web.WebView2.Core import CoreWebView2PermissionState
+            from Microsoft.Web.WebView2.Core import CoreWebView2PermissionState, CoreWebView2ProcessFailedKind
 
             def deny_permission(_, args):
                 args.State = CoreWebView2PermissionState.Deny
+
+            def close_failed_renderer(_, args):
+                if args.ProcessFailedKind in (
+                    CoreWebView2ProcessFailedKind.BrowserProcessExited,
+                    CoreWebView2ProcessFailedKind.RenderProcessExited,
+                ):
+                    logging.error('The protected Compass WebView2 process exited unexpectedly.')
+                    close_protected_window()
 
             # pywebview's default popup handler can open the system browser or navigate this view.
             core.NewWindowRequested -= browser.on_new_window_request
@@ -164,10 +181,14 @@ def install_windows_navigation_guard(window):
             core.LaunchingExternalUriScheme += cancel_request
             core.FrameNavigationStarting += cancel_request
             core.PermissionRequested += deny_permission
+            core.ProcessFailed += close_failed_renderer
+            core.Settings.IsBuiltInErrorPageEnabled = False
             window.real_url = allowed_url
             browser.load_url(allowed_url)
 
         def on_initialized(sender, args):
+            if failed:
+                return
             if not args.IsSuccess:
                 close_protected_window()
                 return

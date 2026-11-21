@@ -39,9 +39,9 @@ const ready = await waitFor(() =>
 const api = window.pywebview.api;
 check('native catalog and version', ready && (await api.catalog()).length === expectedCount);
 check('unknown app ID rejected', !(await api.open_official('unlisted')).ok);
-$('search').value = 'OBS Studio';
+$('search').value = 'studio obsproject.com';
 $('search').dispatchEvent(new Event('input'));
-check('search', document.querySelectorAll('.card').length === 1 &&
+check('search across name and publisher domain', document.querySelectorAll('.card').length === 1 &&
   details('obs'));
 $('search').value = '';
 $('search').dispatchEvent(new Event('input'));

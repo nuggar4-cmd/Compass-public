@@ -3,11 +3,12 @@
   const $ = id => document.getElementById(id);
   const desktop = new URLSearchParams(window.location.search).get('desktop') === '1';
   const all = 'All apps';
+  const catalogFields = ['id', 'name', 'category', 'description', 'host', 'url', 'glyph'];
+  const startupLimitMs = 8000;
   const state = { apps: [], category: all, query: '', sort: 'featured', view: 'discover', selected: null, busy: false };
   const blocked = new Map();
   let desktopApi;
-  let connecting = false;
-  let startupTimer;
+  let catalogAttempt;
   let toastTimer;
 
   const text = (tag, value, className) => {
@@ -21,6 +22,10 @@
     $('toast').textContent = message;
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => { $('toast').textContent = ''; }, 5000);
+  }
+
+  function normalizeSearch(value) {
+    return value.normalize('NFKD').replace(/\p{M}/gu, '').toLowerCase();
   }
 
   function setView(view) {
@@ -105,11 +110,11 @@
       button.classList.toggle('active', active);
       button.setAttribute('aria-pressed', String(active));
     });
-    const query = state.query.trim().toLocaleLowerCase('en');
+    const terms = normalizeSearch(state.query).match(/\S+/g) || [];
     const apps = state.apps.filter(app => (state.category === all || app.category === state.category)
-      && [app.name, app.category, app.description, ...app.tags].join(' ').toLocaleLowerCase('en').includes(query));
+      && terms.every(term => app.searchText.includes(term)));
     if (state.sort === 'az') apps.sort((a, b) => a.name.localeCompare(b.name, 'en'));
-    $('cards').replaceChildren();
+    const cards = document.createDocumentFragment();
     apps.forEach(app => {
       const card = text('article', '', 'card');
       card.dataset.appId = app.id;
@@ -135,18 +140,28 @@
       button.addEventListener('click', () => showDetails(app));
       bottom.append(publisher, button);
       card.append(heading, text('p', app.description, 'card-description'), bottom);
-      $('cards').append(card);
+      cards.append(card);
     });
+    $('cards').replaceChildren(cards);
     $('empty').hidden = apps.length !== 0;
     $('result-count').textContent = `${apps.length} ${apps.length === 1 ? 'app' : 'apps'}`;
-    $('results-title').textContent = query ? 'Search results' : state.category !== all ? state.category : 'App catalog';
+    $('results-title').textContent = terms.length ? 'Search results' : state.category !== all ? state.category : 'App catalog';
   }
 
   function showCatalog(apps) {
-    if (!Array.isArray(apps) || !apps.length) throw new Error('Catalog unavailable');
+    if (!Array.isArray(apps) || !apps.length) throw new Error('Invalid app catalog');
+    const entries = Array.from(apps);
+    const validEntries = entries.every(app => app
+      && catalogFields.every(field => typeof app[field] === 'string' && app[field].trim())
+      && Array.isArray(app.tags) && app.tags.every(tag => typeof tag === 'string'));
+    if (!validEntries || new Set(entries.map(app => app.id)).size !== entries.length) throw new Error('Invalid app catalog');
+
     const moveFocus = document.activeElement === $('catalog-loading');
-    state.apps = apps;
-    const categories = [all, ...new Set(apps.map(app => app.category))];
+    state.apps = entries.map(app => ({
+      ...app,
+      searchText: normalizeSearch([app.id, app.name, app.category, app.description, app.host, app.url, ...app.tags].join(' ')),
+    }));
+    const categories = [all, ...new Set(entries.map(app => app.category))];
     $('filters').replaceChildren();
     categories.forEach(category => {
       const button = text('button', category, 'filter');
@@ -157,53 +172,58 @@
       });
       $('filters').append(button);
     });
-    $('nav-count').textContent = String(apps.length);
+    render();
+    $('nav-count').textContent = String(entries.length);
     $('nav-count').hidden = false;
     $('load-error').hidden = true;
     $('catalog-loading').hidden = true;
     $('catalog-results').hidden = false;
-    render();
     if (moveFocus) $('search').focus();
   }
 
-  function showCatalogError() {
+  function showCatalogError(message) {
     const moveFocus = document.activeElement === $('catalog-loading');
     $('catalog-loading').hidden = true;
+    $('load-error-message').textContent = message;
     $('load-error').hidden = false;
-    if (moveFocus) $('retry-catalog').focus();
+    if (moveFocus && !$('retry-catalog').hidden) $('retry-catalog').focus();
   }
 
-  async function loadDesktopCatalog() {
-    if (connecting || desktopApi) return;
-    const moveFocus = document.activeElement === $('retry-catalog');
-    $('load-error').hidden = true;
-    $('catalog-loading').hidden = false;
-    if (moveFocus) $('catalog-loading').focus();
-    clearTimeout(startupTimer);
+  function desktopBridge() {
     const api = window.pywebview?.api;
-    if (typeof api?.catalog !== 'function' || typeof api?.open_official !== 'function') {
-      startupTimer = setTimeout(showCatalogError, 6000);
+    return typeof api?.catalog === 'function' && typeof api?.open_official === 'function' ? api : null;
+  }
+
+  function finishCatalogAttempt(attempt) {
+    if (catalogAttempt !== attempt) return false;
+    clearTimeout(attempt.deadline);
+    clearInterval(attempt.bridgePoll);
+    catalogAttempt = null;
+    return true;
+  }
+
+  async function requestDesktopCatalog() {
+    const attempt = catalogAttempt;
+    if (!attempt || attempt.requested) return;
+    const api = desktopBridge();
+    if (!api) return;
+
+    attempt.requested = true;
+    clearInterval(attempt.bridgePoll);
+    $('catalog-loading').textContent = 'Loading the app catalog…';
+    try {
+      const apps = await api.catalog();
+      if (catalogAttempt !== attempt) return;
+      showCatalog(apps);
+    } catch (_) {
+      if (finishCatalogAttempt(attempt)) showCatalogError('Compass couldn’t read the catalog. Try again, then restart Compass if the problem continues.');
       return;
     }
 
-    connecting = true;
-    let responseTimer;
-    try {
-      const timeout = new Promise((_, reject) => {
-        responseTimer = setTimeout(() => reject(new Error('Catalog timed out')), 6000);
-      });
-      const apps = await Promise.race([api.catalog(), timeout]);
-      showCatalog(apps);
-      desktopApi = api;
-      $('suggest-link').hidden = typeof api.suggest_link !== 'function';
-    } catch (_) {
-      showCatalogError();
-    } finally {
-      clearTimeout(responseTimer);
-      connecting = false;
-    }
-
-    if (desktopApi && typeof api.app_info === 'function') {
+    finishCatalogAttempt(attempt);
+    desktopApi = api;
+    $('suggest-link').hidden = typeof api.suggest_link !== 'function';
+    if (typeof api.app_info === 'function') {
       try {
         const { version } = await api.app_info();
         if (typeof version === 'string' && version) $('app-version').textContent = version;
@@ -211,6 +231,28 @@
         // The catalog and link confirmation remain usable if version metadata is unavailable.
       }
     }
+  }
+
+  function loadDesktopCatalog() {
+    if (catalogAttempt || desktopApi) return;
+    const attempt = { requested: false };
+    catalogAttempt = attempt;
+    const moveFocus = document.activeElement === $('retry-catalog');
+    $('load-error').hidden = true;
+    $('catalog-loading').textContent = 'Connecting to Compass…';
+    $('catalog-loading').hidden = false;
+    if (moveFocus) $('catalog-loading').focus();
+
+    attempt.deadline = setTimeout(() => {
+      if (!finishCatalogAttempt(attempt)) return;
+      const message = attempt.requested
+        ? 'The desktop connection didn’t return the catalog in time. Select Retry to try again.'
+        : 'Compass couldn’t connect to the desktop window. Select Retry to try again.';
+      showCatalogError(message);
+    }, startupLimitMs);
+    // Some renderers expose the bridge without delivering a readiness event to this page.
+    attempt.bridgePoll = setInterval(requestDesktopCatalog, 100);
+    requestDesktopCatalog();
   }
 
   $('search').addEventListener('input', event => { state.query = event.target.value; render(); });
@@ -276,19 +318,23 @@
       if ($('app-dialog').open) return;
       if (state.view === 'privacy') setView('discover');
       if (!$('catalog-results').hidden) $('search').focus();
+      else if (!$('catalog-loading').hidden) $('catalog-loading').focus();
+      else if (!$('load-error').hidden && !$('retry-catalog').hidden) $('retry-catalog').focus();
     }
   });
 
   if (desktop) {
-    window.addEventListener('pywebviewready', loadDesktopCatalog);
+    window.addEventListener('pywebviewready', () => {
+      if (catalogAttempt) requestDesktopCatalog();
+      else if (desktopBridge()) loadDesktopCatalog();
+    });
     loadDesktopCatalog();
   } else {
     try {
       showCatalog(window.COMPASS_CATALOG);
     } catch (_) {
-      $('load-error-message').textContent = 'Keep index.html and its bundled assets in the same folder, then reload this page.';
       $('retry-catalog').hidden = true;
-      showCatalogError();
+      showCatalogError('Keep index.html and its bundled assets in the same folder, then reload this page.');
     }
   }
 })();

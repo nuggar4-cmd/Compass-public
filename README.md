@@ -28,6 +28,8 @@ Launch **Compass** from the application menu or run `compass-desktop`. The Debia
 
 Enter an app name or keyword in search, or narrow the list by category. Press Ctrl+K to focus search, or Escape to close app details. Select **Details** to see the publisher and complete destination. **Visit official website** asks for native confirmation before opening the default browser.
 
+RC7 lets you combine search terms in any order and look up apps by publisher domain. If the desktop catalog fails to load, Compass explains what happened and offers **Retry**.
+
 **Verified publisher** identifies a reviewed starting address. **Caution** describes details such as a publisher preview or external downloads. If an address fails the catalog check, Compass shows **Blocked** and skips opening it. The Gaming category includes Steam, Epic Games Launcher, GOG GALAXY, and the itch.io app.
 
 The [approved publisher destinations](APPROVED_SITES.md) are bundled. Compass has no accounts, telemetry, search-history storage, downloads, installers or automatic updates. Its Windows loopback listener serves only the four bundled interface assets and closes with the app. The initial publisher address is checked against the catalog. Once the browser opens it, redirects, privacy and downloads are handled by the browser and publisher.

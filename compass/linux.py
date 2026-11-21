@@ -1,17 +1,16 @@
 """GTK and WebKitGTK desktop renderer for the Debian package."""
 
 import json
-from urllib.parse import urlsplit
 
 from .bridge import Bridge
 
 UI_ORIGIN = 'compass://ui'
 START_URI = f'{UI_ORIGIN}/index.html?desktop=1'
-MEDIA_TYPES = {
-    '/index.html': 'text/html; charset=utf-8',
-    '/styles.css': 'text/css; charset=utf-8',
-    '/catalog.js': 'text/javascript; charset=utf-8',
-    '/app.js': 'text/javascript; charset=utf-8',
+ASSETS = {
+    START_URI: ('index.html', 'text/html; charset=utf-8'),
+    f'{UI_ORIGIN}/styles.css': ('styles.css', 'text/css; charset=utf-8'),
+    f'{UI_ORIGIN}/catalog.js': ('catalog.js', 'text/javascript; charset=utf-8'),
+    f'{UI_ORIGIN}/app.js': ('app.js', 'text/javascript; charset=utf-8'),
 }
 BRIDGE_SCRIPT = """
 (() => {
@@ -27,6 +26,46 @@ BRIDGE_SCRIPT = """
 """
 
 
+def show_startup_error(message):
+    try:
+        import gi
+
+        gi.require_version('Gtk', '3.0')
+        from gi.repository import Gtk
+    except (ImportError, ValueError):
+        return
+
+    if not Gtk.init_check()[0]:
+        return
+
+    dialog = Gtk.MessageDialog(
+        modal=True, message_type=Gtk.MessageType.ERROR, buttons=Gtk.ButtonsType.CLOSE,
+        text='Compass could not start', secondary_text=message,
+    )
+    try:
+        dialog.run()
+    finally:
+        dialog.destroy()
+
+
+def _startup_failed(message):
+    show_startup_error(message)
+    raise SystemExit(message)
+
+
+def _load_assets(ui_directory):
+    assets = {}
+    for uri, (name, media_type) in ASSETS.items():
+        asset = ui_directory / name
+        if asset.is_symlink() or not asset.is_file():
+            raise OSError(f'Unavailable bundled Compass asset: {name}')
+        data = asset.read_bytes()
+        if not data:
+            raise OSError(f'Empty bundled Compass asset: {name}')
+        assets[uri] = (media_type, data)
+    return assets
+
+
 def run(ui_directory, version):
     try:
         import gi
@@ -34,17 +73,19 @@ def run(ui_directory, version):
         gi.require_version('Gtk', '3.0')
         gi.require_version('WebKit2', '4.1')
         from gi.repository import Gio, GLib, Gtk, WebKit2
-    except (ImportError, ValueError) as error:
-        raise SystemExit('Install the GTK and WebKitGTK dependencies listed in the Compass README.') from error
+    except (ImportError, ValueError):
+        _startup_failed('Install the GTK and WebKitGTK dependencies listed in the Compass README.')
 
     if not Gtk.init_check()[0]:
         raise SystemExit('Compass needs a graphical desktop session.')
 
-    window = Gtk.Window(title='Compass')
-    window.set_default_size(1100, 740)
-    window.set_size_request(600, 480)
-    window.set_icon_name('io.github.nuggar4_cmd.Compass')
-    window.connect('destroy', Gtk.main_quit)
+    if (WebKit2.get_major_version(), WebKit2.get_minor_version()) < (2, 40):
+        _startup_failed('Compass needs WebKitGTK 2.40 or later. Update WebKitGTK and try again.')
+
+    try:
+        assets = _load_assets(ui_directory)
+    except OSError:
+        _startup_failed('Compass could not load its bundled interface. Reinstall the package or restore the source checkout.')
 
     def confirm(title, message):
         dialog = Gtk.MessageDialog(
@@ -63,17 +104,14 @@ def run(ui_directory, version):
     context.get_security_manager().register_uri_scheme_as_secure('compass')
 
     def serve_asset(request, _data):
-        uri = urlsplit(request.get_uri())
-        content_type = MEDIA_TYPES.get(uri.path)
-        if uri.netloc == 'ui' and content_type:
-            try:
-                data = (ui_directory / uri.path[1:]).read_bytes()
-                request.finish(Gio.MemoryInputStream.new_from_bytes(GLib.Bytes.new(data)), len(data), content_type)
-                return
-            except OSError:
-                pass
-        request.finish_error(GLib.Error.new_literal(Gio.io_error_quark(), 'Compass asset unavailable',
-                                                   Gio.IOErrorEnum.NOT_FOUND))
+        asset = assets.get(request.get_uri())
+        if asset is None:
+            request.finish_error(GLib.Error.new_literal(Gio.io_error_quark(), 'Compass asset unavailable',
+                                                       Gio.IOErrorEnum.NOT_FOUND))
+            return
+        media_type, data = asset
+        stream = Gio.MemoryInputStream.new_from_bytes(GLib.Bytes.new(data))
+        request.finish(stream, len(data), media_type)
 
     context.register_uri_scheme('compass', serve_asset, None)
     context.connect('download-started', lambda _context, download: download.cancel())
@@ -83,7 +121,7 @@ def run(ui_directory, version):
 
     def navigation_policy(_view, decision, kind):
         if kind == WebKit2.PolicyDecisionType.NAVIGATION_ACTION:
-            uri = decision.get_navigation_action().get_request().get_uri()
+            uri = decision.get_navigation_action().get_request().get_uri() or ''
             if uri.split('#', 1)[0] == START_URI:
                 return False
         elif kind != WebKit2.PolicyDecisionType.NEW_WINDOW_ACTION:
@@ -122,12 +160,17 @@ def run(ui_directory, version):
     manager = view.get_user_content_manager()
     manager.connect('script-message-with-reply-received::compass', handle_message)
     if not manager.register_script_message_handler_with_reply('compass', None):
-        raise SystemExit('Could not start the Compass desktop connection.')
+        _startup_failed('Could not start the Compass desktop connection.')
     manager.add_script(WebKit2.UserScript.new(
         BRIDGE_SCRIPT, WebKit2.UserContentInjectedFrames.TOP_FRAME,
         WebKit2.UserScriptInjectionTime.START, [f'{UI_ORIGIN}/*'], None,
     ))
 
+    window = Gtk.Window(title='Compass')
+    window.set_default_size(1100, 740)
+    window.set_size_request(600, 480)
+    window.set_icon_name('io.github.nuggar4_cmd.Compass')
+    window.connect('destroy', Gtk.main_quit)
     window.add(view)
     view.load_uri(START_URI)
     window.show_all()

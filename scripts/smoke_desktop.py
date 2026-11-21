@@ -50,8 +50,8 @@ SCRIPT = r"""
     check('app version', Boolean(version) && document.getElementById('app-version').textContent.includes(version));
     check('rendered all catalog cards', document.querySelectorAll('.card').length === expectedCount);
     const search = document.getElementById('search');
-    search.value = 'OBS Studio'; search.dispatchEvent(new Event('input'));
-    check('search', document.querySelectorAll('.card').length === 1 &&
+    search.value = 'studio obsproject.com'; search.dispatchEvent(new Event('input'));
+    check('search across name and publisher domain', document.querySelectorAll('.card').length === 1 &&
       document.querySelector('.card[data-app-id="obs"] .details-button'));
     search.value = ''; search.dispatchEvent(new Event('input'));
     document.querySelector('[data-category="Gaming"]').click();

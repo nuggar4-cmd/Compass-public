@@ -1,5 +1,6 @@
 """Start the Compass desktop window."""
 from pathlib import Path
+import re
 import sys
 from compass.bridge import Bridge
 from compass.windows import (
@@ -11,6 +12,10 @@ from compass.windows import (
 def startup_failed(message):
     if sys.platform == 'win32':
         show_startup_error(message)
+    elif sys.platform.startswith('linux'):
+        from compass.linux import show_startup_error as show_linux_startup_error
+
+        show_linux_startup_error(message)
     raise SystemExit(message)
 
 
@@ -28,21 +33,21 @@ def main():
             startup_failed(issue)
 
     base = Path(getattr(sys, '_MEIPASS', Path(__file__).resolve().parent))
-    index = base / 'ui' / 'index.html'
+    ui_directory = base / 'ui'
     try:
         version = (base / 'VERSION').read_text(encoding='utf-8').strip()
-        if not version or not index.is_file():
-            raise OSError
-    except OSError:
+        if not re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+(?:rc[0-9]+)?', version):
+            raise ValueError('Invalid bundled release version')
+    except (OSError, ValueError):
         if on_windows:
-            startup_failed('Compass files are missing. Extract the whole archive again and keep the '
+            startup_failed('Compass files are missing or damaged. Extract the whole archive again and keep the '
                            '_internal folder next to Compass.exe.')
-        startup_failed('Compass files are missing. Reinstall the package or restore the source checkout.')
+        startup_failed('Compass files are missing or damaged. Reinstall the package or restore the source checkout.')
 
     if on_linux:
         from compass.linux import run
 
-        run(index.parent, version)
+        run(ui_directory, version)
         return
 
     try:
@@ -55,11 +60,14 @@ def main():
     from compass.windows_assets import serve_windows_assets
 
     try:
-        with serve_windows_assets(index.parent) as url:
+        with serve_windows_assets(ui_directory) as url:
             start_webview(webview, url, version)
     except OSError:
         startup_failed('Compass could not load its bundled interface. Verify the extracted '
                        'files and try opening Compass again.')
+    except webview.WebViewException:
+        startup_failed('Compass could not start its Windows interface. Verify the extracted files and '
+                       'make sure your user can write to its temporary directory.\n\n' + WEBVIEW2_HELP)
 
 
 def start_webview(webview, url, version):
@@ -95,7 +103,8 @@ def start_webview(webview, url, version):
     if unsupported_renderer:
         startup_failed(WEBVIEW2_HELP)
     if navigation_guard_failed():
-        startup_failed('Compass could not initialize the protected WebView2 window.')
+        startup_failed('Compass could not initialize the protected WebView2 window. Try reopening Compass. '
+                       'If the problem persists, update or repair WebView2.\n\n' + WEBVIEW2_HELP)
 
 
 if __name__ == '__main__':

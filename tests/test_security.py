@@ -1,6 +1,7 @@
 import dataclasses
 import json
 from pathlib import Path
+import re
 import unittest
 from unittest.mock import patch
 from compass import catalog
@@ -14,6 +15,11 @@ class SecurityTests(unittest.TestCase):
             self.assertTrue(app.url.startswith('https://' + app.host + '/'))
         source = (Path(__file__).resolve().parents[1] / 'ui' / 'catalog.js').read_text()
         self.assertEqual(json.loads(source.split('window.COMPASS_CATALOG = ', 1)[1].rstrip(';\n')), catalog.public_catalog())
+
+    def test_catalog_matches_reviewed_publisher_addresses(self):
+        review = (Path(__file__).resolve().parents[1] / 'APPROVED_SITES.md').read_text(encoding='utf-8')
+        reviewed = re.findall(r'^\| ([a-z0-9-]+) \| (https://\S+) \| ([^| ]+) \|$', review, re.MULTILINE)
+        self.assertCountEqual(reviewed, [(app.id, app.url, app.host) for app in catalog.CATALOG])
 
     def test_untrusted_ids(self):
         for value in [None, [], {}, 1, True, '', 'FIREFOX', '../firefox', 'https://evil.test', 'javascript:alert(1)', 'firefox\n']:
