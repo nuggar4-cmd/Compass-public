@@ -1,0 +1,14 @@
+Compass for Windows x64
+
+1. Extract the entire ZIP into a folder.
+2. Open Compass.exe inside the Compass folder. Keep the _internal folder alongside it.
+3. If WebView2 is missing, install the Evergreen Runtime from Microsoft:
+   https://developer.microsoft.com/microsoft-edge/webview2/
+
+Third-party license texts and notices are in the licenses folder.
+
+@COMPASS_SIGNATURE_STATUS@
+
+The companion .sha256 file records the SHA-256 checksum of the ZIP. In
+PowerShell, compare it with the output of Get-FileHash -Algorithm SHA256
+followed by the ZIP path.

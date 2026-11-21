@@ -1,0 +1,42 @@
+name: Debian package
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install packaging and desktop test dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends python3-gi gir1.2-gtk-3.0 gir1.2-webkit2-4.1 desktop-file-utils xvfb xauth
+      - name: Build and test the Debian package
+        run: |
+          export SOURCE_DATE_EPOCH=$(git log -1 --format=%ct)
+          /usr/bin/python3 scripts/sync_catalog.py --check
+          /usr/bin/python3 -m unittest discover -s tests -v
+          sh scripts/build-deb.sh
+          dpkg-deb --extract dist/release/*.deb "$RUNNER_TEMP/compass-deb"
+          desktop-file-validate "$RUNNER_TEMP/compass-deb/usr/share/applications/io.github.nuggar4_cmd.Compass.desktop"
+          xvfb-run -a /usr/bin/python3 scripts/smoke_linux.py "$RUNNER_TEMP/compass-deb/usr/share/compass-desktop"
+      - name: Upload the Debian package and checksum
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: Compass-Debian-package
+          path: |
+            dist/release/*.deb
+            dist/release/*.deb.sha256
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14

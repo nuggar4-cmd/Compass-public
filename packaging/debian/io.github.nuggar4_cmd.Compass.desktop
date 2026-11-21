@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Compass
+Comment=Find software and visit its official website
+Exec=compass-desktop
+Icon=io.github.nuggar4_cmd.Compass
+Terminal=false
+Categories=Utility;
+Keywords=software;applications;catalog;

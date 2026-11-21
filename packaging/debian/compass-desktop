@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+bindir=$(dirname "$(readlink -f "$0")")
+exec /usr/bin/python3 -Es "$bindir/../share/compass-desktop/main.py" "$@"
