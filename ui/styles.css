@@ -229,6 +229,86 @@ h1 { font-size: clamp(1.875rem, 4vw, 2.875rem); line-height: 1.08; letter-spacin
 
 .catalog { margin-top: 23px; }
 
+.startup-layout .hero, .startup-layout #library-title, .startup-layout .trust-strip { display: none; }
+.startup-layout .catalog { margin-top: clamp(14px, 10vh, 90px); }
+
+.startup-card, .startup-layout #load-error {
+  max-width: 610px;
+  margin-inline: auto;
+}
+
+.startup-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(15px, 4vw, 28px);
+  padding: clamp(19px, 5vw, 33px);
+  border: 1px solid #3a4b68;
+  border-radius: 14px;
+  background: radial-gradient(ellipse at 4% 8%, #243758, var(--surface) 70%);
+}
+
+.startup-mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(51px, 9vw, 80px);
+  aspect-ratio: 1;
+  border: 1px solid #718bb8;
+  border-radius: 50%;
+  background: #192941;
+}
+
+.startup-mark::before {
+  position: absolute;
+  inset: 10%;
+  border: 1px dashed #6c83aa;
+  border-radius: inherit;
+  content: '';
+}
+
+.startup-needle {
+  width: 34%;
+  height: 64%;
+  background: linear-gradient(#c6d9ff 50%, #5e7fb8 50%);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  transform: rotate(32deg);
+}
+
+#catalog-loading-title {
+  color: var(--text);
+  font-size: clamp(1.1875rem, 3vw, 1.65rem);
+  font-weight: 650;
+  letter-spacing: -.03em;
+  line-height: 1.25;
+}
+
+#catalog-loading-detail { margin-top: 5px; color: var(--muted); }
+
+.startup-track {
+  max-width: 245px;
+  height: 4px;
+  overflow: hidden;
+  margin-top: 15px;
+  border-radius: 999px;
+  background: #2a3952;
+}
+
+.startup-track::after {
+  display: block;
+  width: 32%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+  animation: startup-sweep 1.8s ease-in-out infinite;
+  content: '';
+}
+
+@keyframes startup-sweep {
+  from { transform: translateX(-102%); }
+  to { transform: translateX(323%); }
+}
+
 .search-box {
   display: flex;
   align-items: center;
@@ -601,4 +681,6 @@ dialog::backdrop { background: #02050bc9; backdrop-filter: blur(4px); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; }
+  .startup-track { display: none; }
+  .startup-track::after { animation: none; }
 }

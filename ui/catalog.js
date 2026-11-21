@@ -505,5 +505,761 @@ window.COMPASS_CATALOG = [
       "launcher"
     ],
     "notice": null
+  },
+  {
+    "id": "chrome",
+    "name": "Google Chrome",
+    "category": "Browsers",
+    "description": "Browse the web with Google's desktop browser.",
+    "url": "https://www.google.com/chrome/",
+    "host": "www.google.com",
+    "color": "#9fc8f1",
+    "glyph": "Ch",
+    "tags": [
+      "browser",
+      "web",
+      "google"
+    ],
+    "notice": null
+  },
+  {
+    "id": "edge",
+    "name": "Microsoft Edge",
+    "category": "Browsers",
+    "description": "Browse the web and use Microsoft's built-in reading tools.",
+    "url": "https://explore.microsoft.com/en-us/edge/download?form=MA13FJ",
+    "host": "explore.microsoft.com",
+    "color": "#9fc8f1",
+    "glyph": "Ed",
+    "tags": [
+      "browser",
+      "web",
+      "microsoft"
+    ],
+    "notice": null
+  },
+  {
+    "id": "opera",
+    "name": "Opera",
+    "category": "Browsers",
+    "description": "Browse the web with built-in sidebar tools.",
+    "url": "https://www.opera.com/download",
+    "host": "www.opera.com",
+    "color": "#9fc8f1",
+    "glyph": "Op",
+    "tags": [
+      "browser",
+      "web",
+      "sidebar"
+    ],
+    "notice": null
+  },
+  {
+    "id": "tor-browser",
+    "name": "Tor Browser",
+    "category": "Browsers",
+    "description": "Browse through the Tor network with the Tor Project's browser.",
+    "url": "https://download.torproject.org/",
+    "host": "download.torproject.org",
+    "color": "#9fc8f1",
+    "glyph": "To",
+    "tags": [
+      "browser",
+      "tor",
+      "privacy",
+      "web"
+    ],
+    "notice": null
+  },
+  {
+    "id": "rust",
+    "name": "Rust",
+    "category": "Development",
+    "description": "Set up the Rust toolchain for systems programming.",
+    "url": "https://rust-lang.org/tools/install/",
+    "host": "rust-lang.org",
+    "color": "#c4b7f2",
+    "glyph": "Rs",
+    "tags": [
+      "compiler",
+      "language",
+      "rustup"
+    ],
+    "notice": null
+  },
+  {
+    "id": "go",
+    "name": "Go",
+    "category": "Development",
+    "description": "Install the Go toolchain for building services and command-line programs.",
+    "url": "https://go.dev/dl/",
+    "host": "go.dev",
+    "color": "#c4b7f2",
+    "glyph": "Go",
+    "tags": [
+      "compiler",
+      "golang",
+      "language"
+    ],
+    "notice": null
+  },
+  {
+    "id": "nodejs",
+    "name": "Node.js",
+    "category": "Development",
+    "description": "Run JavaScript outside the browser and use npm tooling.",
+    "url": "https://nodejs.org/en/download",
+    "host": "nodejs.org",
+    "color": "#c4b7f2",
+    "glyph": "Js",
+    "tags": [
+      "javascript",
+      "runtime",
+      "npm"
+    ],
+    "notice": null
+  },
+  {
+    "id": "github-desktop",
+    "name": "GitHub Desktop",
+    "category": "Development",
+    "description": "Review changes, commit, and manage Git branches from a desktop app.",
+    "url": "https://github.com/apps/desktop",
+    "host": "github.com",
+    "color": "#c4b7f2",
+    "glyph": "Gh",
+    "tags": [
+      "git",
+      "repository",
+      "version control"
+    ],
+    "notice": null
+  },
+  {
+    "id": "android-studio",
+    "name": "Android Studio",
+    "category": "Development",
+    "description": "Build and debug Android apps with the SDK and emulator.",
+    "url": "https://developer.android.com/studio?auto_signin=false",
+    "host": "developer.android.com",
+    "color": "#c4b7f2",
+    "glyph": "An",
+    "tags": [
+      "android",
+      "ide",
+      "emulator",
+      "mobile"
+    ],
+    "notice": null
+  },
+  {
+    "id": "eclipse",
+    "name": "Eclipse IDE",
+    "category": "Development",
+    "description": "Develop and debug software with the Eclipse IDE and its plug-ins.",
+    "url": "https://www.eclipse.org/downloads/",
+    "host": "www.eclipse.org",
+    "color": "#c4b7f2",
+    "glyph": "Ec",
+    "tags": [
+      "ide",
+      "java",
+      "debugger"
+    ],
+    "notice": null
+  },
+  {
+    "id": "jetbrains-toolbox",
+    "name": "JetBrains Toolbox",
+    "category": "Development",
+    "description": "Install and manage JetBrains development tools from one app.",
+    "url": "https://www.jetbrains.com/toolbox-app/",
+    "host": "www.jetbrains.com",
+    "color": "#c4b7f2",
+    "glyph": "Jb",
+    "tags": [
+      "ide",
+      "tool manager"
+    ],
+    "notice": null
+  },
+  {
+    "id": "docker-desktop",
+    "name": "Docker Desktop",
+    "category": "Development",
+    "description": "Build and run containers in a local development environment.",
+    "url": "https://www.docker.com/products/docker-desktop/",
+    "host": "www.docker.com",
+    "color": "#c4b7f2",
+    "glyph": "Dd",
+    "tags": [
+      "containers",
+      "docker",
+      "development"
+    ],
+    "notice": null
+  },
+  {
+    "id": "xbox-pc",
+    "name": "Xbox PC app",
+    "category": "Gaming",
+    "description": "Browse the Xbox PC catalog and manage games on Windows.",
+    "url": "https://www.xbox.com/en-US/apps/xbox-app-on-pc",
+    "host": "www.xbox.com",
+    "color": "#a9d7a4",
+    "glyph": "Xb",
+    "tags": [
+      "xbox",
+      "game pass",
+      "launcher",
+      "windows"
+    ],
+    "notice": null
+  },
+  {
+    "id": "ubisoft-connect",
+    "name": "Ubisoft Connect",
+    "category": "Gaming",
+    "description": "Install Ubisoft's client and manage your game library.",
+    "url": "https://www.ubisoft.com/en-us/ubisoft-connect",
+    "host": "www.ubisoft.com",
+    "color": "#a9d7a4",
+    "glyph": "Ub",
+    "tags": [
+      "games",
+      "launcher",
+      "store"
+    ],
+    "notice": null
+  },
+  {
+    "id": "ea-app",
+    "name": "EA app",
+    "category": "Gaming",
+    "description": "Browse and manage your Electronic Arts game library.",
+    "url": "https://www.ea.com/ea-app",
+    "host": "www.ea.com",
+    "color": "#a9d7a4",
+    "glyph": "EA",
+    "tags": [
+      "games",
+      "launcher",
+      "store"
+    ],
+    "notice": null
+  },
+  {
+    "id": "minecraft-launcher",
+    "name": "Minecraft Launcher",
+    "category": "Gaming",
+    "description": "Download the official launcher for Minecraft editions on desktop.",
+    "url": "https://www.minecraft.net/en-us/download",
+    "host": "www.minecraft.net",
+    "color": "#a9d7a4",
+    "glyph": "Mc",
+    "tags": [
+      "minecraft",
+      "gaming",
+      "launcher"
+    ],
+    "notice": null
+  },
+  {
+    "id": "nvidia-app",
+    "name": "NVIDIA App",
+    "category": "Gaming",
+    "description": "Manage NVIDIA drivers and graphics settings, and capture gameplay.",
+    "url": "https://www.nvidia.com/en-us/software/nvidia-app/",
+    "host": "www.nvidia.com",
+    "color": "#a9d7a4",
+    "glyph": "Nv",
+    "tags": [
+      "graphics",
+      "drivers",
+      "gpu",
+      "gaming"
+    ],
+    "notice": null
+  },
+  {
+    "id": "signal",
+    "name": "Signal Desktop",
+    "category": "Communication",
+    "description": "Use Signal messaging and calls from a linked desktop.",
+    "url": "https://signal.org/download/",
+    "host": "signal.org",
+    "color": "#9bdade",
+    "glyph": "Si",
+    "tags": [
+      "messaging",
+      "calls",
+      "chat"
+    ],
+    "notice": null
+  },
+  {
+    "id": "element",
+    "name": "Element",
+    "category": "Communication",
+    "description": "Chat and join Matrix rooms in the Element desktop client.",
+    "url": "https://element.io/en/download",
+    "host": "element.io",
+    "color": "#9bdade",
+    "glyph": "El",
+    "tags": [
+      "matrix",
+      "messaging",
+      "chat"
+    ],
+    "notice": null
+  },
+  {
+    "id": "zoom",
+    "name": "Zoom Workplace",
+    "category": "Communication",
+    "description": "Join or host meetings and use desktop collaboration tools.",
+    "url": "https://zoom.us/download",
+    "host": "zoom.us",
+    "color": "#9bdade",
+    "glyph": "Zo",
+    "tags": [
+      "meetings",
+      "video",
+      "calls",
+      "conferencing"
+    ],
+    "notice": null
+  },
+  {
+    "id": "slack",
+    "name": "Slack",
+    "category": "Communication",
+    "description": "Access workspace conversations, channels, and files from a desktop app.",
+    "url": "https://slack.com/downloads/other",
+    "host": "slack.com",
+    "color": "#9bdade",
+    "glyph": "Sl",
+    "tags": [
+      "team",
+      "chat",
+      "workspace",
+      "messaging"
+    ],
+    "notice": null
+  },
+  {
+    "id": "telegram",
+    "name": "Telegram Desktop",
+    "category": "Communication",
+    "description": "Use Telegram chats and channels from a desktop client.",
+    "url": "https://desktop.telegram.org/",
+    "host": "desktop.telegram.org",
+    "color": "#9bdade",
+    "glyph": "Tg",
+    "tags": [
+      "messaging",
+      "channels",
+      "chat"
+    ],
+    "notice": null
+  },
+  {
+    "id": "blender",
+    "name": "Blender",
+    "category": "Creative",
+    "description": "Model, animate, and render 3D scenes. The official manual explains installation.",
+    "url": "https://docs.blender.org/manual/en/latest/getting_started/installing/",
+    "host": "docs.blender.org",
+    "color": "#eac2a3",
+    "glyph": "Bl",
+    "tags": [
+      "3d",
+      "animation",
+      "rendering",
+      "modeling"
+    ],
+    "notice": null
+  },
+  {
+    "id": "darktable",
+    "name": "darktable",
+    "category": "Creative",
+    "description": "Organize and develop RAW photos with a nondestructive workflow.",
+    "url": "https://www.darktable.org/install/",
+    "host": "www.darktable.org",
+    "color": "#eac2a3",
+    "glyph": "Dt",
+    "tags": [
+      "photo",
+      "raw",
+      "editing"
+    ],
+    "notice": null
+  },
+  {
+    "id": "musescore",
+    "name": "MuseScore Studio",
+    "category": "Creative",
+    "description": "Write, edit, and play back music notation.",
+    "url": "https://musescore.org/en/download",
+    "host": "musescore.org",
+    "color": "#eac2a3",
+    "glyph": "Ms",
+    "tags": [
+      "sheet music",
+      "score",
+      "notation"
+    ],
+    "notice": null
+  },
+  {
+    "id": "blockbench",
+    "name": "Blockbench",
+    "category": "Creative",
+    "description": "Create low-poly models, textures, and animations.",
+    "url": "https://blockbench.net/",
+    "host": "blockbench.net",
+    "color": "#eac2a3",
+    "glyph": "Bb",
+    "tags": [
+      "3d",
+      "modeling",
+      "textures"
+    ],
+    "notice": null
+  },
+  {
+    "id": "freecad",
+    "name": "FreeCAD",
+    "category": "Creative",
+    "description": "Build editable, parametric 3D designs for CAD projects.",
+    "url": "https://www.freecad.org/downloads.php",
+    "host": "www.freecad.org",
+    "color": "#eac2a3",
+    "glyph": "Fc",
+    "tags": [
+      "cad",
+      "3d",
+      "engineering"
+    ],
+    "notice": null
+  },
+  {
+    "id": "kicad",
+    "name": "KiCad",
+    "category": "Creative",
+    "description": "Draw electronic schematics and design printed circuit boards.",
+    "url": "https://www.kicad.org/download/",
+    "host": "www.kicad.org",
+    "color": "#eac2a3",
+    "glyph": "Ki",
+    "tags": [
+      "pcb",
+      "electronics",
+      "schematic"
+    ],
+    "notice": null
+  },
+  {
+    "id": "davinci-resolve",
+    "name": "DaVinci Resolve",
+    "category": "Creative",
+    "description": "Edit video, grade color, mix audio, and create visual effects.",
+    "url": "https://www.blackmagicdesign.com/products/davinciresolve",
+    "host": "www.blackmagicdesign.com",
+    "color": "#eac2a3",
+    "glyph": "Dr",
+    "tags": [
+      "video",
+      "editing",
+      "color",
+      "grading",
+      "effects"
+    ],
+    "notice": null
+  },
+  {
+    "id": "mpv",
+    "name": "mpv",
+    "category": "Media",
+    "description": "Play local audio and video files in a lightweight media player.",
+    "url": "https://mpv.io/installation/",
+    "host": "mpv.io",
+    "color": "#ddbae4",
+    "glyph": "mp",
+    "tags": [
+      "video",
+      "audio",
+      "player"
+    ],
+    "notice": "This page includes some builds maintained outside the mpv project. Check the source of the build you choose."
+  },
+  {
+    "id": "foobar2000",
+    "name": "foobar2000",
+    "category": "Media",
+    "description": "Play music and organize an audio library on Windows.",
+    "url": "https://www.foobar2000.org/windows",
+    "host": "www.foobar2000.org",
+    "color": "#ddbae4",
+    "glyph": "fb",
+    "tags": [
+      "music",
+      "audio",
+      "player",
+      "windows"
+    ],
+    "notice": null
+  },
+  {
+    "id": "picard",
+    "name": "MusicBrainz Picard",
+    "category": "Media",
+    "description": "Identify recordings and write consistent tags to audio files.",
+    "url": "https://picard.musicbrainz.org/downloads/",
+    "host": "picard.musicbrainz.org",
+    "color": "#ddbae4",
+    "glyph": "Pi",
+    "tags": [
+      "music",
+      "metadata",
+      "tags"
+    ],
+    "notice": null
+  },
+  {
+    "id": "losslesscut",
+    "name": "LosslessCut",
+    "category": "Media",
+    "description": "Trim and join supported media formats without re-encoding.",
+    "url": "https://losslesscut.app/",
+    "host": "losslesscut.app",
+    "color": "#ddbae4",
+    "glyph": "Lc",
+    "tags": [
+      "video",
+      "audio",
+      "trim",
+      "cut"
+    ],
+    "notice": null
+  },
+  {
+    "id": "obsidian",
+    "name": "Obsidian",
+    "category": "Productivity",
+    "description": "Write and link notes in a local Markdown vault.",
+    "url": "https://obsidian.md/download",
+    "host": "obsidian.md",
+    "color": "#9ec7ef",
+    "glyph": "Ob",
+    "tags": [
+      "notes",
+      "markdown",
+      "knowledge"
+    ],
+    "notice": null
+  },
+  {
+    "id": "onlyoffice",
+    "name": "ONLYOFFICE Desktop Editors",
+    "category": "Productivity",
+    "description": "Edit office documents, spreadsheets, presentations, and PDFs.",
+    "url": "https://www.onlyoffice.com/desktop",
+    "host": "www.onlyoffice.com",
+    "color": "#9ec7ef",
+    "glyph": "Oo",
+    "tags": [
+      "office",
+      "documents",
+      "spreadsheet",
+      "presentation"
+    ],
+    "notice": null
+  },
+  {
+    "id": "pdf24",
+    "name": "PDF24 Creator",
+    "category": "Productivity",
+    "description": "Create, merge, and split PDFs on Windows.",
+    "url": "https://tools.pdf24.org/en/creator",
+    "host": "tools.pdf24.org",
+    "color": "#9ec7ef",
+    "glyph": "P2",
+    "tags": [
+      "pdf",
+      "merge",
+      "split",
+      "windows"
+    ],
+    "notice": null
+  },
+  {
+    "id": "drawio",
+    "name": "draw.io Desktop",
+    "category": "Productivity",
+    "description": "Create flowcharts and other diagrams offline.",
+    "url": "https://www.drawio.com/docs/manual/editor/offline/",
+    "host": "www.drawio.com",
+    "color": "#9ec7ef",
+    "glyph": "Di",
+    "tags": [
+      "diagram",
+      "flowchart",
+      "offline"
+    ],
+    "notice": null
+  },
+  {
+    "id": "anki",
+    "name": "Anki",
+    "category": "Productivity",
+    "description": "Study with flashcards scheduled by spaced repetition.",
+    "url": "https://apps.ankiweb.net/",
+    "host": "apps.ankiweb.net",
+    "color": "#9ec7ef",
+    "glyph": "Ak",
+    "tags": [
+      "study",
+      "flashcards",
+      "learning"
+    ],
+    "notice": null
+  },
+  {
+    "id": "powertoys",
+    "name": "Microsoft PowerToys",
+    "category": "Utilities",
+    "description": "Use Windows utilities for shortcuts, window layouts, and files.",
+    "url": "https://learn.microsoft.com/en-us/windows/powertoys/install",
+    "host": "learn.microsoft.com",
+    "color": "#a4d9be",
+    "glyph": "Pt",
+    "tags": [
+      "windows",
+      "keyboard",
+      "files",
+      "layouts"
+    ],
+    "notice": null
+  },
+  {
+    "id": "winscp",
+    "name": "WinSCP",
+    "category": "Utilities",
+    "description": "Transfer files using SFTP, SCP, and other supported protocols.",
+    "url": "https://winscp.net/eng/download.php",
+    "host": "winscp.net",
+    "color": "#a4d9be",
+    "glyph": "Ws",
+    "tags": [
+      "files",
+      "transfer",
+      "sftp",
+      "windows"
+    ],
+    "notice": null
+  },
+  {
+    "id": "rufus",
+    "name": "Rufus",
+    "category": "Utilities",
+    "description": "Create bootable USB drives from disk images on Windows.",
+    "url": "https://rufus.ie/en/",
+    "host": "rufus.ie",
+    "color": "#a4d9be",
+    "glyph": "Ru",
+    "tags": [
+      "usb",
+      "boot",
+      "disk",
+      "windows"
+    ],
+    "notice": null
+  },
+  {
+    "id": "everything",
+    "name": "Everything",
+    "category": "Utilities",
+    "description": "Find Windows files and folders by name.",
+    "url": "https://www.voidtools.com/downloads/",
+    "host": "www.voidtools.com",
+    "color": "#a4d9be",
+    "glyph": "Ev",
+    "tags": [
+      "files",
+      "windows",
+      "search",
+      "folders"
+    ],
+    "notice": null
+  },
+  {
+    "id": "sharex",
+    "name": "ShareX",
+    "category": "Utilities",
+    "description": "Capture and annotate screenshots or record your screen on Windows.",
+    "url": "https://getsharex.com/",
+    "host": "getsharex.com",
+    "color": "#a4d9be",
+    "glyph": "Sx",
+    "tags": [
+      "screenshots",
+      "capture",
+      "recording",
+      "windows"
+    ],
+    "notice": null
+  },
+  {
+    "id": "windirstat",
+    "name": "WinDirStat",
+    "category": "Utilities",
+    "description": "Visualize disk usage and see which files take up space.",
+    "url": "https://windirstat.net/download.html",
+    "host": "windirstat.net",
+    "color": "#a4d9be",
+    "glyph": "Wd",
+    "tags": [
+      "disk",
+      "storage",
+      "files",
+      "windows"
+    ],
+    "notice": null
+  },
+  {
+    "id": "crystaldiskinfo",
+    "name": "CrystalDiskInfo",
+    "category": "Utilities",
+    "description": "Read drive temperature and SMART health information.",
+    "url": "https://crystalmark.info/en/software/crystaldiskinfo/",
+    "host": "crystalmark.info",
+    "color": "#a4d9be",
+    "glyph": "Cd",
+    "tags": [
+      "disk",
+      "ssd",
+      "smart",
+      "windows"
+    ],
+    "notice": null
+  },
+  {
+    "id": "kde-connect",
+    "name": "KDE Connect",
+    "category": "Utilities",
+    "description": "Share files, notifications, and controls between a desktop and other devices.",
+    "url": "https://kdeconnect.kde.org/download.html",
+    "host": "kdeconnect.kde.org",
+    "color": "#a4d9be",
+    "glyph": "Kc",
+    "tags": [
+      "phone",
+      "files",
+      "sharing",
+      "notifications"
+    ],
+    "notice": null
   }
 ];

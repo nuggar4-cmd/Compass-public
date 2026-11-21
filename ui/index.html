@@ -40,7 +40,14 @@
     <h1 id="library-title" hidden>All apps</h1>
     <section class="catalog" aria-label="App catalog">
       <noscript><p class="empty">Enable JavaScript to browse the Compass catalog.</p></noscript>
-      <p id="catalog-loading" class="empty" role="status" tabindex="-1" hidden></p>
+      <div id="catalog-loading" class="startup-card" role="status" aria-atomic="true" tabindex="-1" hidden>
+        <span class="startup-mark" aria-hidden="true"><span class="startup-needle"></span></span>
+        <div class="startup-copy">
+          <p id="catalog-loading-title">Connecting to Compass…</p>
+          <p id="catalog-loading-detail">Waiting for the desktop window to respond.</p>
+          <div class="startup-track" aria-hidden="true"></div>
+        </div>
+      </div>
       <div id="load-error" class="empty" role="group" aria-labelledby="load-error-title" hidden>
         <h2 id="load-error-title">We couldn’t load the catalog</h2>
         <p id="load-error-message"></p>

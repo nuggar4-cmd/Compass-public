@@ -30,6 +30,8 @@ Enter an app name or keyword in search, or narrow the list by category. Press Ct
 
 RC7 lets you combine search terms in any order and look up apps by publisher domain. If the desktop catalog fails to load, Compass explains what happened and offers **Retry**.
 
+RC8 shows whether Compass is connecting to the desktop or reading the local catalog. It opens the catalog as soon as it is ready. The catalog includes 76 publisher listings and a Communication category.
+
 **Verified publisher** identifies a reviewed starting address. **Caution** describes details such as a publisher preview or external downloads. If an address fails the catalog check, Compass shows **Blocked** and skips opening it. The Gaming category includes Steam, Epic Games Launcher, GOG GALAXY, and the itch.io app.
 
 The [approved publisher destinations](APPROVED_SITES.md) are bundled. Compass has no accounts, telemetry, search-history storage, downloads, installers or automatic updates. Its Windows loopback listener serves only the four bundled interface assets and closes with the app. The initial publisher address is checked against the catalog. Once the browser opens it, redirects, privacy and downloads are handled by the browser and publisher.

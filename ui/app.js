@@ -28,6 +28,18 @@
     return value.normalize('NFKD').replace(/\p{M}/gu, '').toLowerCase();
   }
 
+  function setCatalogView(view) {
+    $('discover-page').classList.toggle('startup-layout', desktop && view !== 'ready');
+    $('catalog-loading').hidden = view !== 'loading';
+    $('load-error').hidden = view !== 'error';
+    $('catalog-results').hidden = view !== 'ready';
+  }
+
+  function setLoadingCopy(title, detail) {
+    $('catalog-loading-title').textContent = title;
+    $('catalog-loading-detail').textContent = detail;
+  }
+
   function setView(view) {
     state.view = view;
     document.querySelectorAll('.nav').forEach(button => {
@@ -175,17 +187,14 @@
     render();
     $('nav-count').textContent = String(entries.length);
     $('nav-count').hidden = false;
-    $('load-error').hidden = true;
-    $('catalog-loading').hidden = true;
-    $('catalog-results').hidden = false;
+    setCatalogView('ready');
     if (moveFocus) $('search').focus();
   }
 
   function showCatalogError(message) {
     const moveFocus = document.activeElement === $('catalog-loading');
-    $('catalog-loading').hidden = true;
     $('load-error-message').textContent = message;
-    $('load-error').hidden = false;
+    setCatalogView('error');
     if (moveFocus && !$('retry-catalog').hidden) $('retry-catalog').focus();
   }
 
@@ -210,7 +219,7 @@
 
     attempt.requested = true;
     clearInterval(attempt.bridgePoll);
-    $('catalog-loading').textContent = 'Loading the app catalog…';
+    setLoadingCopy('Loading the app catalog…', 'Reading the publisher addresses stored with Compass.');
     try {
       const apps = await api.catalog();
       if (catalogAttempt !== attempt) return;
@@ -238,9 +247,8 @@
     const attempt = { requested: false };
     catalogAttempt = attempt;
     const moveFocus = document.activeElement === $('retry-catalog');
-    $('load-error').hidden = true;
-    $('catalog-loading').textContent = 'Connecting to Compass…';
-    $('catalog-loading').hidden = false;
+    setLoadingCopy('Connecting to Compass…', 'Waiting for the desktop window to respond.');
+    setCatalogView('loading');
     if (moveFocus) $('catalog-loading').focus();
 
     attempt.deadline = setTimeout(() => {
