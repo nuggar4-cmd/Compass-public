@@ -21,6 +21,7 @@ BRIDGE_SCRIPT = """
     catalog: () => call(['catalog']),
     app_info: () => call(['app_info']),
     open_official: id => call(['open_official', id]),
+    suggest_link: () => call(['suggest_link']),
   }};
 })();
 """
@@ -105,6 +106,8 @@ def run(ui_directory, version):
                 result = bridge.catalog()
             elif request == ['app_info']:
                 result = bridge.app_info()
+            elif request == ['suggest_link']:
+                result = bridge.suggest_link()
             elif isinstance(request, list) and len(request) == 2 and request[0] == 'open_official':
                 result = bridge.open_official(request[1])
             else:

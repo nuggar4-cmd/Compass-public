@@ -154,6 +154,7 @@
       const apps = await Promise.race([api.catalog(), timeout]);
       showCatalog(apps);
       desktopApi = api;
+      $('suggest-link').hidden = typeof api.suggest_link !== 'function';
     } catch (_) {
       showCatalogError();
     } finally {
@@ -179,6 +180,20 @@
   $('trust-details').addEventListener('click', () => setView('privacy'));
   $('back-discover').addEventListener('click', () => setView('discover'));
   $('retry-catalog').addEventListener('click', loadDesktopCatalog);
+  $('suggest-link').addEventListener('click', async event => {
+    const button = event.currentTarget;
+    if (button.hidden || button.hasAttribute('aria-disabled')) return;
+    button.setAttribute('aria-disabled', 'true');
+    const errorMessage = 'Could not open the suggestion form. Try again.';
+    try {
+      const response = await desktopApi.suggest_link();
+      notify(response?.message || errorMessage);
+    } catch (_) {
+      notify(errorMessage);
+    } finally {
+      button.removeAttribute('aria-disabled');
+    }
+  });
   document.querySelector('.dialog-close').addEventListener('click', () => { if (!state.busy) $('app-dialog').close(); });
   $('app-dialog').addEventListener('cancel', event => { if (state.busy) event.preventDefault(); });
   $('app-dialog').addEventListener('keydown', event => {

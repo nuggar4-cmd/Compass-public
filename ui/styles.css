@@ -65,6 +65,31 @@ button[aria-disabled="true"] {
   min-height: 24px;
 }
 
+.section-heading, .catalog-actions {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.catalog-actions {
+  display: flex;
+  align-items: center;
+}
+
+.suggest-link {
+  min-height: 30px;
+  padding: 5px 10px;
+  border: 1px solid #3c4d6c;
+  border-radius: 5px;
+  background: transparent;
+  color: #bdd0f8;
+  font-size: 11px;
+}
+
+.suggest-link:hover:not([aria-disabled="true"]) {
+  background: #253454;
+  border-color: #839fd0;
+}
+
 @media (max-width: 720px) {
   .sidebar nav {
     margin-top: 15px;

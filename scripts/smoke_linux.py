@@ -13,12 +13,15 @@ from gi.repository import Gio, GLib, Gtk, WebKit2
 source = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(source))
 import main
+from compass.catalog import CATALOG
 from compass.linux import START_URI
 
 APPROVED_URL = 'https://www.7-zip.org/'
+SUGGESTION_URL = 'https://github.com/nuggar4-cmd/Compass-public/issues/new?template=catalog-suggestion.yml'
 SCRIPT = """
 const $ = id => document.getElementById(id);
 const checks = [];
+const expectedCount = EXPECTED_CATALOG_COUNT;
 function check(name, condition) {
   if (!condition) throw new Error(name);
   checks.push(name);
@@ -30,31 +33,44 @@ async function waitFor(condition) {
   }
   return false;
 }
-check('native catalog and version', await waitFor(() =>
-  document.querySelectorAll('.card').length === 4 && $('app-version').textContent));
+const ready = await waitFor(() =>
+  document.querySelectorAll('.card').length === expectedCount && $('app-version').textContent);
 const api = window.pywebview.api;
+check('native catalog and version', ready && (await api.catalog()).length === expectedCount);
 check('unknown app ID rejected', !(await api.open_official('unlisted')).ok);
-$('search').value = 'recording';
+$('search').value = 'OBS Studio';
 $('search').dispatchEvent(new Event('input'));
-check('search', document.querySelectorAll('.card').length === 1 && $('cards').textContent.includes('OBS Studio'));
+check('search', document.querySelectorAll('.card').length === 1 &&
+  document.querySelector('.details-button[aria-label="View OBS Studio"]'));
 $('search').value = '';
 $('search').dispatchEvent(new Event('input'));
 document.querySelector('[data-category="Utilities"]').click();
-document.querySelector('.details-button').click();
+document.querySelector('.details-button[aria-label="View 7-Zip"]').click();
 check('exact publisher address', $('detail-url').textContent === 'https://www.7-zip.org/');
 $('open-official').click();
 check('cancellation stays in Compass', await waitFor(() => $('dialog-status').textContent === 'Opening cancelled.'));
 $('open-official').click();
 check('approval closes details', await waitFor(() => !$('app-dialog').open));
+const suggest = $('suggest-link');
+if (!suggest || !suggest.getClientRects().length || suggest.disabled) throw new Error('Suggestion button unavailable');
+suggest.click();
+check('native suggestion confirmation cancels', await waitFor(() => $('toast').textContent === 'Opening cancelled.'));
+suggest.click();
+check('native suggestion confirmation accepts', await waitFor(() => $('toast').textContent === 'Opened the GitHub suggestion form.'));
 return checks;
-"""
+""".replace('EXPECTED_CATALOG_COUNT', str(len(CATALOG)))
 
 
 def smoke():
     results = []
     errors = []
     opened = []
-    choices = iter((Gtk.ResponseType.CANCEL, Gtk.ResponseType.OK))
+    choices = iter((
+        (Gtk.ResponseType.CANCEL, 'Open official website?', APPROVED_URL, 0),
+        (Gtk.ResponseType.OK, 'Open official website?', APPROVED_URL, 0),
+        (Gtk.ResponseType.CANCEL, 'Open the GitHub suggestion form?', SUGGESTION_URL, 1),
+        (Gtk.ResponseType.OK, 'Open the GitHub suggestion form?', SUGGESTION_URL, 1),
+    ))
     original_main = Gtk.main
 
     def drive_window():
@@ -64,12 +80,17 @@ def smoke():
         def handle_confirmation():
             for dialog in Gtk.Window.list_toplevels():
                 if isinstance(dialog, Gtk.MessageDialog) and dialog.get_visible():
-                    choice = next(choices, Gtk.ResponseType.CANCEL)
-                    if dialog.props.secondary_text.split('\n')[2] != APPROVED_URL:
-                        errors.append('Native confirmation displays a different destination')
+                    expected = next(choices, None)
+                    if expected is None:
+                        errors.append('Unexpected native confirmation')
+                        dialog.response(Gtk.ResponseType.CANCEL)
+                        continue
+                    choice, title, url, previous_openings = expected
+                    if dialog.props.text != title or url not in dialog.props.secondary_text.splitlines():
+                        errors.append('Native confirmation displays a different title or destination')
                     if dialog.get_response_for_widget(dialog.get_default_widget()) != Gtk.ResponseType.CANCEL:
                         errors.append('Native confirmation does not default to Cancel')
-                    if choice == Gtk.ResponseType.CANCEL and opened:
+                    if len(opened) != previous_openings:
                         errors.append('Browser opened before approval')
                     dialog.response(choice)
             return GLib.SOURCE_CONTINUE
@@ -85,12 +106,12 @@ def smoke():
         def finish_script(webview, response, _data):
             try:
                 value = webview.call_async_javascript_function_finish(response)
-                for index in range(6):
+                for index in range(8):
                     results.append(value.object_get_property_at_index(index).to_string())
-                if opened != [APPROVED_URL]:
+                if opened != [APPROVED_URL, SUGGESTION_URL]:
                     errors.append(f'Unexpected browser launcher calls: {opened}')
                 else:
-                    results.append('native confirmation and exact browser handoff')
+                    results.append('native confirmations and exact browser handoffs')
                 webview.load_uri('about:blank')
                 GLib.timeout_add(300, finish_navigation_check)
             except (GLib.Error, TypeError) as error:
@@ -117,7 +138,7 @@ def smoke():
         main.main()
     for result in results:
         print(f'PASS: {result}')
-    if errors or len(results) != 8:
+    if errors or len(results) != 10:
         raise SystemExit('\n'.join(errors) or 'Missing Linux smoke results')
 
 

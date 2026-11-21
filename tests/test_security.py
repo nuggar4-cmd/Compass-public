@@ -58,6 +58,24 @@ class SecurityTests(unittest.TestCase):
     def test_browser_failure(self):
         self.assertFalse(Bridge(lambda *_: True, lambda _: False).open_official('obs')['ok'])
 
+    def test_suggestion_uses_fixed_form_after_confirmation(self):
+        url = 'https://github.com/nuggar4-cmd/Compass-public/issues/new?template=catalog-suggestion.yml'
+        events = []
+        approved = False
+
+        def confirm(title, message):
+            events.append('confirm')
+            self.assertEqual(title, 'Open the GitHub suggestion form?')
+            self.assertIn(url, message)
+            return approved
+
+        bridge = Bridge(confirm, lambda destination: events.append(destination) or True)
+        self.assertFalse(bridge.suggest_link()['ok'])
+        self.assertEqual(events, ['confirm'])
+        approved = True
+        self.assertTrue(bridge.suggest_link()['ok'])
+        self.assertEqual(events, ['confirm', 'confirm', url])
+
     def test_exceptions_release_lock(self):
         def fail(_):
             raise RuntimeError('sensitive details')
@@ -73,6 +91,7 @@ class SecurityTests(unittest.TestCase):
         bridge._opening.acquire()
         try:
             self.assertFalse(bridge.open_official('obs')['ok'])
+            self.assertFalse(bridge.suggest_link()['ok'])
         finally:
             bridge._opening.release()
 

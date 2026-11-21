@@ -1,10 +1,10 @@
-# Compass 1.0.0rc4
+# Compass
 
-Compass is an English-language desktop app for finding software and visiting its official website. It includes local search, categories, alphabetical sorting and details for Firefox, Visual Studio Code, OBS Studio and 7-Zip.
+Compass is an English-language desktop app for finding software and visiting its official website. It includes local search, categories, alphabetical sorting and publisher details.
 
 ## Windows x64 portable candidate
 
-Open the **Windows release candidate** run in the repository's [Actions tab](https://github.com/nuggar4-cmd/Compass-public/actions). Download the `Compass-Windows-x64-release-candidate` artifact from a successful run. It contains the portable ZIP and its SHA-256 checksum. Sign in to GitHub to download the artifact before it expires.
+The [public RC4 release](https://github.com/nuggar4-cmd/Compass-public/releases/tag/v1.0.0rc4) provides a [portable Windows ZIP](https://github.com/nuggar4-cmd/Compass-public/releases/download/v1.0.0rc4/Compass-1.0.0rc4-Windows-x64.zip) and its [SHA-256 checksum](https://github.com/nuggar4-cmd/Compass-public/releases/download/v1.0.0rc4/Compass-1.0.0rc4-Windows-x64.zip.sha256).
 
 1. If you want to verify the download, compare the checksum file to the output from `Get-FileHash -Algorithm SHA256 .\Compass-1.0.0rc4-Windows-x64.zip` in PowerShell.
 2. Extract the portable ZIP, open the `Compass` folder and double-click `Compass.exe`. Keep `_internal` alongside it. Python is bundled.
@@ -12,10 +12,10 @@ Open the **Windows release candidate** run in the repository's [Actions tab](htt
 
 ## Debian and Ubuntu package
 
-Download the `Compass-Debian-package` artifact from a successful **Debian package** run in the [Actions tab](https://github.com/nuggar4-cmd/Compass-public/actions). It contains a `.deb` and its SHA-256 checksum. Install the package and its GTK and WebKitGTK dependencies with APT:
+Download the [RC4 Debian package](https://github.com/nuggar4-cmd/Compass-public/releases/download/v1.0.0rc4/Compass-1.0.0rc4-Linux-all.deb) and its [SHA-256 checksum](https://github.com/nuggar4-cmd/Compass-public/releases/download/v1.0.0rc4/Compass-1.0.0rc4-Linux-all.deb.sha256). Install the package and its GTK and WebKitGTK dependencies with APT:
 
 ```sh
-sudo apt install ./compass-desktop_1.0.0~rc4_all.deb
+sudo apt install ./Compass-1.0.0rc4-Linux-all.deb
 ```
 
 Launch **Compass** from the application menu or run `compass-desktop`. The Debian package uses the OS-provided WebKitGTK and keeps UI assets on a private, local renderer scheme. To build the package yourself, run `sh scripts/build-deb.sh`. The package and checksum appear in `dist/release`.
@@ -25,6 +25,10 @@ Launch **Compass** from the application menu or run `compass-desktop`. The Debia
 Enter an app name or keyword in search, or narrow the list by category. Press Ctrl+K to focus search, or Escape to close app details. Select **View app** to see the publisher and complete destination. **Visit official website** asks for native confirmation before opening the default browser.
 
 The [approved publisher destinations](APPROVED_SITES.md) are bundled. Compass has no accounts, telemetry, search-history storage, downloads, installers or automatic updates. Its Windows loopback listener serves only the four bundled interface assets and closes with the app. The initial publisher address is checked against the catalog. Once the browser opens it, redirects, privacy and downloads are handled by the browser and publisher.
+
+## Suggest a catalog link
+
+Choose **Suggest a link** in Compass (RC5 and later) or [open the suggestion form](https://github.com/nuggar4-cmd/Compass-public/issues/new?template=catalog-suggestion.yml). Sign in to GitHub to submit a public suggestion with the app name and its official publisher URL. Maintainers review [open catalog suggestions](https://github.com/nuggar4-cmd/Compass-public/issues?q=is%3Aissue+is%3Aopen+in%3Atitle+%22Catalog+suggestion%22), confirm that each page belongs to the publisher and check for duplicates before adding it to the bundled catalog.
 
 ## Build from source
 

@@ -1,0 +1,28 @@
+name: Suggest a catalog link
+description: Suggest an official software publisher page for Compass to review.
+title: "Catalog suggestion: "
+body:
+  - type: markdown
+    attributes:
+      value: Suggestions are public. Share one desktop app per issue and leave out personal information.
+  - type: input
+    id: app-name
+    attributes:
+      label: App name
+    validations:
+      required: true
+  - type: input
+    id: publisher-url
+    attributes:
+      label: Official publisher URL
+      description: Use the publisher's HTTPS product or download page.
+      placeholder: https://publisher.example/download/
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: What is this app used for?
+      description: Briefly describe the app and list the desktop systems it supports, if known.
+    validations:
+      required: true

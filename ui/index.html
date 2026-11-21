@@ -34,7 +34,14 @@
       <div id="catalog-results" hidden>
         <div class="search-box"><span class="search-icon" aria-hidden="true"></span><input id="search" type="search" aria-keyshortcuts="Control+K Meta+K" maxlength="160" placeholder="Search apps, categories, or something you want to do…" aria-label="Search apps" autocomplete="off" spellcheck="false"><kbd aria-hidden="true">Ctrl K</kbd></div>
         <div class="filter-row"><div id="filters" class="filters" role="group" aria-label="App categories"></div><label class="sort">Sort by <select id="sort" aria-label="Sort apps"><option value="featured">Featured</option><option value="az">Name: A–Z</option></select></label></div>
-        <div class="section-heading"><h2 id="results-title">App catalog</h2><span id="result-count" class="result-count" role="status"></span></div>
+        <div class="section-heading">
+          <h2 id="results-title">App catalog</h2>
+          <div class="catalog-actions">
+            <span id="result-count" class="result-count" role="status"></span>
+            <button id="suggest-link" class="suggest-link" aria-describedby="suggest-link-info" hidden>Suggest a link</button>
+            <span id="suggest-link-info" hidden>Suggestions are public on GitHub. GitHub sign-in is required.</span>
+          </div>
+        </div>
         <div class="cards" id="cards"></div>
         <div id="empty" class="empty" hidden><span aria-hidden="true">⌕</span><h3>No apps found</h3><p>Try another search or explore a different category.</p><button id="reset" class="primary">Clear filters</button></div>
       </div>

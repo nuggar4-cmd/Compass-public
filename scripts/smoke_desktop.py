@@ -11,9 +11,10 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 import webview
 import main
-from compass.catalog import destination
+from compass.catalog import CATALOG, destination
 
 result_path = ROOT / 'desktop-smoke.json'
+SUGGESTION_URL = 'https://github.com/nuggar4-cmd/Compass-public/issues/new?template=catalog-suggestion.yml'
 completed = threading.Event()
 original_create = webview.create_window
 opened = []
@@ -24,9 +25,17 @@ SCRIPT = r"""
   if (!document.getElementById('app-version') || window.compassSmokeStarted) return;
   window.compassSmokeStarted = true;
   const checks = [];
+  const expectedCount = EXPECTED_CATALOG_COUNT;
   function check(name, condition) {
     if (!condition) throw new Error(name);
     checks.push(name);
+  }
+  async function waitFor(condition) {
+    for (let i = 0; i < 100; i++) {
+      if (condition()) return true;
+      await new Promise(resolve => setTimeout(resolve, 50));
+    }
+    return false;
   }
   try {
     for (let i = 0; i < 100 && !document.getElementById('app-version').textContent; i++) {
@@ -34,18 +43,21 @@ SCRIPT = r"""
     }
     check('desktop entry point', new URLSearchParams(location.search).get('desktop') === '1');
     check('only explicit bridge methods', Object.keys(window.pywebview.api).sort().join(',') ===
-      'app_info,catalog,open_official,smoke_choose_confirmation,smoke_report');
-    check('actual bridge catalog', (await window.pywebview.api.catalog()).length === 4);
+      'app_info,catalog,open_official,smoke_choose_confirmation,smoke_report,suggest_link');
+    const catalog = await window.pywebview.api.catalog();
+    check('actual bridge catalog', catalog.length === expectedCount);
     const {version} = await window.pywebview.api.app_info();
     check('app version', Boolean(version) && document.getElementById('app-version').textContent.includes(version));
-    check('rendered four cards', document.querySelectorAll('.card').length === 4);
+    check('rendered all catalog cards', document.querySelectorAll('.card').length === expectedCount);
     const search = document.getElementById('search');
-    search.value = 'recording'; search.dispatchEvent(new Event('input'));
-    check('search', document.querySelectorAll('.card').length === 1 && document.getElementById('cards').textContent.includes('OBS Studio'));
+    search.value = 'OBS Studio'; search.dispatchEvent(new Event('input'));
+    check('search', document.querySelectorAll('.card').length === 1 &&
+      document.querySelector('.details-button[aria-label="View OBS Studio"]'));
     search.value = ''; search.dispatchEvent(new Event('input'));
     document.querySelector('[data-category="Utilities"]').click();
-    check('category', document.querySelectorAll('.card').length === 1);
-    document.querySelector('.details-button').click();
+    const utilitiesCount = catalog.filter(app => app.category === 'Utilities').length;
+    check('category', utilitiesCount > 0 && document.querySelectorAll('.card').length === utilitiesCount);
+    document.querySelector('.details-button[aria-label="View 7-Zip"]').click();
     check('details dialog', document.getElementById('app-dialog').open);
     check('exact destination', document.getElementById('detail-url').textContent === 'https://www.7-zip.org/');
     check('native bridge ready', !document.getElementById('open-official').disabled);
@@ -67,6 +79,17 @@ SCRIPT = r"""
       }
       checks.push('native confirmation defaults to Cancel');
     }
+    document.querySelector('[data-view="discover"]').click();
+    const suggest = document.getElementById('suggest-link');
+    check('suggestion button is available', suggest && suggest.getClientRects().length > 0 && !suggest.disabled);
+    for (const [approve, message, label] of [
+      [false, 'Opening cancelled.', 'native suggestion confirmation cancels'],
+      [true, 'Opened the GitHub suggestion form.', 'native suggestion confirmation accepts'],
+    ]) {
+      const chosen = window.pywebview.api.smoke_choose_confirmation(approve, true);
+      suggest.click();
+      check(label, await chosen && await waitFor(() => document.getElementById('toast').textContent === message));
+    }
     const start = location.href;
     window.open('about:blank', '_blank');
     await new Promise(resolve => setTimeout(resolve, 250));
@@ -79,10 +102,10 @@ SCRIPT = r"""
     await window.pywebview.api.smoke_report({ok: false, checks, error: String(error)});
   }
 })();
-"""
+""".replace('EXPECTED_CATALOG_COUNT', str(len(CATALOG)))
 
 
-def smoke_choose_confirmation(approve):
+def smoke_choose_confirmation(approve, suggestion=False):
     from ctypes import POINTER, WinDLL, byref, c_int
     from ctypes.wintypes import BOOL, DWORD, HWND, LPARAM, LPCWSTR, UINT, WPARAM
 
@@ -98,10 +121,11 @@ def smoke_choose_confirmation(approve):
     user32.SendMessageW.argtypes = [HWND, UINT, WPARAM, LPARAM]
     user32.SendMessageW.restype = LPARAM
     button_id = 1 if approve else 2  # IDOK or IDCANCEL
+    title = 'Open the GitHub suggestion form?' if suggestion else 'Open official website?'
 
     deadline = time.monotonic() + 10
     while time.monotonic() < deadline:
-        dialog = user32.FindWindowW('#32770', 'Open official website?')
+        dialog = user32.FindWindowW('#32770', title)
         pid = DWORD()
         if dialog:
             user32.GetWindowThreadProcessId(dialog, byref(pid))
@@ -120,10 +144,10 @@ def create(*args, **kwargs):
 
     def smoke_report(result):
         if result.get('ok') and on_windows:
-            if webview.renderer != 'edgechromium' or opened != [destination('7zip')] * 2:
+            if webview.renderer != 'edgechromium' or opened != [destination('7zip')] * 2 + [SUGGESTION_URL]:
                 result.update(ok=False, error='Unexpected Windows renderer or browser destination')
             else:
-                result['checks'].extend(['Edge WebView2 renderer', 'exact approved browser destination'])
+                result['checks'].extend(['Edge WebView2 renderer', 'exact approved browser destinations'])
         result_path.write_text(json.dumps(result, indent=2), encoding='utf-8')
         completed.set()
         window.destroy()
