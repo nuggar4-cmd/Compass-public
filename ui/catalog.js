@@ -1261,5 +1261,923 @@ window.COMPASS_CATALOG = [
       "notifications"
     ],
     "notice": null
+  },
+  {
+    "id": "visual-studio-community",
+    "name": "Visual Studio Community",
+    "category": "Development",
+    "description": "Build and debug Windows, web, and cross-platform projects in Microsoft\u2019s IDE.",
+    "url": "https://visualstudio.microsoft.com/vs/community/",
+    "host": "visualstudio.microsoft.com",
+    "color": "#c6aff4",
+    "glyph": "VS",
+    "tags": [
+      "ide",
+      "microsoft",
+      "windows",
+      "dotnet",
+      "c++"
+    ],
+    "notice": null
+  },
+  {
+    "id": "dotnet-sdk",
+    "name": ".NET SDK",
+    "category": "Development",
+    "description": "Build, test, and publish .NET projects from the command line.",
+    "url": "https://dotnet.microsoft.com/en-us/download",
+    "host": "dotnet.microsoft.com",
+    "color": "#c1b0ef",
+    "glyph": "N",
+    "tags": [
+      "dotnet",
+      "microsoft",
+      "c#",
+      "sdk",
+      "programming"
+    ],
+    "notice": null
+  },
+  {
+    "id": "eclipse-temurin",
+    "name": "Eclipse Temurin",
+    "category": "Development",
+    "description": "Download the OpenJDK development kit or runtime for Java projects.",
+    "url": "https://adoptium.net/temurin/releases/",
+    "host": "adoptium.net",
+    "color": "#b4c4f3",
+    "glyph": "Jd",
+    "tags": [
+      "java",
+      "jdk",
+      "openjdk",
+      "runtime"
+    ],
+    "notice": null
+  },
+  {
+    "id": "powershell",
+    "name": "PowerShell",
+    "category": "Development",
+    "description": "Use a shell and scripting language for automation on Windows, macOS, and Linux.",
+    "url": "https://learn.microsoft.com/en-us/powershell/scripting/install/install-powershell?view=powershell-7.6",
+    "host": "learn.microsoft.com",
+    "color": "#a3c7fa",
+    "glyph": "Ps",
+    "tags": [
+      "shell",
+      "terminal",
+      "scripting",
+      "automation"
+    ],
+    "notice": null
+  },
+  {
+    "id": "windows-terminal",
+    "name": "Windows Terminal",
+    "category": "Utilities",
+    "description": "Open command-line tools in tabs and split panes on Windows.",
+    "url": "https://learn.microsoft.com/en-us/windows/terminal/install",
+    "host": "learn.microsoft.com",
+    "color": "#b7d0e8",
+    "glyph": "Wt",
+    "tags": [
+      "terminal",
+      "shell",
+      "tabs",
+      "windows"
+    ],
+    "notice": null
+  },
+  {
+    "id": "postman",
+    "name": "Postman",
+    "category": "Development",
+    "description": "Send API requests, organize collections, and test responses.",
+    "url": "https://www.postman.com/downloads/",
+    "host": "www.postman.com",
+    "color": "#f6b596",
+    "glyph": "Pn",
+    "tags": [
+      "api",
+      "http",
+      "rest",
+      "testing"
+    ],
+    "notice": null
+  },
+  {
+    "id": "bruno",
+    "name": "Bruno",
+    "category": "Development",
+    "description": "Keep API request collections as files you can track with Git.",
+    "url": "https://www.usebruno.com/downloads",
+    "host": "www.usebruno.com",
+    "color": "#f6ca92",
+    "glyph": "Bu",
+    "tags": [
+      "api",
+      "http",
+      "rest",
+      "git"
+    ],
+    "notice": null
+  },
+  {
+    "id": "dbeaver",
+    "name": "DBeaver Community",
+    "category": "Development",
+    "description": "Explore databases and edit SQL queries in a desktop client.",
+    "url": "https://dbeaver.io/download/",
+    "host": "dbeaver.io",
+    "color": "#d0bdad",
+    "glyph": "Dv",
+    "tags": [
+      "database",
+      "sql",
+      "postgresql",
+      "mysql"
+    ],
+    "notice": null
+  },
+  {
+    "id": "postgresql",
+    "name": "PostgreSQL",
+    "category": "Development",
+    "description": "Install the open source relational database server.",
+    "url": "https://www.postgresql.org/download/",
+    "host": "www.postgresql.org",
+    "color": "#a8c5e9",
+    "glyph": "Pg",
+    "tags": [
+      "database",
+      "sql",
+      "server",
+      "postgres"
+    ],
+    "notice": null
+  },
+  {
+    "id": "github-cli",
+    "name": "GitHub CLI",
+    "category": "Development",
+    "description": "Work with GitHub issues, pull requests, and releases from a terminal.",
+    "url": "https://cli.github.com/",
+    "host": "cli.github.com",
+    "color": "#c9ccdf",
+    "glyph": "gh",
+    "tags": [
+      "github",
+      "cli",
+      "terminal",
+      "git"
+    ],
+    "notice": null
+  },
+  {
+    "id": "podman-desktop",
+    "name": "Podman Desktop",
+    "category": "Development",
+    "description": "Build, run, and inspect containers with a graphical interface.",
+    "url": "https://podman-desktop.io/downloads",
+    "host": "podman-desktop.io",
+    "color": "#c8b6f4",
+    "glyph": "Pd",
+    "tags": [
+      "containers",
+      "images",
+      "kubernetes",
+      "podman"
+    ],
+    "notice": null
+  },
+  {
+    "id": "neovim",
+    "name": "Neovim",
+    "category": "Development",
+    "description": "Edit code and text in a terminal with Vim-style commands and plugins.",
+    "url": "https://neovim.io/doc/install/",
+    "host": "neovim.io",
+    "color": "#b0d9a5",
+    "glyph": "Nv",
+    "tags": [
+      "editor",
+      "vim",
+      "terminal",
+      "code"
+    ],
+    "notice": null
+  },
+  {
+    "id": "sublime-text",
+    "name": "Sublime Text",
+    "category": "Development",
+    "description": "Edit code and text with multi-selection and project-wide search.",
+    "url": "https://www.sublimetext.com/download",
+    "host": "www.sublimetext.com",
+    "color": "#f6c48d",
+    "glyph": "Su",
+    "tags": [
+      "editor",
+      "code",
+      "text",
+      "projects"
+    ],
+    "notice": null
+  },
+  {
+    "id": "zed-editor",
+    "name": "Zed",
+    "category": "Development",
+    "description": "Edit projects with language support and optional collaboration tools.",
+    "url": "https://zed.dev/download",
+    "host": "zed.dev",
+    "color": "#b6caec",
+    "glyph": "Zd",
+    "tags": [
+      "editor",
+      "code",
+      "language server",
+      "collaboration"
+    ],
+    "notice": null
+  },
+  {
+    "id": "vscodium",
+    "name": "VSCodium",
+    "category": "Development",
+    "description": "Install a community build of the open source Code - OSS editor.",
+    "url": "https://vscodium.com/",
+    "host": "vscodium.com",
+    "color": "#a6caec",
+    "glyph": "Vc",
+    "tags": [
+      "editor",
+      "code",
+      "oss",
+      "programming"
+    ],
+    "notice": null
+  },
+  {
+    "id": "winmerge",
+    "name": "WinMerge",
+    "category": "Utilities",
+    "description": "Compare and merge files and folders on Windows.",
+    "url": "https://winmerge.org/downloads/",
+    "host": "winmerge.org",
+    "color": "#d6dba0",
+    "glyph": "Wm",
+    "tags": [
+      "diff",
+      "compare",
+      "merge",
+      "windows"
+    ],
+    "notice": null
+  },
+  {
+    "id": "tailscale",
+    "name": "Tailscale",
+    "category": "Utilities",
+    "description": "Connect your authorized devices and services through a private network.",
+    "url": "https://tailscale.com/download",
+    "host": "tailscale.com",
+    "color": "#cdd2e5",
+    "glyph": "Ts",
+    "tags": [
+      "vpn",
+      "network",
+      "mesh",
+      "remote access"
+    ],
+    "notice": null
+  },
+  {
+    "id": "wireguard",
+    "name": "WireGuard",
+    "category": "Utilities",
+    "description": "Set up encrypted VPN connections between configured devices.",
+    "url": "https://www.wireguard.com/install/",
+    "host": "www.wireguard.com",
+    "color": "#eaa9b5",
+    "glyph": "Wg",
+    "tags": [
+      "vpn",
+      "network",
+      "tunnel",
+      "encryption"
+    ],
+    "notice": null
+  },
+  {
+    "id": "putty",
+    "name": "PuTTY",
+    "category": "Utilities",
+    "description": "Connect to servers you manage using SSH or a serial connection.",
+    "url": "https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html",
+    "host": "www.chiark.greenend.org.uk",
+    "color": "#c4c4ef",
+    "glyph": "Pu",
+    "tags": [
+      "ssh",
+      "serial",
+      "terminal",
+      "remote access"
+    ],
+    "notice": null
+  },
+  {
+    "id": "bitwarden",
+    "name": "Bitwarden",
+    "category": "Utilities",
+    "description": "Keep passwords and secure notes in a vault you can sync across devices.",
+    "url": "https://bitwarden.com/download/",
+    "host": "bitwarden.com",
+    "color": "#a5c8fc",
+    "glyph": "Bw",
+    "tags": [
+      "password",
+      "vault",
+      "credentials",
+      "sync"
+    ],
+    "notice": null
+  },
+  {
+    "id": "pandoc",
+    "name": "Pandoc",
+    "category": "Productivity",
+    "description": "Convert documents between Markdown, HTML, Word, and other formats.",
+    "url": "https://pandoc.org/installing.html",
+    "host": "pandoc.org",
+    "color": "#e4b7ae",
+    "glyph": "Pa",
+    "tags": [
+      "documents",
+      "markdown",
+      "conversion",
+      "cli"
+    ],
+    "notice": null
+  },
+  {
+    "id": "naps2",
+    "name": "NAPS2",
+    "category": "Productivity",
+    "description": "Scan documents and save searchable PDFs with optical character recognition.",
+    "url": "https://www.naps2.com/download",
+    "host": "www.naps2.com",
+    "color": "#a5dbcb",
+    "glyph": "Na",
+    "tags": [
+      "scanner",
+      "pdf",
+      "ocr",
+      "documents"
+    ],
+    "notice": null
+  },
+  {
+    "id": "openshot",
+    "name": "OpenShot",
+    "category": "Creative",
+    "description": "Cut and arrange video clips, titles, transitions, and audio on a timeline.",
+    "url": "https://www.openshot.org/download/",
+    "host": "www.openshot.org",
+    "color": "#e6a6df",
+    "glyph": "Os",
+    "tags": [
+      "video",
+      "editor",
+      "timeline",
+      "transitions"
+    ],
+    "notice": null
+  },
+  {
+    "id": "reaper",
+    "name": "REAPER",
+    "category": "Creative",
+    "description": "Record, edit, and mix audio and MIDI in a digital audio workstation.",
+    "url": "https://www.reaper.fm/download.php",
+    "host": "www.reaper.fm",
+    "color": "#e6a6df",
+    "glyph": "Re",
+    "tags": [
+      "daw",
+      "audio",
+      "studio",
+      "recording",
+      "midi"
+    ],
+    "notice": "REAPER offers a 60-day evaluation. Continued use requires a license."
+  },
+  {
+    "id": "mixxx",
+    "name": "Mixxx",
+    "category": "Creative",
+    "description": "Mix tracks live with virtual decks, beat sync, and DJ controller support.",
+    "url": "https://mixxx.org/download/",
+    "host": "mixxx.org",
+    "color": "#e6a6df",
+    "glyph": "Mx",
+    "tags": [
+      "audio",
+      "dj",
+      "music",
+      "mixing"
+    ],
+    "notice": null
+  },
+  {
+    "id": "ardour",
+    "name": "Ardour",
+    "category": "Creative",
+    "description": "Record and edit sessions with multitrack audio and MIDI.",
+    "url": "https://community.ardour.org/download",
+    "host": "community.ardour.org",
+    "color": "#e6a6df",
+    "glyph": "Ar",
+    "tags": [
+      "daw",
+      "audio",
+      "recording",
+      "mixing",
+      "midi"
+    ],
+    "notice": null
+  },
+  {
+    "id": "nvda",
+    "name": "NVDA",
+    "category": "Utilities",
+    "description": "Read Windows interfaces and documents with a screen reader.",
+    "url": "https://www.nvaccess.org/download/",
+    "host": "www.nvaccess.org",
+    "color": "#a4d9be",
+    "glyph": "Nv",
+    "tags": [
+      "accessibility",
+      "screen reader",
+      "speech",
+      "braille",
+      "windows"
+    ],
+    "notice": null
+  },
+  {
+    "id": "okular",
+    "name": "Okular",
+    "category": "Productivity",
+    "description": "Read and annotate PDFs and open other supported document formats.",
+    "url": "https://okular.kde.org/download/",
+    "host": "okular.kde.org",
+    "color": "#f7ce9c",
+    "glyph": "Ok",
+    "tags": [
+      "reader",
+      "documents",
+      "pdf",
+      "annotation"
+    ],
+    "notice": null
+  },
+  {
+    "id": "stellarium",
+    "name": "Stellarium",
+    "category": "Education",
+    "description": "Explore a simulated night sky and look up stars, planets, and constellations.",
+    "url": "https://stellarium.org/",
+    "host": "stellarium.org",
+    "color": "#b8d9f4",
+    "glyph": "Se",
+    "tags": [
+      "astronomy",
+      "science",
+      "planetarium",
+      "stars",
+      "space"
+    ],
+    "notice": null
+  },
+  {
+    "id": "geogebra",
+    "name": "GeoGebra",
+    "category": "Education",
+    "description": "Plot functions, explore geometric constructions, and work through algebra problems.",
+    "url": "https://www.geogebra.org/download",
+    "host": "www.geogebra.org",
+    "color": "#b8d9f4",
+    "glyph": "Ge",
+    "tags": [
+      "math",
+      "calculator",
+      "graphing",
+      "geometry",
+      "algebra"
+    ],
+    "notice": null
+  },
+  {
+    "id": "scratch",
+    "name": "Scratch",
+    "category": "Education",
+    "description": "Build interactive stories, animations, and games with visual programming blocks.",
+    "url": "https://scratch.mit.edu/download",
+    "host": "scratch.mit.edu",
+    "color": "#b8d9f4",
+    "glyph": "Sc",
+    "tags": [
+      "coding",
+      "programming",
+      "blocks",
+      "offline",
+      "learning"
+    ],
+    "notice": null
+  },
+  {
+    "id": "tux-paint",
+    "name": "Tux Paint",
+    "category": "Education",
+    "description": "Draw with simple brushes, stamps, and effects in an editor made for children.",
+    "url": "https://tuxpaint.org/download/",
+    "host": "tuxpaint.org",
+    "color": "#b8d9f4",
+    "glyph": "Tp",
+    "tags": [
+      "drawing",
+      "painting",
+      "kids",
+      "classroom",
+      "art"
+    ],
+    "notice": null
+  },
+  {
+    "id": "pureref",
+    "name": "PureRef",
+    "category": "Creative",
+    "description": "Arrange reference images into a board while working on a design or illustration.",
+    "url": "https://www.pureref.com/download.php",
+    "host": "www.pureref.com",
+    "color": "#e6a6df",
+    "glyph": "Pr",
+    "tags": [
+      "reference",
+      "images",
+      "mood board",
+      "design"
+    ],
+    "notice": null
+  },
+  {
+    "id": "zettlr",
+    "name": "Zettlr",
+    "category": "Productivity",
+    "description": "Write in Markdown and organize research notes, documents, and citations.",
+    "url": "https://www.zettlr.com/download",
+    "host": "www.zettlr.com",
+    "color": "#f7ce9c",
+    "glyph": "Ze",
+    "tags": [
+      "writing",
+      "markdown",
+      "research",
+      "citations"
+    ],
+    "notice": null
+  },
+  {
+    "id": "lyx",
+    "name": "LyX",
+    "category": "Productivity",
+    "description": "Write structured documents with equations and LaTeX typesetting.",
+    "url": "https://www.lyx.org/Download",
+    "host": "www.lyx.org",
+    "color": "#f7ce9c",
+    "glyph": "Ly",
+    "tags": [
+      "writing",
+      "latex",
+      "typesetting",
+      "academic",
+      "math"
+    ],
+    "notice": null
+  },
+  {
+    "id": "sigil",
+    "name": "Sigil",
+    "category": "Productivity",
+    "description": "Create and edit ebooks in EPUB format.",
+    "url": "https://sigil-ebook.com/sigil/download/",
+    "host": "sigil-ebook.com",
+    "color": "#f7ce9c",
+    "glyph": "Si",
+    "tags": [
+      "books",
+      "ebook",
+      "epub",
+      "editor",
+      "publishing"
+    ],
+    "notice": null
+  },
+  {
+    "id": "audacious",
+    "name": "Audacious",
+    "category": "Media",
+    "description": "Play local music, build playlists, and customize playback with plugins.",
+    "url": "https://audacious-media-player.org/download",
+    "host": "audacious-media-player.org",
+    "color": "#f6ad68",
+    "glyph": "Au",
+    "tags": [
+      "audio",
+      "music",
+      "player",
+      "playlists"
+    ],
+    "notice": null
+  },
+  {
+    "id": "canva-windows",
+    "name": "Canva for Windows",
+    "category": "Creative",
+    "description": "Create graphics, social posts, and presentations in the Canva desktop app.",
+    "url": "https://www.canva.com/download/windows/",
+    "host": "www.canva.com",
+    "color": "#e6a6df",
+    "glyph": "Ca",
+    "tags": [
+      "design",
+      "templates",
+      "presentation",
+      "graphics",
+      "windows"
+    ],
+    "notice": null
+  },
+  {
+    "id": "lmms",
+    "name": "LMMS",
+    "category": "Creative",
+    "description": "Compose tracks with software instruments, patterns, and a step sequencer.",
+    "url": "https://docs.lmms.io/user-manual/getting-started/installation",
+    "host": "docs.lmms.io",
+    "color": "#e6a6df",
+    "glyph": "Lm",
+    "tags": [
+      "daw",
+      "music",
+      "synthesizer",
+      "audio",
+      "sequencer"
+    ],
+    "notice": null
+  },
+  {
+    "id": "battle-net",
+    "name": "Battle.net",
+    "category": "Gaming",
+    "description": "Install and update games from Blizzard and Activision in the Battle.net desktop app.",
+    "url": "https://download.battle.net/en-us/desktop",
+    "host": "download.battle.net",
+    "color": "#a2c5ff",
+    "glyph": "Bn",
+    "tags": [
+      "blizzard",
+      "activision",
+      "game launcher",
+      "store"
+    ],
+    "notice": null
+  },
+  {
+    "id": "heroic-games",
+    "name": "Heroic Games Launcher",
+    "category": "Gaming",
+    "description": "Manage games from Epic Games, GOG, and Amazon Games in an open-source launcher.",
+    "url": "https://heroicgameslauncher.com/",
+    "host": "heroicgameslauncher.com",
+    "color": "#a2c5ff",
+    "glyph": "Hg",
+    "tags": [
+      "gaming",
+      "launcher",
+      "epic",
+      "gog",
+      "amazon",
+      "linux"
+    ],
+    "notice": null
+  },
+  {
+    "id": "geforce-now",
+    "name": "GeForce NOW",
+    "category": "Gaming",
+    "description": "Stream supported PC games from NVIDIA\u2019s cloud gaming service.",
+    "url": "https://www.nvidia.com/en-us/geforce-now/download/",
+    "host": "www.nvidia.com",
+    "color": "#a2c5ff",
+    "glyph": "Gn",
+    "tags": [
+      "cloud gaming",
+      "streaming",
+      "nvidia",
+      "game client"
+    ],
+    "notice": null
+  },
+  {
+    "id": "ps-remote-play",
+    "name": "PS Remote Play",
+    "category": "Gaming",
+    "description": "Stream from a PlayStation 4 or PlayStation 5 console and play from a PC or Mac.",
+    "url": "https://www.playstation.com/en-us/support/games/playstation-remote-play-on-pc-and-mac/",
+    "host": "www.playstation.com",
+    "color": "#a2c5ff",
+    "glyph": "Ps",
+    "tags": [
+      "playstation",
+      "sony",
+      "ps4",
+      "ps5",
+      "streaming"
+    ],
+    "notice": null
+  },
+  {
+    "id": "prism-launcher",
+    "name": "Prism Launcher",
+    "category": "Gaming",
+    "description": "Manage separate Minecraft installations and their modpacks in a desktop launcher.",
+    "url": "https://prismlauncher.org/download/",
+    "host": "prismlauncher.org",
+    "color": "#a2c5ff",
+    "glyph": "Pl",
+    "tags": [
+      "minecraft",
+      "mods",
+      "modpacks",
+      "java",
+      "launcher"
+    ],
+    "notice": null
+  },
+  {
+    "id": "moonlight",
+    "name": "Moonlight Game Streaming",
+    "category": "Gaming",
+    "description": "Stream games from a compatible PC to another device on your network.",
+    "url": "https://moonlight-stream.org/",
+    "host": "moonlight-stream.org",
+    "color": "#a2c5ff",
+    "glyph": "Ml",
+    "tags": [
+      "game streaming",
+      "local network",
+      "remote play",
+      "sunshine"
+    ],
+    "notice": null
+  },
+  {
+    "id": "modrinth",
+    "name": "Modrinth App",
+    "category": "Gaming",
+    "description": "Install and manage Minecraft mods and modpacks in the desktop app.",
+    "url": "https://modrinth.com/app",
+    "host": "modrinth.com",
+    "color": "#a2c5ff",
+    "glyph": "Mr",
+    "tags": [
+      "minecraft",
+      "mods",
+      "modpacks",
+      "launcher"
+    ],
+    "notice": "The publisher labels this app beta. Review each mod\u2019s author separately before installing it."
+  },
+  {
+    "id": "playnite",
+    "name": "Playnite",
+    "category": "Gaming",
+    "description": "Combine games from multiple stores into one library on Windows.",
+    "url": "https://playnite.link/",
+    "host": "playnite.link",
+    "color": "#a2c5ff",
+    "glyph": "Pt",
+    "tags": [
+      "windows",
+      "game library",
+      "launcher",
+      "store"
+    ],
+    "notice": null
+  },
+  {
+    "id": "whatsapp-desktop",
+    "name": "WhatsApp Desktop",
+    "category": "Communication",
+    "description": "Read chats, share files, and make calls from a linked Windows or Mac device.",
+    "url": "https://www.whatsapp.com/download/desktop",
+    "host": "www.whatsapp.com",
+    "color": "#a5ddd1",
+    "glyph": "Wa",
+    "tags": [
+      "chat",
+      "messaging",
+      "calls",
+      "meta"
+    ],
+    "notice": null
+  },
+  {
+    "id": "mumble",
+    "name": "Mumble",
+    "category": "Communication",
+    "description": "Join a low-latency voice chat server from an open-source desktop client.",
+    "url": "https://www.mumble.info/downloads/",
+    "host": "www.mumble.info",
+    "color": "#a5ddd1",
+    "glyph": "Mu",
+    "tags": [
+      "voice",
+      "chat",
+      "gaming",
+      "voip"
+    ],
+    "notice": null
+  },
+  {
+    "id": "teamspeak",
+    "name": "TeamSpeak",
+    "category": "Communication",
+    "description": "Use voice channels, text chat, and group communication from the desktop client.",
+    "url": "https://www.teamspeak.com/en/downloads/",
+    "host": "www.teamspeak.com",
+    "color": "#a5ddd1",
+    "glyph": "Ts",
+    "tags": [
+      "voice",
+      "chat",
+      "gaming",
+      "voip"
+    ],
+    "notice": null
+  },
+  {
+    "id": "microsoft-teams",
+    "name": "Microsoft Teams",
+    "category": "Communication",
+    "description": "Join meetings, chat with coworkers, and collaborate from the desktop app.",
+    "url": "https://www.microsoft.com/en-us/microsoft-teams/download-app",
+    "host": "www.microsoft.com",
+    "color": "#a5ddd1",
+    "glyph": "Mt",
+    "tags": [
+      "meetings",
+      "work",
+      "chat",
+      "video",
+      "microsoft"
+    ],
+    "notice": null
+  },
+  {
+    "id": "session",
+    "name": "Session",
+    "category": "Communication",
+    "description": "Send messages and participate in group conversations from the desktop client.",
+    "url": "https://getsession.org/download",
+    "host": "getsession.org",
+    "color": "#a5ddd1",
+    "glyph": "Se",
+    "tags": [
+      "messaging",
+      "group chat",
+      "privacy"
+    ],
+    "notice": null
+  },
+  {
+    "id": "zulip",
+    "name": "Zulip",
+    "category": "Communication",
+    "description": "Organize team conversations by topic in an open-source desktop app.",
+    "url": "https://zulip.com/apps/",
+    "host": "zulip.com",
+    "color": "#a5ddd1",
+    "glyph": "Zu",
+    "tags": [
+      "chat",
+      "teams",
+      "topics",
+      "collaboration"
+    ],
+    "notice": null
   }
 ];

@@ -4,32 +4,38 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'">
-<title>Compass — Find apps at the source</title>
+<title>Compass</title>
 <link rel="stylesheet" href="styles.css">
 <script src="catalog.js" defer></script>
 <script src="app.js" defer></script>
 </head>
 <body>
-<a class="skip-link" href="#main-content">Skip to main content</a>
+<a class="skip-link" href="#main-content" data-tr="Ana içeriğe geç">Skip to main content</a>
 <aside class="sidebar">
-  <a class="brand" href="#" aria-label="Compass home"><span class="brand-icon" aria-hidden="true">⟐</span>Compass</a>
-  <nav aria-label="Main navigation">
-    <button class="nav active" data-view="discover" aria-current="page"><span aria-hidden="true">▦</span>Discover</button>
-    <button class="nav" data-view="library"><span aria-hidden="true">☷</span>All apps <span id="nav-count" class="counter" aria-hidden="true" hidden></span></button>
-    <button class="nav" data-view="privacy"><span aria-hidden="true">◇</span>Privacy &amp; trust</button>
+  <a class="brand" href="#" aria-label="Compass home" data-tr-label="Compass ana sayfası"><span class="brand-icon" aria-hidden="true">⟐</span>Compass</a>
+  <nav aria-label="Main navigation" data-tr-label="Ana gezinme">
+    <button class="nav active" data-view="discover" aria-current="page"><span class="nav-icon" aria-hidden="true">▦</span><span data-tr="Keşfet">Discover</span></button>
+    <button class="nav" data-view="library"><span class="nav-icon" aria-hidden="true">☷</span><span data-tr="Tüm uygulamalar">All apps</span><span id="nav-count" class="counter" aria-hidden="true" hidden></span></button>
+    <button class="nav" data-view="privacy"><span class="nav-icon" aria-hidden="true">◇</span><span data-tr="Gizlilik ve güvenlik">Privacy &amp; trust</span></button>
   </nav>
-  <div class="sidebar-foot"><span class="mini-mark" aria-hidden="true">⟐</span><div>Compass for desktop<small id="app-version"></small></div></div>
+  <div class="sidebar-foot"><span class="mini-mark" aria-hidden="true">⟐</span><div><span data-tr="Masaüstü için Compass">Compass for desktop</span><small id="app-version"></small></div></div>
 </aside>
 <main id="main-content" tabindex="-1">
   <header class="topbar">
     <span id="page-title" tabindex="-1">Discover</span>
-    <span class="privacy-indicator">Local catalog</span>
+    <div class="topbar-actions">
+      <span class="privacy-indicator" data-tr="Çevrimdışı katalog">Offline catalog</span>
+      <select id="language" aria-label="Interface language" data-tr-label="Arayüz dili">
+        <option value="en" lang="en">English</option>
+        <option value="tr" lang="tr">Türkçe</option>
+      </select>
+    </div>
   </header>
   <div class="page" id="discover-page">
     <section class="hero">
       <div class="hero-copy">
-        <h1>Find apps<br>at the source<span>.</span></h1>
-        <p>Browse software by category and review the publisher’s address before opening it.</p>
+        <h1><span data-tr="Uygulamaları kaynağında bul">Find apps at the source</span><span class="hero-period">.</span></h1>
+        <p data-tr="Kategorilere göz at veya yazılımı adıyla, kullanım alanıyla ya da yayıncısıyla ara.">Browse by category or find software by app, task, or publisher.</p>
       </div>
       <div class="compass-art" aria-hidden="true">
         <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
@@ -37,8 +43,8 @@
         <div class="needle"><div class="needle-top"></div><div class="needle-bottom"></div><div class="needle-center"></div></div>
       </div>
     </section>
-    <h1 id="library-title" hidden>All apps</h1>
-    <section class="catalog" aria-label="App catalog">
+    <h1 id="library-title" data-tr="Tüm uygulamalar" hidden>All apps</h1>
+    <section class="catalog" aria-label="App catalog" data-tr-label="Uygulama kataloğu">
       <noscript><p class="empty">Enable JavaScript to browse the Compass catalog.</p></noscript>
       <div id="catalog-loading" class="startup-card" role="status" aria-atomic="true" tabindex="-1" hidden>
         <span class="startup-mark" aria-hidden="true"><span class="startup-needle"></span></span>
@@ -49,95 +55,104 @@
         </div>
       </div>
       <div id="load-error" class="empty" role="group" aria-labelledby="load-error-title" hidden>
-        <h2 id="load-error-title">We couldn’t load the catalog</h2>
+        <h2 id="load-error-title" data-tr="Katalog yüklenemedi">We couldn’t load the catalog</h2>
         <p id="load-error-message"></p>
-        <button id="retry-catalog" class="primary" aria-describedby="load-error-message">Retry</button>
+        <button id="retry-catalog" class="primary" aria-describedby="load-error-message" data-tr="Tekrar dene">Retry</button>
       </div>
       <div id="catalog-results" hidden>
-        <div class="search-box">
-          <span class="search-icon" aria-hidden="true"></span>
-          <input id="search" type="search" aria-keyshortcuts="Control+K Meta+K" maxlength="160"
-                 placeholder="Search by app, task, or publisher" aria-label="Search apps" autocomplete="off" spellcheck="false">
-          <kbd aria-hidden="true">Ctrl K</kbd>
-        </div>
-        <div class="filter-row">
-          <div id="filters" class="filters" role="group" aria-label="App categories"></div>
-          <label class="sort">Sort by <select id="sort" aria-label="Sort apps"><option value="featured">Featured</option><option value="az">Name (A–Z)</option></select></label>
+        <div class="catalog-tools">
+          <div class="search-row">
+            <div class="search-box">
+              <span class="search-icon" aria-hidden="true"></span>
+              <input id="search" type="search" aria-keyshortcuts="Control+K Meta+K" maxlength="160"
+                     placeholder="Search by app, task, or publisher" data-tr-placeholder="Uygulama, kullanım alanı veya yayıncı ara"
+                     aria-label="Search apps" data-tr-label="Uygulamalarda ara" autocomplete="off" spellcheck="false">
+              <button id="clear-search" aria-label="Clear search" data-tr-label="Aramayı temizle" type="button" hidden>×</button>
+              <kbd aria-hidden="true">Ctrl K</kbd>
+            </div>
+            <label class="sort">
+              <span data-tr="Sırala">Sort by</span>
+              <select id="sort" aria-label="Sort apps" data-tr-label="Uygulamaları sırala">
+                <option value="featured" data-tr="Öne çıkanlar">Featured</option>
+                <option value="az" data-tr="Ad (A–Z)">Name (A–Z)</option>
+              </select>
+            </label>
+          </div>
+          <div id="filters" class="filters" role="group" aria-label="App categories" data-tr-label="Uygulama kategorileri"></div>
         </div>
         <div class="section-heading">
-          <h2 id="results-title">App catalog</h2>
+          <div>
+            <h2 id="results-title">App catalog</h2>
+            <p class="trust-summary"><span data-tr="Güvenli etiketi, kontrol edilen yayıncı adresini gösterir.">The Safe label marks the publisher address Compass checked.</span> <button class="trust-details" id="trust-details" data-tr="Kontrol kapsamı">What we check</button></p>
+          </div>
           <div class="catalog-actions">
             <span id="result-count" class="result-count" role="status"></span>
-            <button id="suggest-link" class="suggest-link" aria-describedby="suggest-link-info" hidden>Suggest a link</button>
-            <span id="suggest-link-info" hidden>Suggestions are public on GitHub. GitHub sign-in is required.</span>
+            <button id="suggest-link" class="suggest-link" aria-describedby="suggest-link-info" data-tr="Bağlantı öner" hidden>Suggest a link</button>
+            <span id="suggest-link-info" data-tr="Öneriler GitHub’da herkese açıktır ve GitHub hesabıyla gönderilir." hidden>Suggestions are public on GitHub. GitHub sign-in is required.</span>
           </div>
         </div>
         <div class="cards" id="cards"></div>
         <div id="empty" class="empty" hidden>
-          <h3>No apps found</h3>
-          <p>Try another search or explore a different category.</p>
-          <button id="reset" class="primary">Clear filters</button>
+          <h3 data-tr="Uygulama bulunamadı">No apps found</h3>
+          <p data-tr="Başka bir arama yap veya farklı bir kategoriye göz at.">Try another search or explore a different category.</p>
+          <button id="reset" class="primary" data-tr="Filtreleri temizle">Clear filters</button>
         </div>
       </div>
     </section>
-    <div class="trust-strip">
-      <div><strong>About publisher verification</strong><p>Compass checks the publisher address shown in each listing.</p></div>
-      <button id="trust-details">See what Compass checks <span aria-hidden="true">↗</span></button>
-    </div>
   </div>
   <section class="page privacy-page" id="privacy-page" hidden>
-    <h1>Privacy &amp; trust</h1>
-    <p class="intro">Compass is a local software catalog. You choose which publisher websites to open.</p>
+    <h1 data-tr="Gizlilik ve güvenlik">Privacy &amp; trust</h1>
+    <p class="intro" data-tr="Compass, cihazında çalışan bir yazılım kataloğudur. Hangi yayıncı sitesini açacağına sen karar verirsin.">Compass is a local software catalog. You choose which publisher websites to open.</p>
     <div class="privacy-grid">
       <article>
-        <h2>Publisher addresses</h2>
-        <span class="security-label security-label--verified">Verified publisher</span>
-        <p>Compass checks the listed address against the publisher’s official website. You can review and confirm the full address before it opens in your default browser.</p>
+        <h2 data-tr="Yayıncı adresleri">Publisher addresses</h2>
+        <span class="security-label security-label--verified" data-tr="Güvenli">Safe</span>
+        <p data-tr="Compass listedeki adresi yayıncının resmî sitesiyle karşılaştırır. Tam adresi tarayıcıda açmadan önce görüp onaylayabilirsin.">Compass checks the listed address against the publisher’s official website. You can review and confirm the full address before it opens in your default browser.</p>
       </article>
       <article>
-        <h2>External downloads</h2>
-        <span class="security-label security-label--caution">Caution</span>
-        <p>Publisher sites can redirect or change. Your browser handles any downloads. Review files before opening them and use your device’s security checks.</p>
+        <h2 data-tr="Yönlendirmeler ve indirmeler">Redirects and downloads</h2>
+        <span class="security-label security-label--caution" data-tr="Dikkat">Caution</span>
+        <p data-tr="Yayıncı başka bir adrese yönlendirebilir ve site zamanla değişebilir. Yönlendirildiğin adresi kontrol et. İndirdiğin dosyaları açmadan önce cihazının güvenlik denetimlerini kullan.">Publisher sites can redirect or change. Check the address you land on and use your device’s security checks before opening downloaded files.</p>
       </article>
       <article>
-        <h2>Blocked destinations</h2>
-        <span class="security-label security-label--blocked">Blocked</span>
-        <p>Compass blocks addresses that fail its catalog checks and shows a reason in the app.</p>
+        <h2 data-tr="Engellenen adresler">Blocked destinations</h2>
+        <span class="security-label security-label--blocked" data-tr="Engellendi">Blocked</span>
+        <p data-tr="Compass katalog denetiminden geçmeyen adresleri engeller ve nedenini uygulamada gösterir.">Compass blocks addresses that fail its catalog checks and shows a reason in the app.</p>
       </article>
       <article>
-        <h2>Privacy</h2>
-        <p>Catalog searches stay on your device and clear when you close Compass. Suggestions are submitted separately through GitHub and are public.</p>
+        <h2 data-tr="Gizlilik">Privacy</h2>
+        <p data-tr="Katalog aramaları cihazında kalır ve Compass’ı kapatınca silinir. GitHub üzerinden gönderdiğin bağlantı önerileri herkese açıktır.">Catalog searches stay on your device and clear when you close Compass. Suggestions are submitted separately through GitHub and are public.</p>
       </article>
     </div>
-    <button class="primary" id="back-discover">Explore the catalog <span aria-hidden="true">→</span></button>
+    <button class="primary" id="back-discover"><span data-tr="Kataloğu keşfet">Explore the catalog</span> <span aria-hidden="true">→</span></button>
   </section>
 </main>
 <dialog id="app-dialog" aria-labelledby="dialog-title" aria-describedby="detail-description">
-  <button class="dialog-close" aria-label="Close details" autofocus>×</button>
+  <button class="dialog-close" aria-label="Close details" data-tr-label="Ayrıntıları kapat" autofocus>×</button>
   <div class="detail-heading">
     <span id="detail-icon" class="app-icon" aria-hidden="true"></span>
     <div><h2 id="dialog-title"></h2><span id="detail-category"></span></div>
   </div>
-  <p id="detail-description"></p>
+  <p id="detail-description" lang="en"></p>
   <div class="destination">
     <div class="destination-header">
-      <span class="destination-label">Publisher website</span>
-      <span id="detail-verification" class="security-label security-label--verified">Verified publisher</span>
+      <span class="destination-label" data-tr="Yayıncının sitesi">Publisher website</span>
+      <span id="detail-verification" class="security-label security-label--verified" data-tr="Güvenli">Verified publisher</span>
     </div>
     <div id="blocked-destination" role="status" aria-atomic="true"></div>
     <strong id="detail-host"></strong>
     <code id="detail-url"></code>
-    <p id="verification-scope">Verification applies to the publisher address shown here.</p>
+    <p id="verification-scope" data-tr="Güvenli etiketi bu yayıncı adresi için geçerlidir. Yönlendirmeleri ve indirmeleri ayrıca kontrol et.">Verification applies to this publisher address. Check redirects and downloads separately.</p>
   </div>
   <div class="download-caution">
-    <span class="security-label security-label--caution">Caution</span>
+    <span class="security-label security-label--caution" data-tr="Dikkat">Caution</span>
     <div>
-      <p id="detail-notice" hidden></p>
-      <p>Review any files you download from this website.</p>
+      <p id="detail-notice" lang="en" hidden></p>
+      <p data-tr="İndirdiğin dosyaları açmadan önce kontrol et.">Review any files you download from this website.</p>
     </div>
   </div>
   <p class="dialog-note" id="dialog-note">Compass asks you to confirm before opening this address in your default browser.</p>
-  <button class="primary open-official" id="open-official" aria-describedby="dialog-note">Visit official website <span aria-hidden="true">↗</span></button>
+  <button class="primary open-official" id="open-official" aria-describedby="dialog-note"><span data-tr="Resmî siteyi aç">Visit official website</span> <span aria-hidden="true">↗</span></button>
   <div id="dialog-status" role="status" aria-atomic="true"></div>
 </dialog>
 <div class="toast" id="toast" role="status"></div>

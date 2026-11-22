@@ -101,3 +101,63 @@ These pages were reviewed as publisher websites or project documentation and ret
 | kde-connect | https://kdeconnect.kde.org/download.html | kdeconnect.kde.org |
 
 Approval applies to the exact initial publisher URLs above. Website safety, subsequent redirects, and downloaded binaries require separate evaluation. Additions and destination changes require owner review before inclusion. The application reads the fixed catalog in `compass/catalog.py`.
+
+## 2026-11-22 RC9 additions
+
+These official publisher and project pages returned HTML over HTTPS at the exact addresses below.
+
+| Catalog ID | Publisher page | Exact initial hostname |
+| --- | --- | --- |
+| visual-studio-community | https://visualstudio.microsoft.com/vs/community/ | visualstudio.microsoft.com |
+| dotnet-sdk | https://dotnet.microsoft.com/en-us/download | dotnet.microsoft.com |
+| eclipse-temurin | https://adoptium.net/temurin/releases/ | adoptium.net |
+| powershell | https://learn.microsoft.com/en-us/powershell/scripting/install/install-powershell?view=powershell-7.6 | learn.microsoft.com |
+| windows-terminal | https://learn.microsoft.com/en-us/windows/terminal/install | learn.microsoft.com |
+| postman | https://www.postman.com/downloads/ | www.postman.com |
+| bruno | https://www.usebruno.com/downloads | www.usebruno.com |
+| dbeaver | https://dbeaver.io/download/ | dbeaver.io |
+| postgresql | https://www.postgresql.org/download/ | www.postgresql.org |
+| github-cli | https://cli.github.com/ | cli.github.com |
+| podman-desktop | https://podman-desktop.io/downloads | podman-desktop.io |
+| neovim | https://neovim.io/doc/install/ | neovim.io |
+| sublime-text | https://www.sublimetext.com/download | www.sublimetext.com |
+| zed-editor | https://zed.dev/download | zed.dev |
+| vscodium | https://vscodium.com/ | vscodium.com |
+| winmerge | https://winmerge.org/downloads/ | winmerge.org |
+| tailscale | https://tailscale.com/download | tailscale.com |
+| wireguard | https://www.wireguard.com/install/ | www.wireguard.com |
+| putty | https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html | www.chiark.greenend.org.uk |
+| bitwarden | https://bitwarden.com/download/ | bitwarden.com |
+| pandoc | https://pandoc.org/installing.html | pandoc.org |
+| naps2 | https://www.naps2.com/download | www.naps2.com |
+| openshot | https://www.openshot.org/download/ | www.openshot.org |
+| reaper | https://www.reaper.fm/download.php | www.reaper.fm |
+| mixxx | https://mixxx.org/download/ | mixxx.org |
+| ardour | https://community.ardour.org/download | community.ardour.org |
+| nvda | https://www.nvaccess.org/download/ | www.nvaccess.org |
+| okular | https://okular.kde.org/download/ | okular.kde.org |
+| stellarium | https://stellarium.org/ | stellarium.org |
+| geogebra | https://www.geogebra.org/download | www.geogebra.org |
+| scratch | https://scratch.mit.edu/download | scratch.mit.edu |
+| tux-paint | https://tuxpaint.org/download/ | tuxpaint.org |
+| pureref | https://www.pureref.com/download.php | www.pureref.com |
+| zettlr | https://www.zettlr.com/download | www.zettlr.com |
+| lyx | https://www.lyx.org/Download | www.lyx.org |
+| sigil | https://sigil-ebook.com/sigil/download/ | sigil-ebook.com |
+| audacious | https://audacious-media-player.org/download | audacious-media-player.org |
+| canva-windows | https://www.canva.com/download/windows/ | www.canva.com |
+| lmms | https://docs.lmms.io/user-manual/getting-started/installation | docs.lmms.io |
+| battle-net | https://download.battle.net/en-us/desktop | download.battle.net |
+| heroic-games | https://heroicgameslauncher.com/ | heroicgameslauncher.com |
+| geforce-now | https://www.nvidia.com/en-us/geforce-now/download/ | www.nvidia.com |
+| ps-remote-play | https://www.playstation.com/en-us/support/games/playstation-remote-play-on-pc-and-mac/ | www.playstation.com |
+| prism-launcher | https://prismlauncher.org/download/ | prismlauncher.org |
+| moonlight | https://moonlight-stream.org/ | moonlight-stream.org |
+| modrinth | https://modrinth.com/app | modrinth.com |
+| playnite | https://playnite.link/ | playnite.link |
+| whatsapp-desktop | https://www.whatsapp.com/download/desktop | www.whatsapp.com |
+| mumble | https://www.mumble.info/downloads/ | www.mumble.info |
+| teamspeak | https://www.teamspeak.com/en/downloads/ | www.teamspeak.com |
+| microsoft-teams | https://www.microsoft.com/en-us/microsoft-teams/download-app | www.microsoft.com |
+| session | https://getsession.org/download | getsession.org |
+| zulip | https://zulip.com/apps/ | zulip.com |

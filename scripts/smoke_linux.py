@@ -39,10 +39,23 @@ const ready = await waitFor(() =>
 const api = window.pywebview.api;
 check('native catalog and version', ready && (await api.catalog()).length === expectedCount);
 check('unknown app ID rejected', !(await api.open_official('unlisted')).ok);
+const selectLanguage = value => {
+  $('language').value = value;
+  $('language').dispatchEvent(new Event('change'));
+};
+selectLanguage('en');
 $('search').value = 'studio obsproject.com';
 $('search').dispatchEvent(new Event('input'));
 check('search across name and publisher domain', document.querySelectorAll('.card').length === 1 &&
   details('obs'));
+document.querySelector('[data-view="library"]').click();
+check('library keeps the active search', $('search').value === 'studio obsproject.com' &&
+  document.querySelectorAll('.card').length === 1);
+selectLanguage('tr');
+check('Turkish publisher badge and Education category', document.documentElement.lang === 'tr' &&
+  document.querySelector('.card[data-app-id="obs"] .security-label--verified')?.textContent === 'Güvenli' &&
+  document.querySelector('[data-category="Education"]')?.textContent.includes('Eğitim'));
+selectLanguage('en');
 $('search').value = '';
 $('search').dispatchEvent(new Event('input'));
 document.querySelector('[data-category="Gaming"]').click();
@@ -114,7 +127,7 @@ def smoke():
         def finish_script(webview, response, _data):
             try:
                 value = webview.call_async_javascript_function_finish(response)
-                for index in range(9):
+                for index in range(value.object_get_property('length').to_int32()):
                     results.append(value.object_get_property_at_index(index).to_string())
                 if opened != [APPROVED_URL, SUGGESTION_URL]:
                     errors.append(f'Unexpected browser launcher calls: {opened}')
@@ -146,7 +159,7 @@ def smoke():
         main.main()
     for result in results:
         print(f'PASS: {result}')
-    if errors or len(results) != 11:
+    if errors or len(results) != 13:
         raise SystemExit('\n'.join(errors) or 'Missing Linux smoke results')
 
 

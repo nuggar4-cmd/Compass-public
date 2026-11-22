@@ -49,10 +49,25 @@ SCRIPT = r"""
     const {version} = await window.pywebview.api.app_info();
     check('app version', Boolean(version) && document.getElementById('app-version').textContent.includes(version));
     check('rendered all catalog cards', document.querySelectorAll('.card').length === expectedCount);
+    const language = document.getElementById('language');
+    const selectLanguage = value => {
+      language.value = value;
+      language.dispatchEvent(new Event('change'));
+    };
+    selectLanguage('en');
     const search = document.getElementById('search');
     search.value = 'studio obsproject.com'; search.dispatchEvent(new Event('input'));
     check('search across name and publisher domain', document.querySelectorAll('.card').length === 1 &&
       document.querySelector('.card[data-app-id="obs"] .details-button'));
+    document.querySelector('[data-view="library"]').click();
+    check('library keeps the active search', search.value === 'studio obsproject.com' &&
+      document.querySelectorAll('.card').length === 1);
+    selectLanguage('tr');
+    check('Turkish publisher badge and Education category',
+      document.documentElement.lang === 'tr' &&
+      document.querySelector('.card[data-app-id="obs"] .security-label--verified')?.textContent === 'Güvenli' &&
+      document.querySelector('[data-category="Education"]')?.textContent.includes('Eğitim'));
+    selectLanguage('en');
     search.value = ''; search.dispatchEvent(new Event('input'));
     document.querySelector('[data-category="Gaming"]').click();
     document.querySelector('.card[data-app-id="epic-games"] .details-button').click();
