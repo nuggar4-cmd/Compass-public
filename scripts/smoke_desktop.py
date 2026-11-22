@@ -49,6 +49,8 @@ SCRIPT = r"""
     const {version} = await window.pywebview.api.app_info();
     check('app version', Boolean(version) && document.getElementById('app-version').textContent.includes(version));
     check('rendered all catalog cards', document.querySelectorAll('.card').length === expectedCount);
+    check('bundled Compass logo loads', await waitFor(() =>
+      document.querySelector('.brand img[src$="compass-mark.png"]')?.naturalWidth === 256));
     const language = document.getElementById('language');
     const selectLanguage = value => {
       language.value = value;

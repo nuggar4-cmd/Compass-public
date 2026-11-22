@@ -142,7 +142,8 @@ try {
     }
     Invoke-Checked $Python @(
         '-I', '-m', 'PyInstaller', '--noconfirm', '--clean', '--windowed', '--onedir',
-        '--name', 'Compass', '--add-data', 'ui;ui', '--add-data', 'VERSION;.', 'main.py'
+        '--name', 'Compass', '--icon', 'packaging\windows\Compass.ico',
+        '--add-data', 'ui;ui', '--add-data', 'VERSION;.', 'main.py'
     )
 
     $Package = (Resolve-Path -LiteralPath 'dist\Compass').Path

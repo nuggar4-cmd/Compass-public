@@ -34,7 +34,7 @@ The desktop catalog includes 268 reviewed publisher listings across nine categor
 
 **Safe** (**Güvenli** in Turkish) identifies a reviewed publisher starting address. The check covers the address shown on the card. The browser and publisher handle redirects and downloaded files. **Caution** describes details such as a beta release or evaluation license. If an address fails the catalog check, Compass shows **Blocked** and skips opening it. The Gaming category includes Steam, Epic Games Launcher, Battle.net, and PS Remote Play.
 
-The [approved publisher destinations](APPROVED_SITES.md) are bundled. Compass has no accounts, telemetry, search-history storage, downloads, installers or automatic updates. Its Windows loopback listener serves only the four bundled interface assets and closes with the app. The initial publisher address is checked against the catalog. Once the browser opens it, redirects, privacy and downloads are handled by the browser and publisher.
+The [approved publisher destinations](APPROVED_SITES.md) are bundled. Compass has no accounts, telemetry, search-history storage, downloads, installers or automatic updates. Its Windows loopback listener serves only the bundled interface assets and closes with the app. The initial publisher address is checked against the catalog. Once the browser opens it, redirects, privacy and downloads are handled by the browser and publisher.
 
 ## Check a link on desktop
 

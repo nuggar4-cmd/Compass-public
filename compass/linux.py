@@ -13,6 +13,7 @@ ASSETS = {
     f'{UI_ORIGIN}/styles.css': ('styles.css', 'text/css; charset=utf-8'),
     f'{UI_ORIGIN}/catalog.js': ('catalog.js', 'text/javascript; charset=utf-8'),
     f'{UI_ORIGIN}/app.js': ('app.js', 'text/javascript; charset=utf-8'),
+    f'{UI_ORIGIN}/compass-mark.png': ('compass-mark.png', 'image/png'),
 }
 BRIDGE_SCRIPT = """
 (() => {

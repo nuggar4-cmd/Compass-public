@@ -283,13 +283,12 @@
   function showDetails(app) {
     state.selected = app;
     $('dialog-title').textContent = app.name;
-    $('detail-icon').textContent = app.glyph;
-    $('detail-icon').className = `app-icon app-${app.id}`;
     $('detail-category').textContent = categoryLabel(app.category);
     $('detail-description').textContent = app.description;
     $('detail-host').textContent = app.host;
     $('detail-url').textContent = app.url;
     const notice = hasNotice(app) ? app.notice : '';
+    $('detail-caution').hidden = !notice;
     $('detail-notice').hidden = !notice;
     $('detail-notice').textContent = notice;
     $('dialog-note').textContent = desktopApi
@@ -331,12 +330,7 @@
       const card = text('article', '', 'card');
       card.dataset.appId = app.id;
       const heading = text('div', '', 'card-heading');
-      const icon = text('span', app.glyph, `app-icon app-${app.id}`);
-      icon.setAttribute('aria-hidden', 'true');
-      heading.append(icon);
-      const identity = document.createElement('div');
-      identity.append(text('h3', app.name), text('span', categoryLabel(app.category), 'category'));
-      heading.append(identity);
+      heading.append(text('h3', app.name), text('span', categoryLabel(app.category), 'category'));
       const bottom = text('div', '', 'card-bottom');
       const publisher = text('div', '', 'publisher');
       const address = text('div', '', 'publisher-address');
@@ -359,7 +353,7 @@
     $('empty').hidden = apps.length !== 0;
     const count = apps.length.toLocaleString(document.documentElement.lang);
     $('result-count').textContent = copy(`${count} ${apps.length === 1 ? 'app' : 'apps'}`, `${count} uygulama`);
-    const category = state.category === all ? copy('App catalog', 'Uygulama kataloğu') : categoryLabel(state.category);
+    const category = state.category === all ? copy('All entries', 'Tüm kayıtlar') : categoryLabel(state.category);
     $('results-title').textContent = terms.length ? copy('Search results', 'Arama sonuçları') : category;
   }
 
@@ -390,8 +384,6 @@
       $('filters').append(button);
     });
     render();
-    $('nav-count').textContent = String(entries.length);
-    $('nav-count').hidden = false;
     setCatalogView('ready');
     if (moveFocus) $('search').focus();
   }

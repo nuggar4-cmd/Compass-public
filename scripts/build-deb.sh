@@ -26,11 +26,12 @@ install -dm755 "$package/DEBIAN" "$app/compass" "$app/ui" "$doc"
 install -m644 "$root/main.py" "$root/VERSION" "$app/"
 install -m644 "$root"/compass/*.py "$app/compass/"
 install -m644 "$root"/ui/*.html "$root"/ui/*.css "$root"/ui/*.js "$app/ui/"
+install -m644 "$root/ui/compass-mark.png" "$app/ui/"
 install -m644 "$root/APPROVED_SITES.md" "$doc/"
 install -m644 "$assets/copyright" "$doc/"
 install -Dm755 "$assets/compass-desktop" "$package/usr/bin/compass-desktop"
 install -Dm644 "$assets/$desktop.desktop" "$package/usr/share/applications/$desktop.desktop"
-install -Dm644 "$assets/$desktop.svg" "$package/usr/share/icons/hicolor/scalable/apps/$desktop.svg"
+install -Dm644 "$root/ui/compass-mark.png" "$package/usr/share/icons/hicolor/256x256/apps/$desktop.png"
 
 size=$(du -sk -- "$package" | cut -f1)
 cat > "$package/DEBIAN/control" <<EOF

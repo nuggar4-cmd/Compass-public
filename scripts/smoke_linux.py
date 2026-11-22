@@ -38,6 +38,8 @@ const ready = await waitFor(() =>
   document.querySelectorAll('.card').length === expectedCount && $('app-version').textContent);
 const api = window.pywebview.api;
 check('native catalog and version', ready && (await api.catalog()).length === expectedCount);
+check('bundled Compass logo loads', await waitFor(() =>
+  document.querySelector('.brand img[src$="compass-mark.png"]')?.naturalWidth === 256));
 check('unknown app ID rejected', !(await api.open_official('unlisted')).ok);
 const selectLanguage = value => {
   $('language').value = value;
@@ -175,7 +177,7 @@ def smoke():
         main.main()
     for result in results:
         print(f'PASS: {result}')
-    if errors or len(results) != 18:
+    if errors or len(results) != 19:
         raise SystemExit('\n'.join(errors) or 'Missing Linux smoke results')
 
 

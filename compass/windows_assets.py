@@ -12,6 +12,7 @@ ASSETS = {
     '/styles.css': ('styles.css', 'text/css; charset=utf-8'),
     '/catalog.js': ('catalog.js', 'text/javascript; charset=utf-8'),
     '/app.js': ('app.js', 'text/javascript; charset=utf-8'),
+    '/compass-mark.png': ('compass-mark.png', 'image/png'),
 }
 
 

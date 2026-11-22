@@ -86,7 +86,7 @@ def start_webview(webview, url, version):
     window = webview.create_window(
         'Compass', url,
         width=1100, height=740, min_size=(600, 480),
-        background_color='#0b0e14', text_select=False,
+        background_color='#f6f8f8', text_select=False,
     )
     window.expose(
         bridge.app_info, bridge.catalog, bridge.inspect_link, bridge.explain_link,

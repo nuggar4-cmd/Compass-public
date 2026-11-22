@@ -76,7 +76,9 @@ class WindowsNavigationTests(unittest.TestCase):
         for uri, blocked in (
             (self.url, False), (self.url + '#main-content', False),
             (self.url + '&other=1', True), (self.url.replace('8989', '8990'), True),
-            (self.url.replace('index.html', 'catalog.js'), True), ('https://example.test/', True),
+            (self.url.replace('index.html', 'catalog.js'), True),
+            (self.url.replace('index.html?desktop=1', 'compass-mark.png'), True),
+            ('https://example.test/', True),
         ):
             with self.subTest(uri=uri):
                 args = SimpleNamespace(Uri=uri, Cancel=False, NavigationId=1)

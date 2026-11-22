@@ -17,6 +17,7 @@ class WindowsAssetTests(unittest.TestCase):
             'styles.css': b'body {}',
             'catalog.js': b'/* packaged catalog */',
             'app.js': b'/* packaged app */',
+            'compass-mark.png': b'\x89PNG\r\n\x1a\n',
         }
         for name, contents in self.assets.items():
             (self.ui / name).write_bytes(contents)
@@ -42,6 +43,7 @@ class WindowsAssetTests(unittest.TestCase):
                 ('/styles.css', 'styles.css', 'text/css'),
                 ('/catalog.js', 'catalog.js', 'text/javascript'),
                 ('/app.js', 'app.js', 'text/javascript'),
+                ('/compass-mark.png', 'compass-mark.png', 'image/png'),
             )
             for route, name, media_type in cases:
                 with self.subTest(route=route):
@@ -56,7 +58,7 @@ class WindowsAssetTests(unittest.TestCase):
     def test_unlisted_files_and_mismatched_host_do_not_return_assets(self):
         with serve_windows_assets(self.ui) as url:
             endpoint = urlsplit(url)
-            for route in ('/', '/extra.txt', '/js_api/'):
+            for route in ('/', '/extra.txt', '/js_api/', '/compass-mark.png?extra=1'):
                 with self.subTest(route=route):
                     status, _, body = self.request(endpoint, route)
                     self.assertEqual((status, body), (404, b''))
