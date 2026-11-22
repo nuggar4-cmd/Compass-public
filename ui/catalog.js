@@ -4549,5 +4549,1947 @@ window.COMPASS_CATALOG = [
       "macos"
     ],
     "notice": "Check the publisher page for the builds available for your system."
+  },
+  {
+    "id": "gitkraken",
+    "name": "GitKraken Desktop",
+    "category": "Development",
+    "description": "Inspect changes, resolve merge conflicts, and manage Git branches in a desktop client.",
+    "url": "https://www.gitkraken.com/download",
+    "host": "www.gitkraken.com",
+    "color": "#9bc9ff",
+    "glyph": "Gk",
+    "tags": [
+      "git",
+      "branches",
+      "version control",
+      "repositories"
+    ],
+    "notice": null
+  },
+  {
+    "id": "tortoisegit",
+    "name": "TortoiseGit",
+    "category": "Development",
+    "description": "Manage Git repositories through the Windows File Explorer context menu.",
+    "url": "https://tortoisegit.org/download/",
+    "host": "tortoisegit.org",
+    "color": "#9bc9ff",
+    "glyph": "Tg",
+    "tags": [
+      "git",
+      "windows",
+      "file explorer",
+      "version control"
+    ],
+    "notice": null
+  },
+  {
+    "id": "pycharm",
+    "name": "PyCharm",
+    "category": "Development",
+    "description": "Write and debug Python projects, manage virtual environments, and run tests from the IDE.",
+    "url": "https://www.jetbrains.com/pycharm/download/",
+    "host": "www.jetbrains.com",
+    "color": "#9bc9ff",
+    "glyph": "Pc",
+    "tags": [
+      "python",
+      "ide",
+      "debugger",
+      "virtual environments"
+    ],
+    "notice": null
+  },
+  {
+    "id": "webstorm",
+    "name": "WebStorm",
+    "category": "Development",
+    "description": "Edit JavaScript and TypeScript projects with integrated navigation, debugging, and refactoring.",
+    "url": "https://www.jetbrains.com/webstorm/download/",
+    "host": "www.jetbrains.com",
+    "color": "#9bc9ff",
+    "glyph": "Wb",
+    "tags": [
+      "javascript",
+      "typescript",
+      "ide",
+      "web development"
+    ],
+    "notice": null
+  },
+  {
+    "id": "geany",
+    "name": "Geany",
+    "category": "Development",
+    "description": "Edit source files and run project build and execute commands from a lightweight IDE.",
+    "url": "https://www.geany.org/download/releases/",
+    "host": "www.geany.org",
+    "color": "#9bc9ff",
+    "glyph": "Gy",
+    "tags": [
+      "editor",
+      "code",
+      "ide",
+      "compilers"
+    ],
+    "notice": null
+  },
+  {
+    "id": "lite-xl",
+    "name": "Lite XL",
+    "category": "Development",
+    "description": "Edit source code in a lightweight desktop editor that supports Lua plugins.",
+    "url": "https://lite-xl.com/",
+    "host": "lite-xl.com",
+    "color": "#9bc9ff",
+    "glyph": "Lx",
+    "tags": [
+      "editor",
+      "code",
+      "lua",
+      "plugins"
+    ],
+    "notice": null
+  },
+  {
+    "id": "micro-editor",
+    "name": "Micro",
+    "category": "Development",
+    "description": "Edit text in the terminal with mouse support and familiar keyboard shortcuts.",
+    "url": "https://micro-editor.github.io/",
+    "host": "micro-editor.github.io",
+    "color": "#9bc9ff",
+    "glyph": "Mi",
+    "tags": [
+      "editor",
+      "code",
+      "terminal",
+      "keyboard"
+    ],
+    "notice": null
+  },
+  {
+    "id": "miniforge",
+    "name": "Miniforge",
+    "category": "Development",
+    "description": "Create Conda environments and install packages from the conda-forge ecosystem.",
+    "url": "https://conda-forge.org/download/",
+    "host": "conda-forge.org",
+    "color": "#9bc9ff",
+    "glyph": "Mf",
+    "tags": [
+      "python",
+      "conda",
+      "environments",
+      "package manager"
+    ],
+    "notice": null
+  },
+  {
+    "id": "astral-uv",
+    "name": "uv",
+    "category": "Development",
+    "description": "Manage Python projects, environment dependencies, and command-line tools.",
+    "url": "https://docs.astral.sh/uv/getting-started/installation/",
+    "host": "docs.astral.sh",
+    "color": "#9bc9ff",
+    "glyph": "Uv",
+    "tags": [
+      "python",
+      "package manager",
+      "environments",
+      "command line"
+    ],
+    "notice": null
+  },
+  {
+    "id": "deno",
+    "name": "Deno",
+    "category": "Development",
+    "description": "Run JavaScript and TypeScript projects with a runtime, formatter, and test runner.",
+    "url": "https://docs.deno.com/runtime/getting_started/installation/",
+    "host": "docs.deno.com",
+    "color": "#9bc9ff",
+    "glyph": "De",
+    "tags": [
+      "javascript",
+      "typescript",
+      "runtime",
+      "command line"
+    ],
+    "notice": null
+  },
+  {
+    "id": "zig",
+    "name": "Zig",
+    "category": "Development",
+    "description": "Compile Zig programs and use its toolchain for supported C and C++ targets.",
+    "url": "https://ziglang.org/download/",
+    "host": "ziglang.org",
+    "color": "#9bc9ff",
+    "glyph": "Zi",
+    "tags": [
+      "compiler",
+      "programming",
+      "command line",
+      "toolchain"
+    ],
+    "notice": null
+  },
+  {
+    "id": "bun",
+    "name": "Bun",
+    "category": "Development",
+    "description": "Run JavaScript and TypeScript projects and manage packages with the Bun toolkit.",
+    "url": "https://bun.com/docs/installation",
+    "host": "bun.com",
+    "color": "#9bc9ff",
+    "glyph": "Bu",
+    "tags": [
+      "javascript",
+      "typescript",
+      "runtime",
+      "package manager"
+    ],
+    "notice": null
+  },
+  {
+    "id": "composer-php",
+    "name": "Composer",
+    "category": "Development",
+    "description": "Install and update dependencies in PHP projects from the command line.",
+    "url": "https://getcomposer.org/download/",
+    "host": "getcomposer.org",
+    "color": "#9bc9ff",
+    "glyph": "Cp",
+    "tags": [
+      "php",
+      "package manager",
+      "dependencies",
+      "command line"
+    ],
+    "notice": null
+  },
+  {
+    "id": "apache-maven",
+    "name": "Apache Maven",
+    "category": "Development",
+    "description": "Build, test, and package Java projects using a reusable lifecycle.",
+    "url": "https://maven.apache.org/download.cgi",
+    "host": "maven.apache.org",
+    "color": "#9bc9ff",
+    "glyph": "Mn",
+    "tags": [
+      "java",
+      "build",
+      "dependencies",
+      "automation"
+    ],
+    "notice": null
+  },
+  {
+    "id": "beekeeper-studio",
+    "name": "Beekeeper Studio",
+    "category": "Development",
+    "description": "Use a desktop SQL editor to inspect and modify records in supported databases.",
+    "url": "https://www.beekeeperstudio.io/get",
+    "host": "www.beekeeperstudio.io",
+    "color": "#9bc9ff",
+    "glyph": "Be",
+    "tags": [
+      "sql",
+      "databases",
+      "query editor",
+      "schemas"
+    ],
+    "notice": null
+  },
+  {
+    "id": "codeblocks",
+    "name": "Code::Blocks",
+    "category": "Development",
+    "description": "Write and build C and C++ projects in a desktop IDE with configurable toolchains.",
+    "url": "https://www.codeblocks.org/downloads/",
+    "host": "www.codeblocks.org",
+    "color": "#9bc9ff",
+    "glyph": "Cb",
+    "tags": [
+      "c",
+      "c++",
+      "ide",
+      "debugger"
+    ],
+    "notice": null
+  },
+  {
+    "id": "notion",
+    "name": "Notion",
+    "category": "Productivity",
+    "description": "Use the desktop client to work with pages, notes, documents, and project workspaces.",
+    "url": "https://www.notion.com/desktop",
+    "host": "www.notion.com",
+    "color": "#f0c78b",
+    "glyph": "No",
+    "tags": [
+      "notes",
+      "documents",
+      "workspace",
+      "tasks"
+    ],
+    "notice": null
+  },
+  {
+    "id": "ticktick",
+    "name": "TickTick",
+    "category": "Productivity",
+    "description": "Organize tasks, calendar items, and reminders with the desktop client.",
+    "url": "https://ticktick.com/download",
+    "host": "ticktick.com",
+    "color": "#f0c78b",
+    "glyph": "Tt",
+    "tags": [
+      "tasks",
+      "reminders",
+      "calendar",
+      "habits"
+    ],
+    "notice": null
+  },
+  {
+    "id": "standard-notes",
+    "name": "Standard Notes",
+    "category": "Productivity",
+    "description": "Write and organize notes in a desktop client with encrypted synchronization.",
+    "url": "https://standardnotes.com/download",
+    "host": "standardnotes.com",
+    "color": "#f0c78b",
+    "glyph": "Sn",
+    "tags": [
+      "notes",
+      "writing",
+      "encryption",
+      "sync"
+    ],
+    "notice": null
+  },
+  {
+    "id": "affine",
+    "name": "AFFiNE",
+    "category": "Productivity",
+    "description": "Combine writing, visual boards, and workspace planning in a desktop client.",
+    "url": "https://affine.pro/download",
+    "host": "affine.pro",
+    "color": "#f0c78b",
+    "glyph": "Af",
+    "tags": [
+      "whiteboard",
+      "notes",
+      "documents",
+      "workspace"
+    ],
+    "notice": null
+  },
+  {
+    "id": "kde-ghostwriter",
+    "name": "ghostwriter",
+    "category": "Productivity",
+    "description": "Write Markdown with a live preview and export options in KDE\u2019s desktop editor.",
+    "url": "https://ghostwriter.kde.org/download/",
+    "host": "ghostwriter.kde.org",
+    "color": "#f0c78b",
+    "glyph": "Gw",
+    "tags": [
+      "markdown",
+      "writing",
+      "editor",
+      "document"
+    ],
+    "notice": null
+  },
+  {
+    "id": "softmaker-freeoffice",
+    "name": "SoftMaker FreeOffice",
+    "category": "Productivity",
+    "description": "Edit text documents, spreadsheets, and presentations in a desktop office suite.",
+    "url": "https://www.freeoffice.com/en/download",
+    "host": "www.freeoffice.com",
+    "color": "#f0c78b",
+    "glyph": "Fo",
+    "tags": [
+      "office",
+      "documents",
+      "spreadsheet",
+      "presentation"
+    ],
+    "notice": null
+  },
+  {
+    "id": "wps-office",
+    "name": "WPS Office",
+    "category": "Productivity",
+    "description": "Work with text documents, spreadsheets, and presentations using the WPS desktop suite.",
+    "url": "https://www.wps.com/download/",
+    "host": "www.wps.com",
+    "color": "#f0c78b",
+    "glyph": "Wo",
+    "tags": [
+      "office",
+      "documents",
+      "spreadsheet",
+      "presentation"
+    ],
+    "notice": null
+  },
+  {
+    "id": "foxit-pdf-reader",
+    "name": "Foxit PDF Reader",
+    "category": "Productivity",
+    "description": "Open PDFs, add annotations, and fill supported forms in a desktop reader.",
+    "url": "https://www.foxit.com/pdf-reader/",
+    "host": "www.foxit.com",
+    "color": "#f0c78b",
+    "glyph": "Fr",
+    "tags": [
+      "pdf",
+      "reader",
+      "annotation",
+      "forms"
+    ],
+    "notice": null
+  },
+  {
+    "id": "adobe-acrobat-reader",
+    "name": "Adobe Acrobat Reader",
+    "category": "Productivity",
+    "description": "Open, print, and annotate PDF files using Adobe\u2019s desktop reader.",
+    "url": "https://www.adobe.com/acrobat/pdf-reader.html",
+    "host": "www.adobe.com",
+    "color": "#f0c78b",
+    "glyph": "Ar",
+    "tags": [
+      "pdf",
+      "reader",
+      "annotation",
+      "forms"
+    ],
+    "notice": null
+  },
+  {
+    "id": "pdf-xchange-editor",
+    "name": "PDF-XChange Editor",
+    "category": "Productivity",
+    "description": "Review, annotate, and edit PDF documents with a Windows desktop application.",
+    "url": "https://www.pdf-xchange.com/product/pdf-xchange-editor",
+    "host": "www.pdf-xchange.com",
+    "color": "#f0c78b",
+    "glyph": "Px",
+    "tags": [
+      "pdf",
+      "editor",
+      "annotation",
+      "windows"
+    ],
+    "notice": null
+  },
+  {
+    "id": "simplenote",
+    "name": "Simplenote",
+    "category": "Productivity",
+    "description": "Keep text notes organized with tags and synchronize them across supported clients.",
+    "url": "https://simplenote.com/",
+    "host": "simplenote.com",
+    "color": "#f0c78b",
+    "glyph": "Si",
+    "tags": [
+      "notes",
+      "writing",
+      "tags",
+      "sync"
+    ],
+    "notice": null
+  },
+  {
+    "id": "gnome-papers",
+    "name": "Papers",
+    "category": "Productivity",
+    "description": "View PDF documents in a GNOME desktop application.",
+    "url": "https://apps.gnome.org/Papers/",
+    "host": "apps.gnome.org",
+    "color": "#f0c78b",
+    "glyph": "Ps",
+    "tags": [
+      "pdf",
+      "reader",
+      "documents",
+      "linux"
+    ],
+    "notice": null
+  },
+  {
+    "id": "gnome-calendar",
+    "name": "GNOME Calendar",
+    "category": "Productivity",
+    "description": "Review schedules and manage events in a GNOME desktop calendar.",
+    "url": "https://apps.gnome.org/Calendar/",
+    "host": "apps.gnome.org",
+    "color": "#f0c78b",
+    "glyph": "Gc",
+    "tags": [
+      "calendar",
+      "events",
+      "scheduling",
+      "linux"
+    ],
+    "notice": null
+  },
+  {
+    "id": "korganizer",
+    "name": "KOrganizer",
+    "category": "Productivity",
+    "description": "Manage events, recurring appointments, and to-do lists from KDE\u2019s calendar application.",
+    "url": "https://apps.kde.org/korganizer/",
+    "host": "apps.kde.org",
+    "color": "#f0c78b",
+    "glyph": "Ko",
+    "tags": [
+      "calendar",
+      "tasks",
+      "scheduling",
+      "kde"
+    ],
+    "notice": null
+  },
+  {
+    "id": "microsoft-to-do",
+    "name": "Microsoft To Do",
+    "category": "Productivity",
+    "description": "Plan daily tasks and organize to-do lists with Microsoft\u2019s productivity app.",
+    "url": "https://www.microsoft.com/en-us/microsoft-365/microsoft-to-do-list-app",
+    "host": "www.microsoft.com",
+    "color": "#f0c78b",
+    "glyph": "Mt",
+    "tags": [
+      "tasks",
+      "reminders",
+      "planning",
+      "microsoft"
+    ],
+    "notice": null
+  },
+  {
+    "id": "sagemath",
+    "name": "SageMath",
+    "category": "Education",
+    "description": "Solve and visualize mathematical problems with an open-source mathematics system.",
+    "url": "https://doc.sagemath.org/html/en/installation/index.html",
+    "host": "doc.sagemath.org",
+    "color": "#b8d9f4",
+    "glyph": "Sm",
+    "tags": [
+      "math",
+      "algebra",
+      "symbolic computation",
+      "programming"
+    ],
+    "notice": "The installation guide covers Windows via Windows Subsystem for Linux."
+  },
+  {
+    "id": "r-project",
+    "name": "R",
+    "category": "Education",
+    "description": "Explore data, perform statistical calculations, and create plots with the R computing environment.",
+    "url": "https://www.r-project.org/",
+    "host": "www.r-project.org",
+    "color": "#b8d9f4",
+    "glyph": "Rp",
+    "tags": [
+      "statistics",
+      "analysis",
+      "data",
+      "programming"
+    ],
+    "notice": null
+  },
+  {
+    "id": "greenfoot",
+    "name": "Greenfoot",
+    "category": "Education",
+    "description": "Learn Java by creating interactive simulations and simple graphical programs.",
+    "url": "https://www.greenfoot.org/download",
+    "host": "www.greenfoot.org",
+    "color": "#b8d9f4",
+    "glyph": "Gf",
+    "tags": [
+      "java",
+      "programming",
+      "simulation",
+      "learning"
+    ],
+    "notice": null
+  },
+  {
+    "id": "maxima",
+    "name": "Maxima",
+    "category": "Education",
+    "description": "Work with equations, expressions, and calculus in a computer algebra system.",
+    "url": "https://maxima.sourceforge.io/",
+    "host": "maxima.sourceforge.io",
+    "color": "#b8d9f4",
+    "glyph": "Mx",
+    "tags": [
+      "math",
+      "algebra",
+      "equations",
+      "symbolic computation"
+    ],
+    "notice": null
+  },
+  {
+    "id": "kturtle",
+    "name": "KTurtle",
+    "category": "Education",
+    "description": "Learn programming concepts by writing commands that draw with a turtle on a canvas.",
+    "url": "https://apps.kde.org/kturtle/",
+    "host": "apps.kde.org",
+    "color": "#b8d9f4",
+    "glyph": "Kt",
+    "tags": [
+      "learning",
+      "programming",
+      "drawing",
+      "language"
+    ],
+    "notice": null
+  },
+  {
+    "id": "kig",
+    "name": "Kig",
+    "category": "Education",
+    "description": "Construct and explore interactive geometry diagrams on the desktop.",
+    "url": "https://apps.kde.org/kig/",
+    "host": "apps.kde.org",
+    "color": "#b8d9f4",
+    "glyph": "Ki",
+    "tags": [
+      "math",
+      "geometry",
+      "constructions",
+      "learning"
+    ],
+    "notice": null
+  },
+  {
+    "id": "kbruch",
+    "name": "KBruch",
+    "category": "Education",
+    "description": "Practice fractions and related arithmetic with interactive exercises.",
+    "url": "https://apps.kde.org/kbruch/",
+    "host": "apps.kde.org",
+    "color": "#b8d9f4",
+    "glyph": "Kb",
+    "tags": [
+      "math",
+      "fractions",
+      "arithmetic",
+      "learning"
+    ],
+    "notice": null
+  },
+  {
+    "id": "parley",
+    "name": "Parley",
+    "category": "Education",
+    "description": "Study vocabulary and build practice sets using customizable flashcards.",
+    "url": "https://apps.kde.org/parley/",
+    "host": "apps.kde.org",
+    "color": "#b8d9f4",
+    "glyph": "Pa",
+    "tags": [
+      "language",
+      "vocabulary",
+      "flashcards",
+      "learning"
+    ],
+    "notice": null
+  },
+  {
+    "id": "kalzium",
+    "name": "Kalzium",
+    "category": "Education",
+    "description": "Explore periodic table entries and their chemical element properties.",
+    "url": "https://apps.kde.org/kalzium/",
+    "host": "apps.kde.org",
+    "color": "#b8d9f4",
+    "glyph": "Kz",
+    "tags": [
+      "science",
+      "chemistry",
+      "periodic table",
+      "learning"
+    ],
+    "notice": null
+  },
+  {
+    "id": "rocs",
+    "name": "Rocs",
+    "category": "Education",
+    "description": "Build graph data structures visually and explore graph algorithms.",
+    "url": "https://apps.kde.org/rocs/",
+    "host": "apps.kde.org",
+    "color": "#b8d9f4",
+    "glyph": "Ro",
+    "tags": [
+      "graphs",
+      "mathematics",
+      "algorithms",
+      "learning"
+    ],
+    "notice": null
+  },
+  {
+    "id": "thonny",
+    "name": "Thonny",
+    "category": "Education",
+    "description": "Learn Python in an editor with a beginner-friendly debugger and variable inspection.",
+    "url": "https://thonny.org/",
+    "host": "thonny.org",
+    "color": "#b8d9f4",
+    "glyph": "Th",
+    "tags": [
+      "python",
+      "programming",
+      "debugger",
+      "learning"
+    ],
+    "notice": null
+  },
+  {
+    "id": "bluej",
+    "name": "BlueJ",
+    "category": "Education",
+    "description": "Study object-oriented Java using an educational IDE with direct object interaction.",
+    "url": "https://www.bluej.org/",
+    "host": "www.bluej.org",
+    "color": "#b8d9f4",
+    "glyph": "Bj",
+    "tags": [
+      "java",
+      "programming",
+      "ide",
+      "learning"
+    ],
+    "notice": null
+  },
+  {
+    "id": "avogadro",
+    "name": "Avogadro",
+    "category": "Education",
+    "description": "View and edit molecular structures for chemistry education and visualization.",
+    "url": "https://avogadro.cc/install/",
+    "host": "avogadro.cc",
+    "color": "#b8d9f4",
+    "glyph": "Av",
+    "tags": [
+      "chemistry",
+      "molecules",
+      "3d",
+      "scientific visualization"
+    ],
+    "notice": null
+  },
+  {
+    "id": "wwt-desktop",
+    "name": "WorldWide Telescope",
+    "category": "Education",
+    "description": "Explore sky surveys, astronomical imagery, and guided tours using the Windows app.",
+    "url": "https://worldwidetelescope.org/download/",
+    "host": "worldwidetelescope.org",
+    "color": "#b8d9f4",
+    "glyph": "Wt",
+    "tags": [
+      "astronomy",
+      "telescope",
+      "sky",
+      "windows"
+    ],
+    "notice": "This page includes the Windows app and a link to the web edition."
+  },
+  {
+    "id": "fontforge",
+    "name": "FontForge",
+    "category": "Creative",
+    "description": "Design and edit fonts with a desktop glyph editor.",
+    "url": "https://fontforge.org/en-US/downloads/",
+    "host": "fontforge.org",
+    "color": "#bcadef",
+    "glyph": "Ff",
+    "tags": [
+      "fonts",
+      "typography",
+      "glyphs",
+      "opentype"
+    ],
+    "notice": null
+  },
+  {
+    "id": "sonic-visualiser",
+    "name": "Sonic Visualiser",
+    "category": "Media",
+    "description": "Inspect recordings and annotate spectrograms and other audio measurements.",
+    "url": "https://www.sonicvisualiser.org/download.html",
+    "host": "www.sonicvisualiser.org",
+    "color": "#f2bf96",
+    "glyph": "Sv",
+    "tags": [
+      "audio",
+      "waveform",
+      "spectrogram",
+      "annotation"
+    ],
+    "notice": null
+  },
+  {
+    "id": "vcv-rack",
+    "name": "VCV Rack",
+    "category": "Creative",
+    "description": "Build and play patches in a virtual modular synthesizer.",
+    "url": "https://vcvrack.com/Rack",
+    "host": "vcvrack.com",
+    "color": "#bcadef",
+    "glyph": "Vc",
+    "tags": [
+      "audio",
+      "synthesizer",
+      "modular",
+      "music"
+    ],
+    "notice": null
+  },
+  {
+    "id": "xnconvert",
+    "name": "XnConvert",
+    "category": "Media",
+    "description": "Convert image collections and apply edits in batches.",
+    "url": "https://www.xnview.com/en/xnconvert/",
+    "host": "www.xnview.com",
+    "color": "#f2bf96",
+    "glyph": "Xc",
+    "tags": [
+      "image",
+      "conversion",
+      "batch",
+      "photo"
+    ],
+    "notice": null
+  },
+  {
+    "id": "raspberry-pi-imager",
+    "name": "Raspberry Pi Imager",
+    "category": "Utilities",
+    "description": "Write Raspberry Pi operating-system images to memory cards and USB drives.",
+    "url": "https://github.com/raspberrypi/rpi-imager/releases",
+    "host": "github.com",
+    "color": "#a6d5be",
+    "glyph": "Pi",
+    "tags": [
+      "raspberry pi",
+      "sd card",
+      "image",
+      "usb"
+    ],
+    "notice": "Review the selected drive before writing to it."
+  },
+  {
+    "id": "gnome-disks",
+    "name": "GNOME Disks",
+    "category": "Utilities",
+    "description": "Inspect storage drives, manage partitions, and work with disk images.",
+    "url": "https://apps.gnome.org/DiskUtility/",
+    "host": "apps.gnome.org",
+    "color": "#a6d5be",
+    "glyph": "Gd",
+    "tags": [
+      "disk",
+      "partitions",
+      "storage",
+      "linux"
+    ],
+    "notice": null
+  },
+  {
+    "id": "gparted",
+    "name": "GParted",
+    "category": "Utilities",
+    "description": "Manage and resize disk partitions with a graphical editor.",
+    "url": "https://gparted.org/",
+    "host": "gparted.org",
+    "color": "#a6d5be",
+    "glyph": "Gp",
+    "tags": [
+      "partitions",
+      "disk",
+      "filesystem",
+      "linux"
+    ],
+    "notice": "Back up important files before changing partitions."
+  },
+  {
+    "id": "neochat",
+    "name": "NeoChat",
+    "category": "Communication",
+    "description": "Join rooms and send messages on the Matrix network with KDE\u2019s client.",
+    "url": "https://apps.kde.org/neochat/",
+    "host": "apps.kde.org",
+    "color": "#a5ddd1",
+    "glyph": "Nc",
+    "tags": [
+      "matrix",
+      "chat",
+      "kde",
+      "messaging"
+    ],
+    "notice": null
+  },
+  {
+    "id": "gnome-web",
+    "name": "GNOME Web",
+    "category": "Browsers",
+    "description": "Browse the web with GNOME\u2019s WebKit-based desktop browser.",
+    "url": "https://apps.gnome.org/Epiphany/",
+    "host": "apps.gnome.org",
+    "color": "#ddbf92",
+    "glyph": "Gw",
+    "tags": [
+      "browser",
+      "webkit",
+      "gnome",
+      "linux"
+    ],
+    "notice": null
+  },
+  {
+    "id": "safari",
+    "name": "Safari",
+    "category": "Browsers",
+    "description": "Learn about Apple\u2019s browser and its browsing and privacy controls on macOS.",
+    "url": "https://www.apple.com/safari/",
+    "host": "www.apple.com",
+    "color": "#ddbf92",
+    "glyph": "Sa",
+    "tags": [
+      "browser",
+      "apple",
+      "macos",
+      "webkit"
+    ],
+    "notice": null
+  },
+  {
+    "id": "chromium",
+    "name": "Chromium",
+    "category": "Browsers",
+    "description": "Find the Chromium project\u2019s browser builds and installation notes.",
+    "url": "https://www.chromium.org/getting-involved/download-chromium/",
+    "host": "www.chromium.org",
+    "color": "#ddbf92",
+    "glyph": "Cm",
+    "tags": [
+      "browser",
+      "chromium",
+      "snapshots",
+      "web"
+    ],
+    "notice": "Chromium snapshots may be less tested than stable browser releases."
+  },
+  {
+    "id": "pale-moon",
+    "name": "Pale Moon",
+    "category": "Browsers",
+    "description": "Browse the web with a customizable browser based on the Goanna engine.",
+    "url": "https://www.palemoon.org/download.shtml",
+    "host": "www.palemoon.org",
+    "color": "#ddbf92",
+    "glyph": "Pm",
+    "tags": [
+      "browser",
+      "goanna",
+      "web",
+      "customization"
+    ],
+    "notice": null
+  },
+  {
+    "id": "seamonkey",
+    "name": "SeaMonkey",
+    "category": "Browsers",
+    "description": "Use a desktop suite that includes a browser, mail client, and HTML editor.",
+    "url": "https://www.seamonkey-project.org/releases/",
+    "host": "www.seamonkey-project.org",
+    "color": "#ddbf92",
+    "glyph": "Sm",
+    "tags": [
+      "browser",
+      "mail",
+      "web",
+      "suite"
+    ],
+    "notice": null
+  },
+  {
+    "id": "clementine",
+    "name": "Clementine",
+    "category": "Media",
+    "description": "Organize a local music library and play music in a desktop player.",
+    "url": "https://www.clementine-player.org/downloads",
+    "host": "www.clementine-player.org",
+    "color": "#f2bf96",
+    "glyph": "Cm",
+    "tags": [
+      "music",
+      "player",
+      "playlist",
+      "library"
+    ],
+    "notice": null
+  },
+  {
+    "id": "quod-libet",
+    "name": "Quod Libet",
+    "category": "Media",
+    "description": "Play, organize, and tag music in a desktop library.",
+    "url": "https://quodlibet.readthedocs.io/en/latest/downloads.html",
+    "host": "quodlibet.readthedocs.io",
+    "color": "#f2bf96",
+    "glyph": "Ql",
+    "tags": [
+      "music",
+      "audio",
+      "tags",
+      "library"
+    ],
+    "notice": null
+  },
+  {
+    "id": "elisa",
+    "name": "Elisa",
+    "category": "Media",
+    "description": "Organize a local music collection and play albums or playlists.",
+    "url": "https://apps.kde.org/elisa/",
+    "host": "apps.kde.org",
+    "color": "#f2bf96",
+    "glyph": "El",
+    "tags": [
+      "music",
+      "kde",
+      "audio",
+      "playlists"
+    ],
+    "notice": null
+  },
+  {
+    "id": "haruna",
+    "name": "Haruna",
+    "category": "Media",
+    "description": "Play videos in KDE\u2019s graphical media player.",
+    "url": "https://apps.kde.org/haruna/",
+    "host": "apps.kde.org",
+    "color": "#f2bf96",
+    "glyph": "Ha",
+    "tags": [
+      "video",
+      "player",
+      "kde",
+      "libmpv"
+    ],
+    "notice": null
+  },
+  {
+    "id": "kid3",
+    "name": "Kid3",
+    "category": "Media",
+    "description": "Edit music metadata, including tags for many audio files at once.",
+    "url": "https://kid3.kde.org/",
+    "host": "kid3.kde.org",
+    "color": "#f2bf96",
+    "glyph": "K3",
+    "tags": [
+      "audio",
+      "metadata",
+      "tags",
+      "music"
+    ],
+    "notice": null
+  },
+  {
+    "id": "gnome-podcasts",
+    "name": "GNOME Podcasts",
+    "category": "Media",
+    "description": "Subscribe to podcast feeds and play episodes on the desktop.",
+    "url": "https://apps.gnome.org/Podcasts/",
+    "host": "apps.gnome.org",
+    "color": "#f2bf96",
+    "glyph": "Gp",
+    "tags": [
+      "podcast",
+      "audio",
+      "feeds",
+      "gnome"
+    ],
+    "notice": null
+  },
+  {
+    "id": "tenacity",
+    "name": "Tenacity",
+    "category": "Creative",
+    "description": "Record and edit audio on multiple tracks.",
+    "url": "https://tenacityaudio.org/",
+    "host": "tenacityaudio.org",
+    "color": "#bcadef",
+    "glyph": "Tn",
+    "tags": [
+      "audio",
+      "editor",
+      "recording",
+      "tracks"
+    ],
+    "notice": null
+  },
+  {
+    "id": "furnace-tracker",
+    "name": "Furnace",
+    "category": "Creative",
+    "description": "Compose tracker music for simulated sound chips.",
+    "url": "https://tildearrow.org/furnace/",
+    "host": "tildearrow.org",
+    "color": "#bcadef",
+    "glyph": "Ft",
+    "tags": [
+      "tracker",
+      "music",
+      "chiptune",
+      "sound chips"
+    ],
+    "notice": null
+  },
+  {
+    "id": "helm-synth",
+    "name": "Helm",
+    "category": "Creative",
+    "description": "Create sounds with a software synthesizer for music projects.",
+    "url": "https://tytel.org/helm/",
+    "host": "tytel.org",
+    "color": "#bcadef",
+    "glyph": "Hm",
+    "tags": [
+      "audio",
+      "synthesizer",
+      "music",
+      "plugin"
+    ],
+    "notice": null
+  },
+  {
+    "id": "libresprite",
+    "name": "LibreSprite",
+    "category": "Creative",
+    "description": "Draw and animate pixel art frame by frame.",
+    "url": "https://libresprite.github.io/",
+    "host": "libresprite.github.io",
+    "color": "#bcadef",
+    "glyph": "Ls",
+    "tags": [
+      "pixel art",
+      "sprites",
+      "animation",
+      "drawing"
+    ],
+    "notice": null
+  },
+  {
+    "id": "librecad",
+    "name": "LibreCAD",
+    "category": "Creative",
+    "description": "Draw 2D technical plans and work with DXF files.",
+    "url": "https://librecad.org/",
+    "host": "librecad.org",
+    "color": "#bcadef",
+    "glyph": "Lc",
+    "tags": [
+      "cad",
+      "technical drawing",
+      "dxf",
+      "drafting"
+    ],
+    "notice": null
+  },
+  {
+    "id": "solvespace",
+    "name": "SolveSpace",
+    "category": "Creative",
+    "description": "Model parts with geometric constraints and make technical drawings.",
+    "url": "https://solvespace.com/download.pl",
+    "host": "solvespace.com",
+    "color": "#bcadef",
+    "glyph": "Ss",
+    "tags": [
+      "cad",
+      "parametric",
+      "modeling",
+      "mechanical"
+    ],
+    "notice": null
+  },
+  {
+    "id": "pinta",
+    "name": "Pinta",
+    "category": "Creative",
+    "description": "Draw and edit images with layers and desktop drawing tools.",
+    "url": "https://www.pinta-project.com/",
+    "host": "www.pinta-project.com",
+    "color": "#bcadef",
+    "glyph": "Pn",
+    "tags": [
+      "paint",
+      "image",
+      "drawing",
+      "photo"
+    ],
+    "notice": null
+  },
+  {
+    "id": "dino",
+    "name": "Dino",
+    "category": "Communication",
+    "description": "Use a desktop messaging client for the XMPP network.",
+    "url": "https://dino.im/",
+    "host": "dino.im",
+    "color": "#a5ddd1",
+    "glyph": "Dn",
+    "tags": [
+      "xmpp",
+      "messaging",
+      "chat",
+      "desktop"
+    ],
+    "notice": null
+  },
+  {
+    "id": "gajim",
+    "name": "Gajim",
+    "category": "Communication",
+    "description": "Connect an XMPP account to chats and group conversations.",
+    "url": "https://gajim.org/download/",
+    "host": "gajim.org",
+    "color": "#a5ddd1",
+    "glyph": "Gj",
+    "tags": [
+      "xmpp",
+      "chat",
+      "desktop",
+      "messaging"
+    ],
+    "notice": null
+  },
+  {
+    "id": "pidgin",
+    "name": "Pidgin",
+    "category": "Communication",
+    "description": "Chat from a desktop client that supports multiple messaging protocols.",
+    "url": "https://pidgin.im/install/",
+    "host": "pidgin.im",
+    "color": "#a5ddd1",
+    "glyph": "Pd",
+    "tags": [
+      "chat",
+      "protocols",
+      "instant messaging",
+      "desktop"
+    ],
+    "notice": null
+  },
+  {
+    "id": "balena-etcher",
+    "name": "balenaEtcher",
+    "category": "Utilities",
+    "description": "Write operating-system images to USB drives and memory cards.",
+    "url": "https://etcher.balena.io/",
+    "host": "etcher.balena.io",
+    "color": "#a6d5be",
+    "glyph": "Et",
+    "tags": [
+      "usb",
+      "sd card",
+      "flash",
+      "image"
+    ],
+    "notice": "Review the selected drive before writing to it."
+  },
+  {
+    "id": "gnome-boxes",
+    "name": "GNOME Boxes",
+    "category": "Utilities",
+    "description": "Create and run virtual machines with GNOME\u2019s desktop interface.",
+    "url": "https://apps.gnome.org/Boxes/",
+    "host": "apps.gnome.org",
+    "color": "#a6d5be",
+    "glyph": "Gb",
+    "tags": [
+      "virtual machine",
+      "virtualization",
+      "linux",
+      "gnome"
+    ],
+    "notice": null
+  },
+  {
+    "id": "virtualbox",
+    "name": "VirtualBox",
+    "category": "Utilities",
+    "description": "Run guest operating systems in local virtual machines.",
+    "url": "https://www.virtualbox.org/wiki/Downloads",
+    "host": "www.virtualbox.org",
+    "color": "#a6d5be",
+    "glyph": "Vb",
+    "tags": [
+      "virtual machines",
+      "virtualization",
+      "oracle",
+      "guest os"
+    ],
+    "notice": null
+  },
+  {
+    "id": "partition-manager",
+    "name": "KDE Partition Manager",
+    "category": "Utilities",
+    "description": "Create, resize, and manage disk partitions with a KDE application.",
+    "url": "https://apps.kde.org/partitionmanager/",
+    "host": "apps.kde.org",
+    "color": "#a6d5be",
+    "glyph": "Kp",
+    "tags": [
+      "partitions",
+      "disk",
+      "kde",
+      "filesystem"
+    ],
+    "notice": "Back up important files before changing partitions."
+  },
+  {
+    "id": "remmina",
+    "name": "Remmina",
+    "category": "Utilities",
+    "description": "Connect to remote desktops you manage using supported protocols.",
+    "url": "https://remmina.org/how-to-install-remmina/",
+    "host": "remmina.org",
+    "color": "#a6d5be",
+    "glyph": "Rm",
+    "tags": [
+      "remote desktop",
+      "rdp",
+      "vnc",
+      "linux"
+    ],
+    "notice": null
+  },
+  {
+    "id": "openrct2",
+    "name": "OpenRCT2",
+    "category": "Gaming",
+    "description": "Build and manage amusement parks using the open-source RollerCoaster Tycoon 2 engine.",
+    "url": "https://openrct2.io/download",
+    "host": "openrct2.io",
+    "color": "#a7c1f0",
+    "glyph": "Or",
+    "tags": [
+      "management",
+      "simulation",
+      "roller coaster",
+      "theme park"
+    ],
+    "notice": "Requires original RollerCoaster Tycoon 2 game files."
+  },
+  {
+    "id": "openra",
+    "name": "OpenRA",
+    "category": "Gaming",
+    "description": "Play classic real-time strategy games with modern controls and multiplayer support.",
+    "url": "https://www.openra.net/download/",
+    "host": "www.openra.net",
+    "color": "#a7c1f0",
+    "glyph": "Ra",
+    "tags": [
+      "real time strategy",
+      "rts",
+      "multiplayer",
+      "command and conquer"
+    ],
+    "notice": null
+  },
+  {
+    "id": "zero-ad",
+    "name": "0 A.D.",
+    "category": "Gaming",
+    "description": "Build cities and lead armies in a historical real-time strategy game.",
+    "url": "https://play0ad.com/download/",
+    "host": "play0ad.com",
+    "color": "#a7c1f0",
+    "glyph": "0A",
+    "tags": [
+      "real time strategy",
+      "rts",
+      "history",
+      "ancient"
+    ],
+    "notice": null
+  },
+  {
+    "id": "freeciv",
+    "name": "Freeciv",
+    "category": "Gaming",
+    "description": "Build and guide a civilization in a turn-based strategy game.",
+    "url": "https://www.freeciv.org/download.html",
+    "host": "www.freeciv.org",
+    "color": "#a7c1f0",
+    "glyph": "Fc",
+    "tags": [
+      "turn based",
+      "strategy",
+      "civilization",
+      "multiplayer"
+    ],
+    "notice": null
+  },
+  {
+    "id": "widelands",
+    "name": "Widelands",
+    "category": "Gaming",
+    "description": "Build settlements and connect production chains in a strategy game.",
+    "url": "https://www.widelands.org/wiki/Download/",
+    "host": "www.widelands.org",
+    "color": "#a7c1f0",
+    "glyph": "Wl",
+    "tags": [
+      "strategy",
+      "settlers",
+      "simulation",
+      "economy"
+    ],
+    "notice": null
+  },
+  {
+    "id": "luanti",
+    "name": "Luanti",
+    "category": "Gaming",
+    "description": "Play and create voxel games using an engine that supports community games and mods.",
+    "url": "https://www.luanti.org/en/downloads/",
+    "host": "www.luanti.org",
+    "color": "#a7c1f0",
+    "glyph": "Lu",
+    "tags": [
+      "voxel",
+      "sandbox",
+      "mods",
+      "game engine"
+    ],
+    "notice": null
+  },
+  {
+    "id": "supertuxkart",
+    "name": "SuperTuxKart",
+    "category": "Gaming",
+    "description": "Race through arcade tracks and play with other drivers locally or online.",
+    "url": "https://supertuxkart.net/Download",
+    "host": "supertuxkart.net",
+    "color": "#a7c1f0",
+    "glyph": "St",
+    "tags": [
+      "kart",
+      "racing",
+      "multiplayer",
+      "arcade"
+    ],
+    "notice": null
+  },
+  {
+    "id": "xonotic",
+    "name": "Xonotic",
+    "category": "Gaming",
+    "description": "Play an open-source arena shooter with multiple match formats.",
+    "url": "https://xonotic.org/download/",
+    "host": "xonotic.org",
+    "color": "#a7c1f0",
+    "glyph": "Xo",
+    "tags": [
+      "arena",
+      "shooter",
+      "multiplayer",
+      "first person"
+    ],
+    "notice": null
+  },
+  {
+    "id": "openmw",
+    "name": "OpenMW",
+    "category": "Gaming",
+    "description": "Use an open-source engine to run The Elder Scrolls III: Morrowind or its compatible projects.",
+    "url": "https://openmw.org/downloads/",
+    "host": "openmw.org",
+    "color": "#a7c1f0",
+    "glyph": "Mw",
+    "tags": [
+      "role playing",
+      "game engine",
+      "elder scrolls",
+      "morrowind"
+    ],
+    "notice": "Requires original game files to play Morrowind."
+  },
+  {
+    "id": "xemu",
+    "name": "xemu",
+    "category": "Gaming",
+    "description": "Run compatible original Xbox titles in a desktop emulator.",
+    "url": "https://xemu.app/",
+    "host": "xemu.app",
+    "color": "#a7c1f0",
+    "glyph": "Xe",
+    "tags": [
+      "emulator",
+      "xbox",
+      "compatibility",
+      "console"
+    ],
+    "notice": "Use game and firmware files you are entitled to use."
+  },
+  {
+    "id": "cemu",
+    "name": "Cemu",
+    "category": "Gaming",
+    "description": "Run compatible Wii U titles with a desktop emulator.",
+    "url": "https://cemu.info/",
+    "host": "cemu.info",
+    "color": "#a7c1f0",
+    "glyph": "Ce",
+    "tags": [
+      "emulator",
+      "wii u",
+      "compatibility",
+      "console"
+    ],
+    "notice": "Use game files you are entitled to use."
+  },
+  {
+    "id": "orca",
+    "name": "Orca",
+    "category": "Utilities",
+    "description": "Use speech and braille output to navigate Linux applications and desktop controls.",
+    "url": "https://orca.gnome.org/",
+    "host": "orca.gnome.org",
+    "color": "#a6d5be",
+    "glyph": "Oc",
+    "tags": [
+      "screen reader",
+      "accessibility",
+      "braille",
+      "speech",
+      "linux"
+    ],
+    "notice": null
+  },
+  {
+    "id": "jaws",
+    "name": "JAWS",
+    "category": "Utilities",
+    "description": "Use speech and braille to read and navigate Windows applications.",
+    "url": "https://vispero.com/jaws-screen-reader-software/",
+    "host": "vispero.com",
+    "color": "#a6d5be",
+    "glyph": "Ja",
+    "tags": [
+      "screen reader",
+      "accessibility",
+      "speech",
+      "braille",
+      "windows"
+    ],
+    "notice": null
+  },
+  {
+    "id": "zoomtext",
+    "name": "ZoomText",
+    "category": "Utilities",
+    "description": "Enlarge Windows screen content and adjust how text and the pointer appear.",
+    "url": "https://vispero.com/zoomtext-screen-magnifier-software/",
+    "host": "vispero.com",
+    "color": "#a6d5be",
+    "glyph": "Zt",
+    "tags": [
+      "magnification",
+      "accessibility",
+      "low vision",
+      "windows"
+    ],
+    "notice": null
+  },
+  {
+    "id": "windows-narrator",
+    "name": "Narrator",
+    "category": "Utilities",
+    "description": "Learn to navigate Windows with its built-in screen reader.",
+    "url": "https://support.microsoft.com/en-us/accessibility/windows/narrator/complete-guide-to-narrator",
+    "host": "support.microsoft.com",
+    "color": "#a6d5be",
+    "glyph": "Nr",
+    "tags": [
+      "screen reader",
+      "accessibility",
+      "speech",
+      "windows"
+    ],
+    "notice": null
+  },
+  {
+    "id": "espeak-ng",
+    "name": "eSpeak NG",
+    "category": "Utilities",
+    "description": "Generate speech from text in supported languages with an open source synthesizer.",
+    "url": "https://github.com/espeak-ng/espeak-ng/releases",
+    "host": "github.com",
+    "color": "#a6d5be",
+    "glyph": "Es",
+    "tags": [
+      "voice",
+      "synthesis",
+      "accessibility",
+      "text to speech"
+    ],
+    "notice": null
+  },
+  {
+    "id": "kmousetool",
+    "name": "KMouseTool",
+    "category": "Utilities",
+    "description": "Click automatically when the pointer stops moving, reducing repeated mouse presses.",
+    "url": "https://apps.kde.org/kmousetool/",
+    "host": "apps.kde.org",
+    "color": "#a6d5be",
+    "glyph": "Km",
+    "tags": [
+      "mouse",
+      "accessibility",
+      "clicking",
+      "kde"
+    ],
+    "notice": null
+  },
+  {
+    "id": "optikey",
+    "name": "OptiKey",
+    "category": "Utilities",
+    "description": "Type, communicate, and control a Windows desktop using a supported eye tracker or other input.",
+    "url": "https://github.com/OptiKey/OptiKey/releases",
+    "host": "github.com",
+    "color": "#a6d5be",
+    "glyph": "Op",
+    "tags": [
+      "eye tracking",
+      "keyboard",
+      "speech",
+      "accessibility",
+      "windows"
+    ],
+    "notice": null
+  },
+  {
+    "id": "normcap",
+    "name": "NormCap",
+    "category": "Utilities",
+    "description": "Select a region of the screen and copy recognized text from it.",
+    "url": "https://dynobo.github.io/normcap/",
+    "host": "dynobo.github.io",
+    "color": "#a6d5be",
+    "glyph": "Nc",
+    "tags": [
+      "ocr",
+      "clipboard",
+      "screenshot",
+      "extract",
+      "characters"
+    ],
+    "notice": null
+  },
+  {
+    "id": "gimagereader",
+    "name": "gImageReader",
+    "category": "Productivity",
+    "description": "Recognize text in images and scanned documents through a graphical interface.",
+    "url": "https://github.com/manisandro/gImageReader/releases",
+    "host": "github.com",
+    "color": "#9ac9ee",
+    "glyph": "Gr",
+    "tags": [
+      "ocr",
+      "tesseract",
+      "scanning",
+      "images"
+    ],
+    "notice": null
+  },
+  {
+    "id": "ocrmypdf",
+    "name": "OCRmyPDF",
+    "category": "Productivity",
+    "description": "Add a searchable text layer to scanned PDFs with a command-line tool.",
+    "url": "https://ocrmypdf.readthedocs.io/en/latest/installation.html",
+    "host": "ocrmypdf.readthedocs.io",
+    "color": "#9ac9ee",
+    "glyph": "Om",
+    "tags": [
+      "ocr",
+      "pdf",
+      "cli",
+      "scanning"
+    ],
+    "notice": null
+  },
+  {
+    "id": "greenshot",
+    "name": "Greenshot",
+    "category": "Utilities",
+    "description": "Capture regions or windows and annotate screenshots.",
+    "url": "https://getgreenshot.org/downloads/",
+    "host": "getgreenshot.org",
+    "color": "#a6d5be",
+    "glyph": "Gs",
+    "tags": [
+      "screenshots",
+      "capture",
+      "annotation",
+      "windows"
+    ],
+    "notice": null
+  },
+  {
+    "id": "thorium-reader",
+    "name": "Thorium Reader",
+    "category": "Productivity",
+    "description": "Read EPUB books and use supported read-aloud and accessibility features.",
+    "url": "https://www.edrlab.org/software/thorium-reader/",
+    "host": "www.edrlab.org",
+    "color": "#9ac9ee",
+    "glyph": "Th",
+    "tags": [
+      "ebook",
+      "epub",
+      "reading",
+      "accessibility"
+    ],
+    "notice": null
+  },
+  {
+    "id": "foliate",
+    "name": "Foliate",
+    "category": "Productivity",
+    "description": "Read and annotate ebooks with a desktop reader for Linux.",
+    "url": "https://johnfactotum.github.io/foliate/",
+    "host": "johnfactotum.github.io",
+    "color": "#9ac9ee",
+    "glyph": "Fo",
+    "tags": [
+      "ebook",
+      "epub",
+      "reading",
+      "linux"
+    ],
+    "notice": null
+  },
+  {
+    "id": "subtitle-edit",
+    "name": "Subtitle Edit",
+    "category": "Media",
+    "description": "Create, synchronize, and convert subtitle files.",
+    "url": "https://github.com/SubtitleEdit/subtitleedit/releases",
+    "host": "github.com",
+    "color": "#f2bf96",
+    "glyph": "Se",
+    "tags": [
+      "subtitles",
+      "captions",
+      "accessibility",
+      "video"
+    ],
+    "notice": null
+  },
+  {
+    "id": "buzz",
+    "name": "Buzz",
+    "category": "Media",
+    "description": "Transcribe and translate recordings with local speech recognition.",
+    "url": "https://buzzcaptions.com/",
+    "host": "buzzcaptions.com",
+    "color": "#f2bf96",
+    "glyph": "Bz",
+    "tags": [
+      "transcription",
+      "captions",
+      "subtitles",
+      "speech"
+    ],
+    "notice": null
+  },
+  {
+    "id": "imagemagick",
+    "name": "ImageMagick",
+    "category": "Media",
+    "description": "Convert, resize, and process images from the command line.",
+    "url": "https://github.com/ImageMagick/ImageMagick/releases",
+    "host": "github.com",
+    "color": "#f2bf96",
+    "glyph": "Im",
+    "tags": [
+      "image",
+      "conversion",
+      "batch",
+      "cli"
+    ],
+    "notice": null
+  },
+  {
+    "id": "caesium",
+    "name": "Caesium Image Compressor",
+    "category": "Media",
+    "description": "Shrink image files in batches and adjust output quality.",
+    "url": "https://saerasoft.com/caesium/",
+    "host": "saerasoft.com",
+    "color": "#f2bf96",
+    "glyph": "Ca",
+    "tags": [
+      "image",
+      "compression",
+      "batch",
+      "photo"
+    ],
+    "notice": null
+  },
+  {
+    "id": "gwenview",
+    "name": "Gwenview",
+    "category": "Media",
+    "description": "Browse photographs and make basic edits in KDE\u2019s image viewer.",
+    "url": "https://apps.kde.org/gwenview/",
+    "host": "apps.kde.org",
+    "color": "#f2bf96",
+    "glyph": "Gw",
+    "tags": [
+      "image",
+      "viewer",
+      "photo",
+      "kde"
+    ],
+    "notice": null
+  },
+  {
+    "id": "rapid-photo-downloader",
+    "name": "Rapid Photo Downloader",
+    "category": "Media",
+    "description": "Import and organize photos or videos from cameras and memory cards.",
+    "url": "https://damonlynch.net/rapid/",
+    "host": "damonlynch.net",
+    "color": "#f2bf96",
+    "glyph": "Rp",
+    "tags": [
+      "photo",
+      "import",
+      "camera",
+      "linux"
+    ],
+    "notice": null
+  },
+  {
+    "id": "omegat",
+    "name": "OmegaT",
+    "category": "Productivity",
+    "description": "Translate documents using translation memory and glossaries.",
+    "url": "https://omegat.org/download",
+    "host": "omegat.org",
+    "color": "#9ac9ee",
+    "glyph": "Ot",
+    "tags": [
+      "translation",
+      "documents",
+      "localization",
+      "glossary"
+    ],
+    "notice": null
+  },
+  {
+    "id": "poedit",
+    "name": "Poedit",
+    "category": "Productivity",
+    "description": "Translate application interface strings in gettext catalogs.",
+    "url": "https://poedit.com/download/",
+    "host": "poedit.com",
+    "color": "#9ac9ee",
+    "glyph": "Pe",
+    "tags": [
+      "translation",
+      "localization",
+      "gettext",
+      "editing"
+    ],
+    "notice": null
+  },
+  {
+    "id": "argos-translate",
+    "name": "Argos Translate",
+    "category": "Utilities",
+    "description": "Translate text offline after installing a supported language package.",
+    "url": "https://github.com/argosopentech/argos-translate/releases",
+    "host": "github.com",
+    "color": "#a6d5be",
+    "glyph": "At",
+    "tags": [
+      "translation",
+      "language",
+      "offline",
+      "text"
+    ],
+    "notice": null
+  },
+  {
+    "id": "kiten",
+    "name": "Kiten",
+    "category": "Education",
+    "description": "Look up Japanese vocabulary and kanji in KDE\u2019s reference tool.",
+    "url": "https://apps.kde.org/kiten/",
+    "host": "apps.kde.org",
+    "color": "#e2cb8f",
+    "glyph": "Ki",
+    "tags": [
+      "japanese",
+      "dictionary",
+      "kanji",
+      "vocabulary"
+    ],
+    "notice": null
+  },
+  {
+    "id": "fcitx5",
+    "name": "Fcitx 5",
+    "category": "Utilities",
+    "description": "Install a Linux input-method framework for typing in supported languages.",
+    "url": "https://fcitx-im.org/wiki/Fcitx_5",
+    "host": "fcitx-im.org",
+    "color": "#a6d5be",
+    "glyph": "Fc",
+    "tags": [
+      "input method",
+      "keyboard",
+      "languages",
+      "linux"
+    ],
+    "notice": null
   }
 ];

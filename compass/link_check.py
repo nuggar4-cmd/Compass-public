@@ -4,7 +4,8 @@ from http.client import HTTPConnection, HTTPException
 from ipaddress import ip_address
 import json
 import re
-from socket import SHUT_RDWR
+from socket import AF_INET, SHUT_RDWR, SOCK_STREAM, socket
+from sys import audit
 from threading import Timer
 from time import monotonic
 from unicodedata import category
@@ -169,6 +170,23 @@ def _interrupt_transport(transport):
         pass
 
 
+class _LocalModelConnection(HTTPConnection):
+    def __init__(self):
+        super().__init__('127.0.0.1', 11434, timeout=_AI_DEADLINE)
+
+    def connect(self):
+        audit('http.client.connect', self, self.host, self.port)
+        # The fixed IPv4 address can connect directly without a hostname resolver.
+        transport = socket(AF_INET, SOCK_STREAM)
+        try:
+            transport.settimeout(self.timeout)
+            transport.connect((self.host, self.port))
+        except OSError:
+            transport.close()
+            raise
+        self.sock = transport
+
+
 def explain_link(reason, language):
     unavailable = {'status': 'unavailable'}
     if not isinstance(reason, str) or reason not in _EXPLANATIONS or language not in ('en', 'tr'):
@@ -186,9 +204,8 @@ def explain_link(reason, language):
         'options': {'temperature': 0, 'num_predict': 32},
         'keep_alive': '1m',
     }).encode('utf-8')
-    # HTTPConnection talks to the literal loopback endpoint, ignores proxies and never follows redirects.
     deadline = monotonic() + _AI_DEADLINE
-    connection = HTTPConnection('127.0.0.1', 11434, timeout=_AI_DEADLINE)
+    connection = _LocalModelConnection()
     watchdog = None
     try:
         connection.connect()

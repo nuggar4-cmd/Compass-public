@@ -22,6 +22,8 @@ BRIDGE_SCRIPT = """
   window.pywebview = {api: {
     catalog: () => call(['catalog']),
     app_info: () => call(['app_info']),
+    list_favorites: () => call(['list_favorites']),
+    set_favorite: (id, saved) => call(['set_favorite', id, saved]),
     open_official: id => call(['open_official', id]),
     suggest_link: () => call(['suggest_link']),
     inspect_link: value => call(['inspect_link', value]),
@@ -186,6 +188,10 @@ def run(ui_directory, version):
                 result = bridge.catalog()
             elif request == ['app_info']:
                 result = bridge.app_info()
+            elif request == ['list_favorites']:
+                result = bridge.list_favorites()
+            elif len(request) == 3 and request[0] == 'set_favorite':
+                result = bridge.set_favorite(request[1], request[2])
             elif request == ['suggest_link']:
                 result = bridge.suggest_link()
             elif len(request) == 2 and request[0] == 'open_official':

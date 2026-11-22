@@ -120,6 +120,7 @@ button:focus-visible, a:focus-visible, select:focus-visible,
 .nav-icon--catalog::before { inset: 1px; border: 1.5px solid; border-radius: 3px; }
 .nav-icon--catalog::after { inset: 2px auto 2px 5px; width: 1px; background: currentColor; }
 .nav-icon--list::before { inset: 3px 1px auto; height: 1.5px; background: currentColor; box-shadow: 0 4px currentColor, 0 8px currentColor; }
+.nav-icon--favorites::before { inset: 0; font-size: 1rem; line-height: 1; content: '☆'; }
 .nav-icon--check::before { inset: 1px 4px 4px 1px; border: 1.5px solid; border-radius: 50%; }
 .nav-icon--check::after { right: 1px; bottom: 2px; width: 5px; height: 1.5px; transform: rotate(45deg); background: currentColor; }
 .nav-icon--privacy::before { inset: 5px 2px 1px; border: 1.5px solid; border-radius: 2px; }
@@ -395,7 +396,25 @@ select {
   background: var(--paper);
 }
 .card:hover, .card:focus-within { border-color: var(--accent-edge); }
-.card-heading { min-width: 0; }
+.card-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; min-width: 0; }
+.card-title { min-width: 0; }
+.favorite-toggle {
+  display: grid;
+  flex: 0 0 29px;
+  place-items: center;
+  min-height: 29px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.08rem;
+  line-height: 1;
+}
+.favorite-toggle::before { content: '☆'; }
+.favorite-toggle[aria-pressed="true"] { color: var(--accent); }
+.favorite-toggle[aria-pressed="true"]::before { content: '★'; }
+.favorite-toggle:hover:enabled { border-color: var(--accent-edge); background: var(--accent-soft); color: var(--accent); }
 .card h3 {
   overflow-wrap: anywhere;
   font-size: 1.0125rem;
@@ -485,6 +504,17 @@ select {
 .empty { padding: 25px 17px; text-align: center; }
 .empty h2, .empty h3 { font-size: 1.0625rem; }
 .empty p { margin: 5px 0 13px; color: var(--muted); }
+.favorites-status {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--muted);
+}
 
 .intro { margin-top: 8px; color: var(--muted); }
 .privacy-page, .checker-page { max-width: 1040px; }
@@ -640,7 +670,7 @@ dialog::backdrop { background: var(--backdrop); }
   }
   .brand { padding: 0; font-size: 1.1875rem; }
   .brand-icon { width: 31px; height: 31px; }
-  .sidebar nav { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .sidebar nav { grid-template-columns: repeat(5, minmax(0, 1fr)); }
   .nav { justify-content: center; padding-inline: 4px; font-size: .75rem; text-align: center; }
   .nav-icon, .sidebar-foot { display: none; }
   .topbar { min-height: 41px; }
@@ -648,8 +678,9 @@ dialog::backdrop { background: var(--backdrop); }
 }
 
 @media (max-width: 540px) {
-  .sidebar nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .nav { min-height: 35px; }
+  .sidebar nav { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .nav { grid-column: span 2; min-height: 35px; }
+  .nav:nth-last-child(-n+2) { grid-column: span 3; }
   .cards { grid-template-columns: minmax(0, 1fr); }
   .list-layout .card { grid-template-columns: minmax(0, 1fr); }
   .list-layout .card-description { grid-area: auto; }

@@ -3,6 +3,7 @@
 from contextlib import contextmanager
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from socketserver import TCPServer
 from threading import Thread
 
 
@@ -14,6 +15,13 @@ ASSETS = {
     '/app.js': ('app.js', 'text/javascript; charset=utf-8'),
     '/compass-mark.png': ('compass-mark.png', 'image/png'),
 }
+
+
+class _LoopbackAssetServer(ThreadingHTTPServer):
+    def server_bind(self):
+        TCPServer.server_bind(self)
+        # Retain the numeric loopback name instead of attempting a reverse lookup.
+        self.server_name, self.server_port = self.server_address
 
 
 @contextmanager
@@ -54,7 +62,7 @@ def serve_windows_assets(ui_directory):
             if data:
                 self.wfile.write(data)
 
-    with ThreadingHTTPServer(('127.0.0.1', 0), AssetHandler) as server:
+    with _LoopbackAssetServer(('127.0.0.1', 0), AssetHandler) as server:
         authority = f'127.0.0.1:{server.server_port}'
         thread = Thread(target=server.serve_forever, kwargs={'poll_interval': 0.1}, daemon=True)
         thread.start()

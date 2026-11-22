@@ -17,6 +17,7 @@
   <nav aria-label="Main navigation" data-tr-label="Ana gezinme">
     <button class="nav active" data-view="discover" aria-current="page"><span class="nav-icon nav-icon--catalog" aria-hidden="true"></span><span data-tr="Keşfet">Discover</span></button>
     <button class="nav" data-view="library"><span class="nav-icon nav-icon--list" aria-hidden="true"></span><span data-tr="Tüm uygulamalar">All apps</span></button>
+    <button class="nav" data-view="favorites"><span class="nav-icon nav-icon--favorites" aria-hidden="true"></span><span data-tr="Favoriler">Favorites</span></button>
     <button class="nav" data-view="checker"><span class="nav-icon nav-icon--check" aria-hidden="true"></span><span data-tr="Bağlantı denetimi">Link check</span></button>
     <button class="nav" data-view="privacy"><span class="nav-icon nav-icon--privacy" aria-hidden="true"></span><span data-tr="Gizlilik ve güvenlik">Privacy &amp; trust</span></button>
   </nav>
@@ -38,6 +39,7 @@
       <div>
         <h1 id="discover-title" data-tr="Yazılım kataloğu">Software catalog</h1>
         <h1 id="library-title" data-tr="Tüm uygulamalar" hidden>All apps</h1>
+        <h1 id="favorites-title" data-tr="Favoriler" hidden>Favorites</h1>
       </div>
       <button id="quick-check" class="secondary" type="button"><span data-tr="Bağlantı denetle">Check a link</span><span aria-hidden="true">→</span></button>
     </header>
@@ -95,7 +97,16 @@
             <span id="suggest-link-info" data-tr="Öneriler GitHub’da herkese açıktır ve GitHub hesabıyla gönderilir." hidden>Suggestions are public on GitHub. GitHub sign-in is required.</span>
           </div>
         </div>
+        <div class="favorites-status" id="favorites-status" hidden>
+          <p id="favorites-message" role="status" aria-atomic="true"></p>
+          <button id="retry-favorites" class="secondary" type="button" data-tr="Tekrar dene" hidden>Retry</button>
+        </div>
         <div class="cards" id="cards"></div>
+        <div id="favorites-empty" class="empty" hidden>
+          <h3 data-tr="Favori uygulaman yok">No favorites yet</h3>
+          <p data-tr="Bir uygulama kartındaki yıldıza basarak uygulamayı buraya ekleyebilirsin.">Select the star on an app card to save it here.</p>
+          <button id="browse-favorites" class="secondary" type="button" data-tr="Kataloğa göz at">Browse the catalog</button>
+        </div>
         <div id="empty" class="empty" hidden>
           <h3 data-tr="Uygulama bulunamadı">No apps found</h3>
           <p data-tr="Başka bir arama yap veya farklı bir kategoriye göz at.">Try another search or explore a different category.</p>
@@ -148,7 +159,7 @@
       <article>
         <h2 data-tr="Yayıncı adresleri">Publisher addresses</h2>
         <span class="security-label security-label--verified" data-tr="Güvenli">Safe</span>
-        <p data-tr="Compass listedeki adresi yayıncının resmî sitesiyle karşılaştırır. Tam adresi tarayıcıda açmadan önce görüp onaylayabilirsin.">Compass checks the listed address against the publisher’s official website. You can review and confirm the full address before it opens in your default browser.</p>
+        <p data-tr="Compass adresi cihazındaki incelenmiş katalogla karşılaştırır. Tam adresi tarayıcıda açmadan önce görüp onaylayabilirsin.">Compass checks the address against the reviewed catalog on your device. You can review and confirm the full address before it opens in your default browser.</p>
       </article>
       <article>
         <h2 data-tr="Yönlendirmeler ve indirmeler">Redirects and downloads</h2>
@@ -162,7 +173,7 @@
       </article>
       <article>
         <h2 data-tr="Gizlilik">Privacy</h2>
-        <p data-tr="Katalog aramaları cihazında kalır ve Compass’ı kapatınca silinir. GitHub üzerinden gönderdiğin bağlantı önerileri herkese açıktır.">Catalog searches stay on your device and clear when you close Compass. Suggestions are submitted separately through GitHub and are public.</p>
+        <p data-tr="Katalog aramaları Compass’ı kapatınca silinir. Masaüstü uygulaması favorileri bu cihazda saklar. GitHub üzerinden gönderdiğin bağlantı önerileri herkese açıktır.">Catalog searches clear when you close Compass. The desktop app stores favorites on this device. Suggestions submitted through GitHub are public.</p>
       </article>
     </div>
     <button class="primary" id="back-discover"><span data-tr="Kataloğu keşfet">Explore the catalog</span> <span aria-hidden="true">→</span></button>

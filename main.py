@@ -90,7 +90,7 @@ def start_webview(webview, url, version):
     )
     window.expose(
         bridge.app_info, bridge.catalog, bridge.inspect_link, bridge.explain_link,
-        bridge.open_official, bridge.suggest_link,
+        bridge.list_favorites, bridge.set_favorite, bridge.open_official, bridge.suggest_link,
     )
     unsupported_renderer = False
 

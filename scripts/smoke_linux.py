@@ -2,6 +2,7 @@
 
 from pathlib import Path
 import sys
+from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
 import gi
@@ -68,6 +69,21 @@ selectLanguage('en');
 $('clear-filters').click();
 check('clear filters restores the full catalog and keeps the display', !$('search').value &&
   $('cards').classList.contains('list-layout') && document.querySelectorAll('.card').length === expectedCount);
+const favorite = () => document.querySelector('button[data-favorite="7zip"]');
+check('favorites bridge rejects an arbitrary destination',
+  !(await api.set_favorite('https://www.7-zip.org/', true)).ok);
+check('catalog favorite toggle is ready', await waitFor(() => favorite() && !favorite().disabled &&
+  favorite().getAttribute('aria-disabled') !== 'true'));
+favorite().click();
+document.querySelector('[data-view="favorites"]').click();
+check('native save appears after switching to favorites during the write',
+  await waitFor(() => favorite()?.getAttribute('aria-pressed') === 'true') && (await api.list_favorites()).ids.includes('7zip'));
+check('favorites view shows the saved card', !$('favorites-title').hidden &&
+  document.querySelectorAll('.card').length === 1 && favorite()?.getAttribute('aria-pressed') === 'true');
+favorite().click();
+check('removing the last favorite shows the empty view', await waitFor(() => !$('favorites-empty').hidden && !favorite()) &&
+  (await api.list_favorites()).ids.length === 0);
+document.querySelector('[data-view="library"]').click();
 document.querySelector('[data-category="Gaming"]').click();
 details('epic-games').click();
 check('verified publisher and preview caution',
@@ -171,13 +187,15 @@ def smoke():
         GLib.timeout_add_seconds(20, timed_out)
         original_main()
 
-    with patch.object(Gtk, 'main', drive_window), patch.object(
+    with TemporaryDirectory() as data, patch(
+        'compass.favorites.favorites_path', return_value=Path(data) / 'favorites.sqlite3',
+    ), patch.object(Gtk, 'main', drive_window), patch.object(
         Gio.AppInfo, 'launch_default_for_uri', lambda url, _context: opened.append(url) or True,
     ):
         main.main()
     for result in results:
         print(f'PASS: {result}')
-    if errors or len(results) != 19:
+    if errors or len(results) != 24:
         raise SystemExit('\n'.join(errors) or 'Missing Linux smoke results')
 
 

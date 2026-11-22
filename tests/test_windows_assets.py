@@ -2,6 +2,7 @@ from http.client import HTTPConnection
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
+from unittest.mock import patch
 from urllib.parse import urlsplit
 
 from compass.windows_assets import serve_windows_assets
@@ -76,3 +77,11 @@ class WindowsAssetTests(unittest.TestCase):
 
         with self.assertRaises((ConnectionRefusedError, TimeoutError)):
             self.request(endpoint, '/styles.css')
+
+    def test_starts_loopback_listener_without_a_reverse_lookup(self):
+        with patch('socket.gethostbyaddr', side_effect=AssertionError('Unexpected reverse lookup')) as resolver:
+            with serve_windows_assets(self.ui) as url:
+                endpoint = urlsplit(url)
+                self.assertEqual(endpoint.hostname, '127.0.0.1')
+                self.assertEqual(self.request(endpoint, '/styles.css')[0], 200)
+            resolver.assert_not_called()

@@ -5,6 +5,7 @@
   const all = 'All apps';
   const catalogFields = ['id', 'name', 'category', 'description', 'host', 'url', 'glyph'];
   const startupLimitMs = 8000;
+  const favoritesLimitMs = 5000;
   const languageKey = 'compass-language';
   const turkishCategories = new Map([
     [all, 'Tümü'], ['Browsers', 'Tarayıcılar'], ['Development', 'Geliştirme'], ['Creative', 'Tasarım'],
@@ -47,6 +48,9 @@
       el => [el, attribute, el.getAttribute(attribute), el.getAttribute(translation)]));
   const state = { apps: [], category: all, query: '', sort: 'featured', view: 'discover', selected: null, busy: false };
   const blocked = new Map();
+  const favorites = new Set();
+  const pendingFavorites = new Set();
+  let favoritesStatus = desktop ? 'loading' : 'ready';
   let desktopApi;
   let catalogAttempt;
   let catalogError;
@@ -125,6 +129,7 @@
   }
 
   function setView(view) {
+    const favoritesViewChanged = (state.view === 'favorites') !== (view === 'favorites');
     if (state.view === 'checker' && view !== 'checker') {
       $('link-address').value = '';
       linkCheck = {};
@@ -141,10 +146,12 @@
     $('checker-page').hidden = view !== 'checker';
     $('discover-page').hidden = view === 'privacy' || view === 'checker';
     updatePageTitle();
-    $('discover-title').hidden = view === 'library';
+    $('discover-title').hidden = view !== 'discover';
     $('library-title').hidden = view !== 'library';
+    $('favorites-title').hidden = view !== 'favorites';
     window.scrollTo(0, 0);
     if (view === 'checker') renderLinkCheck();
+    if (favoritesViewChanged && state.apps.length) render();
     $('page-title').focus({ preventScroll: true });
   }
 
@@ -303,6 +310,112 @@
     $('app-dialog').showModal();
   }
 
+  function updateFavoriteButton(button) {
+    const id = button.dataset.favorite;
+    const saved = favorites.has(id);
+    button.disabled = favoritesStatus !== 'ready';
+    button.setAttribute('aria-pressed', String(saved));
+    if (pendingFavorites.has(id)) button.setAttribute('aria-disabled', 'true');
+    else button.removeAttribute('aria-disabled');
+    button.title = saved ? copy('Remove from favorites', 'Favorilerden çıkar') : copy('Save to favorites', 'Favorilere ekle');
+  }
+
+  function renderFavoritesStatus() {
+    let message = '';
+    if (state.view === 'favorites') {
+      if (!desktop) {
+        message = copy('Preview favorites clear when you reload or close this page.',
+          'Önizlemedeki favoriler bu sayfayı yenileyince veya kapatınca silinir.');
+      } else if (favoritesStatus === 'loading') {
+        message = copy('Loading your favorites…', 'Favorilerin yükleniyor…');
+      } else if (favoritesStatus === 'error') {
+        message = copy('Compass could not read your favorites from this device.', 'Compass bu cihazdaki favorileri okuyamadı.');
+      }
+    }
+    $('favorites-status').hidden = !message;
+    $('favorites-message').textContent = message;
+    $('retry-favorites').hidden = favoritesStatus !== 'error' || typeof desktopApi?.list_favorites !== 'function'
+      || typeof desktopApi?.set_favorite !== 'function';
+  }
+
+  function withFavoritesTimeout(request) {
+    let timer;
+    const deadline = new Promise((_, reject) => {
+      timer = setTimeout(() => reject(new Error('Favorites storage did not respond')), favoritesLimitMs);
+    });
+    return Promise.race([request, deadline]).finally(() => clearTimeout(timer));
+  }
+
+  async function loadFavorites() {
+    const api = desktopApi;
+    if (typeof api?.list_favorites !== 'function' || typeof api?.set_favorite !== 'function') {
+      favoritesStatus = 'error';
+      renderFavoritesStatus();
+      return;
+    }
+    if (document.activeElement === $('retry-favorites')) $('page-title').focus();
+    favoritesStatus = 'loading';
+    renderFavoritesStatus();
+    try {
+      const result = await withFavoritesTimeout(api.list_favorites());
+      if (result?.ok !== true || !Array.isArray(result.ids) || !result.ids.every(id => typeof id === 'string')) {
+        throw new Error('Invalid favorites response');
+      }
+      const saved = new Set(result.ids);
+      favorites.clear();
+      state.apps.forEach(app => { if (saved.has(app.id)) favorites.add(app.id); });
+      favoritesStatus = 'ready';
+    } catch (_) {
+      favoritesStatus = 'error';
+    }
+    if (state.view === 'favorites') render();
+    else $('cards').querySelectorAll('[data-favorite]').forEach(updateFavoriteButton);
+  }
+
+  function renderAfterFavoriteChange(id) {
+    const active = document.activeElement;
+    const activeCard = active.closest('.card');
+    const removedCard = activeCard?.dataset.appId === id && !favorites.has(id);
+    const target = removedCard ? activeCard.nextElementSibling || activeCard.previousElementSibling : activeCard;
+    const targetId = target?.dataset.appId;
+    const selector = active.matches('[data-favorite]') ? '[data-favorite]' : '.details-button';
+    render();
+    if (activeCard) {
+      const targetCard = targetId ? $('cards').querySelector(`[data-app-id="${CSS.escape(targetId)}"]`) : null;
+      const emptyAction = $('favorites-empty').hidden ? $('search') : $('browse-favorites');
+      (targetCard?.querySelector(selector) || emptyAction).focus({ preventScroll: Boolean(targetCard) });
+    } else if (active === $('browse-favorites') && $('favorites-empty').hidden) {
+      $('search').focus();
+    }
+  }
+
+  async function toggleFavorite(button) {
+    const id = button.dataset.favorite;
+    if (favoritesStatus !== 'ready' || pendingFavorites.has(id)) return;
+    const save = !favorites.has(id);
+    pendingFavorites.add(id);
+    updateFavoriteButton(button);
+    let changed = false;
+    try {
+      if (desktop) {
+        const result = await withFavoritesTimeout(desktopApi.set_favorite(id, save));
+        if (result?.ok !== true || result.saved !== save) throw new Error('Invalid favorite update response');
+      }
+      if (save) favorites.add(id);
+      else favorites.delete(id);
+      changed = true;
+    } catch (_) {
+      notify(copy('Could not update your favorites. Try again.', 'Favoriler güncellenemedi. Tekrar dene.'));
+    } finally {
+      pendingFavorites.delete(id);
+      if (changed && state.view === 'favorites') renderAfterFavoriteChange(id);
+      else {
+        const visibleButton = $('cards').querySelector(`[data-favorite="${CSS.escape(id)}"]`);
+        if (visibleButton) updateFavoriteButton(visibleButton);
+      }
+    }
+  }
+
   function render() {
     $('clear-search').hidden = !state.query;
     document.querySelectorAll('.filter').forEach(button => {
@@ -312,7 +425,9 @@
     });
     const terms = normalizeSearch(state.query).match(/\S+/g) || [];
     $('clear-filters').hidden = !terms.length && state.category === all && state.sort === 'featured';
-    const apps = state.apps.filter(app => (state.category === all || app.category === state.category)
+    const onlyFavorites = state.view === 'favorites';
+    const apps = state.apps.filter(app => (!onlyFavorites || favorites.has(app.id))
+      && (state.category === all || app.category === state.category)
       && terms.every(term => app.searchText.includes(term)));
     if (state.sort === 'az') apps.sort((a, b) => a.name.localeCompare(b.name, document.documentElement.lang));
     else if (state.sort === 'recent') apps.reverse();
@@ -330,7 +445,14 @@
       const card = text('article', '', 'card');
       card.dataset.appId = app.id;
       const heading = text('div', '', 'card-heading');
-      heading.append(text('h3', app.name), text('span', categoryLabel(app.category), 'category'));
+      const title = text('div', '', 'card-title');
+      title.append(text('h3', app.name), text('span', categoryLabel(app.category), 'category'));
+      const favorite = text('button', '', 'favorite-toggle');
+      favorite.type = 'button';
+      favorite.dataset.favorite = app.id;
+      favorite.setAttribute('aria-label', copy(`${app.name} favorite`, `${app.name} favori durumu`));
+      updateFavoriteButton(favorite);
+      heading.append(title, favorite);
       const bottom = text('div', '', 'card-bottom');
       const publisher = text('div', '', 'publisher');
       const address = text('div', '', 'publisher-address');
@@ -350,10 +472,15 @@
       cards.append(card);
     });
     $('cards').replaceChildren(cards);
-    $('empty').hidden = apps.length !== 0;
+    const favoritesEmpty = onlyFavorites && favoritesStatus === 'ready' && favorites.size === 0;
+    $('favorites-empty').hidden = !favoritesEmpty;
+    $('empty').hidden = apps.length !== 0 || favoritesEmpty || (onlyFavorites && favoritesStatus !== 'ready');
+    renderFavoritesStatus();
     const count = apps.length.toLocaleString(document.documentElement.lang);
+    $('result-count').hidden = onlyFavorites && favoritesStatus !== 'ready';
     $('result-count').textContent = copy(`${count} ${apps.length === 1 ? 'app' : 'apps'}`, `${count} uygulama`);
-    const category = state.category === all ? copy('All entries', 'Tüm kayıtlar') : categoryLabel(state.category);
+    const allEntries = onlyFavorites ? copy('Saved apps', 'Kaydedilen uygulamalar') : copy('All entries', 'Tüm kayıtlar');
+    const category = state.category === all ? allEntries : categoryLabel(state.category);
     $('results-title').textContent = terms.length ? copy('Search results', 'Arama sonuçları') : category;
   }
 
@@ -434,6 +561,7 @@
     finishCatalogAttempt(attempt);
     desktopApi = api;
     $('suggest-link').hidden = typeof api.suggest_link !== 'function';
+    loadFavorites();
     if (typeof api.app_info === 'function') {
       try {
         const { version } = await api.app_info();
@@ -486,6 +614,11 @@
   $('reset').addEventListener('click', () => { reset(); $('search').focus(); });
   $('clear-filters').addEventListener('click', () => { reset(); $('search').focus(); });
   $('cards').addEventListener('click', event => {
+    const favorite = event.target.closest('[data-favorite]');
+    if (favorite) {
+      toggleFavorite(favorite);
+      return;
+    }
     const card = event.target.closest('.details-button')?.closest('.card');
     if (!card) return;
     const app = state.apps.find(entry => entry.id === card.dataset.appId);
@@ -499,6 +632,8 @@
     if (!$('link-address').disabled) $('link-address').focus();
   });
   $('back-discover').addEventListener('click', () => setView('discover'));
+  $('browse-favorites').addEventListener('click', () => { setView('discover'); $('search').focus(); });
+  $('retry-favorites').addEventListener('click', loadFavorites);
   $('link-address').addEventListener('input', () => {
     linkCheck = {};
     renderLinkCheck();

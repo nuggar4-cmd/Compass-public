@@ -3,6 +3,7 @@ from threading import Lock
 import webbrowser
 from . import link_check
 from .catalog import BY_ID, destination, public_catalog
+from .favorites import Favorites
 
 SUGGESTION_URL = 'https://github.com/nuggar4-cmd/Compass-public/issues/new?template=catalog-suggestion.yml'
 
@@ -13,12 +14,19 @@ class Bridge:
         self._opening = Lock()
         self._explaining = Lock()
         self._version = version
+        self._favorites = Favorites()
 
     def app_info(self):
         return {'version': self._version}
 
     def catalog(self):
         return public_catalog()
+
+    def list_favorites(self):
+        return self._favorites.list_favorites()
+
+    def set_favorite(self, app_id, saved):
+        return self._favorites.set_favorite(app_id, saved)
 
     def inspect_link(self, value):
         return link_check.inspect_link(value)

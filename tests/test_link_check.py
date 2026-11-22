@@ -1,7 +1,7 @@
 from dataclasses import replace
 from http.client import HTTPException
 import json
-from socket import SHUT_RDWR
+from socket import AF_INET, SHUT_RDWR, SOCK_STREAM
 import unittest
 from unittest.mock import patch
 
@@ -57,16 +57,40 @@ class LinkInspectionTests(unittest.TestCase):
                 self.assertEqual(link_check.inspect_link(address), {'status': 'blocked', 'reason': reason})
 
     def test_inspection_cannot_request_network_or_open_a_site(self):
-        with patch.object(link_check, 'HTTPConnection') as connection:
+        with patch.object(link_check, '_LocalModelConnection') as connection, patch('socket.getaddrinfo') as resolver:
             bridge = Bridge(lambda *_: self.fail('Confirmation was opened'),
                             lambda *_: self.fail('Address was opened'))
             self.assertEqual(bridge.inspect_link('https://example.com/')['status'], 'unverified')
             connection.assert_not_called()
+            resolver.assert_not_called()
+
+
+class LocalModelConnectionTests(unittest.TestCase):
+    def test_transport_connects_to_ipv4_loopback_without_the_resolver(self):
+        with patch.object(link_check, 'socket') as open_socket, patch('socket.getaddrinfo') as resolver:
+            connection = link_check._LocalModelConnection()
+            try:
+                connection.connect()
+                open_socket.assert_called_once_with(AF_INET, SOCK_STREAM)
+                open_socket.return_value.settimeout.assert_called_once_with(10)
+                open_socket.return_value.connect.assert_called_once_with(('127.0.0.1', 11434))
+                resolver.assert_not_called()
+            finally:
+                connection.close()
+
+    def test_failed_local_connection_releases_the_socket(self):
+        with patch.object(link_check, 'socket') as open_socket:
+            open_socket.return_value.connect.side_effect = ConnectionRefusedError
+            connection = link_check._LocalModelConnection()
+            with self.assertRaises(ConnectionRefusedError):
+                connection.connect()
+            open_socket.return_value.close.assert_called_once_with()
+            self.assertIsNone(connection.sock)
 
 
 class LocalExplanationTests(unittest.TestCase):
     def setUp(self):
-        self.connection_class = self.enterContext(patch.object(link_check, 'HTTPConnection'))
+        self.connection_class = self.enterContext(patch.object(link_check, '_LocalModelConnection'))
         self.watchdog_class = self.enterContext(patch.object(link_check, 'Timer'))
         self.connection = self.connection_class.return_value
         self.reply = self.connection.getresponse.return_value.__enter__.return_value
@@ -86,7 +110,7 @@ class LocalExplanationTests(unittest.TestCase):
             'status': 'ready',
             'explanation': 'Uygulamayı Compass’ta adıyla ara veya yayıncıya daha önceden güvendiğin bir adresten ulaş.',
         })
-        self.connection_class.assert_called_once_with('127.0.0.1', 11434, timeout=10)
+        self.connection_class.assert_called_once_with()
         self.connection.connect.assert_called_once_with()
         method, route, raw, headers = self.connection.request.call_args.args
         self.assertEqual((method, route), ('POST', '/api/chat'))

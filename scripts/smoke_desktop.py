@@ -1,5 +1,6 @@
 """Exercise the desktop UI and Windows native confirmation without opening a browser."""
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from unittest.mock import patch
 import json
 import os
@@ -43,7 +44,7 @@ SCRIPT = r"""
     }
     check('desktop entry point', new URLSearchParams(location.search).get('desktop') === '1');
     check('only explicit bridge methods', Object.keys(window.pywebview.api).sort().join(',') ===
-      'app_info,catalog,explain_link,inspect_link,open_official,smoke_choose_confirmation,smoke_report,suggest_link');
+      'app_info,catalog,explain_link,inspect_link,list_favorites,open_official,set_favorite,smoke_choose_confirmation,smoke_report,suggest_link');
     const catalog = await window.pywebview.api.catalog();
     check('actual bridge catalog', catalog.length === expectedCount);
     const {version} = await window.pywebview.api.app_info();
@@ -80,6 +81,22 @@ SCRIPT = r"""
     check('clear filters restores the full catalog and keeps the display', !search.value &&
       document.getElementById('cards').classList.contains('list-layout') &&
       document.querySelectorAll('.card').length === expectedCount);
+    const api = window.pywebview.api;
+    const favorite = () => document.querySelector('button[data-favorite="7zip"]');
+    check('favorites bridge rejects an arbitrary destination',
+      !(await api.set_favorite('https://www.7-zip.org/', true)).ok);
+    check('catalog favorite toggle is ready', await waitFor(() => favorite() && !favorite().disabled &&
+      favorite().getAttribute('aria-disabled') !== 'true'));
+    favorite().click();
+    document.querySelector('[data-view="favorites"]').click();
+    check('native save appears after switching to favorites during the write',
+      await waitFor(() => favorite()?.getAttribute('aria-pressed') === 'true') && (await api.list_favorites()).ids.includes('7zip'));
+    check('favorites view shows the saved card', document.querySelectorAll('.card').length === 1 &&
+      favorite()?.getAttribute('aria-pressed') === 'true');
+    favorite().click();
+    check('removing the last favorite shows the empty view', await waitFor(() =>
+      !document.getElementById('favorites-empty').hidden && !favorite()) && (await api.list_favorites()).ids.length === 0);
+    document.querySelector('[data-view="library"]').click();
     document.querySelector('[data-category="Gaming"]').click();
     document.querySelector('.card[data-app-id="epic-games"] .details-button').click();
     check('verified publisher and preview caution',
@@ -221,7 +238,9 @@ def watchdog():
 
 result_path.unlink(missing_ok=True)
 threading.Thread(target=watchdog, daemon=True).start()
-with patch.object(os, 'startfile', side_effect=observe_browser_handoff, create=True), patch(
+with TemporaryDirectory() as data, patch(
+    'compass.favorites.favorites_path', return_value=Path(data) / 'favorites.sqlite3',
+), patch.object(os, 'startfile', side_effect=observe_browser_handoff, create=True), patch(
     'webbrowser.open', side_effect=AssertionError('The Windows smoke test must use the Shell launcher.'),
 ):
     main.main()

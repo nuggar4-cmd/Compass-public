@@ -30,7 +30,9 @@ Search by app name, keyword or publisher address, or narrow the catalog by categ
 
 RC7 lets you combine search terms in any order and look up apps by publisher domain. If the desktop catalog fails to load, Compass explains what happened and offers **Retry**.
 
-The desktop catalog includes 268 reviewed publisher listings across nine categories. The Turkish interface also finds common Turkish search terms such as `ses düzenleme` and `şifre`.
+The desktop catalog includes 382 reviewed publisher listings across nine categories. The Turkish interface also finds common Turkish search terms such as `ses düzenleme` and `şifre`.
+
+Select the star on an app card to save or remove it. Open **Favorites** to search and filter the apps you saved. Compass keeps the saved catalog IDs on this device and restores them when you reopen the desktop app.
 
 **Safe** (**Güvenli** in Turkish) identifies a reviewed publisher starting address. The check covers the address shown on the card. The browser and publisher handle redirects and downloaded files. **Caution** describes details such as a beta release or evaluation license. If an address fails the catalog check, Compass shows **Blocked** and skips opening it. The Gaming category includes Steam, Epic Games Launcher, Battle.net, and PS Remote Play.
 
