@@ -4,22 +4,22 @@ Compass is a desktop app for finding software and visiting its official website.
 
 ## Windows x64 portable candidate
 
-[Download the RC9 Windows x64 ZIP](https://github.com/nuggar4-cmd/Compass-public/releases/download/v1.0.0rc9/Compass-1.0.0rc9-Windows-x64.zip) · [SHA-256 checksum](https://github.com/nuggar4-cmd/Compass-public/releases/download/v1.0.0rc9/Compass-1.0.0rc9-Windows-x64.zip.sha256) · [RC9 release notes](https://github.com/nuggar4-cmd/Compass-public/releases/tag/v1.0.0rc9)
+[Download the RC10 Windows x64 ZIP](https://github.com/nuggar4-cmd/Compass-public/releases/download/v1.0.0rc10/Compass-1.0.0rc10-Windows-x64.zip) · [SHA-256 checksum](https://github.com/nuggar4-cmd/Compass-public/releases/download/v1.0.0rc10/Compass-1.0.0rc10-Windows-x64.zip.sha256) · [RC10 release notes](https://github.com/nuggar4-cmd/Compass-public/releases/tag/v1.0.0rc10)
 
 Both packages are available without signing in to GitHub.
 
-1. If you want to verify the download, compare the checksum file to the output from `Get-FileHash -Algorithm SHA256 .\Compass-1.0.0rc9-Windows-x64.zip` in PowerShell.
+1. If you want to verify the download, compare the checksum file to the output from `Get-FileHash -Algorithm SHA256 .\Compass-1.0.0rc10-Windows-x64.zip` in PowerShell.
 2. Extract the portable ZIP, open the `Compass` folder and double-click `Compass.exe`. Keep `_internal` alongside it. Python is bundled.
 3. The candidate requires Windows x64 and the [Microsoft Edge WebView2 Evergreen Runtime](https://developer.microsoft.com/microsoft-edge/webview2/). If Windows blocks the unsigned executable, report the message and leave its protection settings enabled.
 
 ## Debian and Ubuntu package
 
-[Download the RC9 Debian/Ubuntu package (.deb)](https://github.com/nuggar4-cmd/Compass-public/releases/download/v1.0.0rc9/Compass-1.0.0rc9-Linux-all.deb) · [SHA-256 checksum](https://github.com/nuggar4-cmd/Compass-public/releases/download/v1.0.0rc9/Compass-1.0.0rc9-Linux-all.deb.sha256)
+[Download the RC10 Debian/Ubuntu package (.deb)](https://github.com/nuggar4-cmd/Compass-public/releases/download/v1.0.0rc10/Compass-1.0.0rc10-Linux-all.deb) · [SHA-256 checksum](https://github.com/nuggar4-cmd/Compass-public/releases/download/v1.0.0rc10/Compass-1.0.0rc10-Linux-all.deb.sha256)
 
 Install the package and its dependencies with APT. It requires Python 3.11 or newer and WebKitGTK 2.40 or newer.
 
 ```sh
-sudo apt install ./Compass-1.0.0rc9-Linux-all.deb
+sudo apt install ./Compass-1.0.0rc10-Linux-all.deb
 ```
 
 Launch **Compass** from the application menu or run `compass-desktop`. The Debian package uses the OS-provided WebKitGTK and keeps UI assets on a private, local renderer scheme. To build the package yourself, run `sh scripts/build-deb.sh`. The package and checksum appear in `dist/release`.
