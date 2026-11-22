@@ -50,6 +50,7 @@ class WindowsAssetTests(unittest.TestCase):
                     self.assertEqual(headers.get_content_type(), media_type)
                     self.assertEqual(headers['Cache-Control'], 'no-store')
                     self.assertEqual(headers['Content-Security-Policy'], "frame-ancestors 'none'")
+                    self.assertEqual(headers['Cross-Origin-Resource-Policy'], 'same-origin')
                     self.assertEqual(body, self.assets[name])
 
     def test_unlisted_files_and_mismatched_host_do_not_return_assets(self):

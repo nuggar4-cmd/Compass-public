@@ -11,6 +11,12 @@
     ['Utilities', 'Araçlar'], ['Media', 'Medya'], ['Productivity', 'Üretkenlik'], ['Gaming', 'Oyun'],
     ['Communication', 'İletişim'], ['Education', 'Eğitim'],
   ]);
+  const turkishTags = new Map([
+    ['archive', 'arşiv'], ['audio', 'ses'], ['clipboard', 'pano'], ['editor', 'düzenleme'],
+    ['image', 'görsel'], ['messaging', 'mesajlaşma'], ['music', 'müzik'], ['notes', 'not alma'],
+    ['password', 'şifre parola'], ['recording', 'kayıt'], ['screen reader', 'ekran okuyucu'],
+    ['sound', 'ses'], ['spreadsheet', 'hesap tablosu'], ['streaming', 'yayın'], ['video editor', 'video düzenleme'],
+  ]);
   const turkishBridgeMessages = new Map([
     ['Opening cancelled.', 'Açma işlemi iptal edildi.'],
     ['A link request is already open.', 'Bir bağlantı açma isteği zaten bekliyor.'],
@@ -59,6 +65,13 @@
       // A local renderer may limit storage. The interface still works without a saved preference.
     }
     return /^tr(?:-|$)/i.test(navigator.language) ? 'tr' : 'en';
+  }
+
+  function applyLayout(layout) {
+    $('cards').classList.toggle('list-layout', layout === 'list');
+    $('layout-picker').querySelectorAll('button').forEach(button => {
+      button.setAttribute('aria-pressed', String(button.dataset.layout === layout));
+    });
   }
 
   function updatePageTitle() {
@@ -128,7 +141,7 @@
     $('checker-page').hidden = view !== 'checker';
     $('discover-page').hidden = view === 'privacy' || view === 'checker';
     updatePageTitle();
-    document.querySelector('.hero').hidden = view === 'library';
+    $('discover-title').hidden = view === 'library';
     $('library-title').hidden = view !== 'library';
     window.scrollTo(0, 0);
     if (view === 'checker') renderLinkCheck();
@@ -299,9 +312,20 @@
       button.setAttribute('aria-pressed', String(active));
     });
     const terms = normalizeSearch(state.query).match(/\S+/g) || [];
+    $('clear-filters').hidden = !terms.length && state.category === all && state.sort === 'featured';
     const apps = state.apps.filter(app => (state.category === all || app.category === state.category)
       && terms.every(term => app.searchText.includes(term)));
     if (state.sort === 'az') apps.sort((a, b) => a.name.localeCompare(b.name, document.documentElement.lang));
+    else if (state.sort === 'recent') apps.reverse();
+    else if (terms.length) {
+      const phrase = terms.join(' ');
+      const relevance = app => {
+        if (app.searchName === phrase || app.host.toLowerCase() === phrase) return 0;
+        if (app.searchName.startsWith(phrase)) return 1;
+        return terms.some(term => app.searchName.includes(term)) ? 2 : 3;
+      };
+      apps.sort((a, b) => relevance(a) - relevance(b));
+    }
     const cards = document.createDocumentFragment();
     apps.forEach(app => {
       const card = text('article', '', 'card');
@@ -350,8 +374,9 @@
     const moveFocus = document.activeElement === $('catalog-loading');
     state.apps = entries.map(app => ({
       ...app,
+      searchName: normalizeSearch(app.name),
       searchText: normalizeSearch([app.id, app.name, app.category, turkishCategories.get(app.category),
-        app.description, app.host, app.url, ...app.tags].join(' ')),
+        app.description, app.host, app.url, ...app.tags, ...app.tags.map(tag => turkishTags.get(tag))].join(' ')),
     }));
     const categories = [all, ...new Set(entries.map(app => app.category))];
     $('filters').replaceChildren();
@@ -458,12 +483,16 @@
     $('search').focus();
   });
   $('sort').addEventListener('change', event => { state.sort = event.target.value; render(); });
+  $('layout-picker').querySelectorAll('button').forEach(button => {
+    button.addEventListener('click', () => applyLayout(button.dataset.layout));
+  });
   $('language').addEventListener('change', event => {
     const language = event.target.value;
     applyLanguage(language);
     try { localStorage.setItem(languageKey, language); } catch (_) { /* Current session still uses the selected language. */ }
   });
   $('reset').addEventListener('click', () => { reset(); $('search').focus(); });
+  $('clear-filters').addEventListener('click', () => { reset(); $('search').focus(); });
   $('cards').addEventListener('click', event => {
     const card = event.target.closest('.details-button')?.closest('.card');
     if (!card) return;
@@ -473,6 +502,10 @@
   document.querySelectorAll('.nav').forEach(button => button.addEventListener('click', () => setView(button.dataset.view)));
   document.querySelector('.brand').addEventListener('click', event => { event.preventDefault(); reset(); setView('discover'); });
   $('trust-details').addEventListener('click', () => setView('privacy'));
+  $('quick-check').addEventListener('click', () => {
+    setView('checker');
+    if (!$('link-address').disabled) $('link-address').focus();
+  });
   $('back-discover').addEventListener('click', () => setView('discover'));
   $('link-address').addEventListener('input', () => {
     linkCheck = {};

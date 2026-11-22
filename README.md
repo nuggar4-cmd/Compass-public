@@ -26,11 +26,11 @@ Launch **Compass** from the application menu or run `compass-desktop`. The Debia
 
 ## Use Compass
 
-Enter an app name or keyword in search, or narrow the list by category. Press Ctrl+K to focus search, or Escape to close app details. Select **Details** to see the publisher and complete destination. **Visit official website** asks for native confirmation before opening the default browser.
+Search by app name, keyword or publisher address, or narrow the catalog by category. Choose **Cards** or **List** to change the display and **Recently added** to see the newest entries. **Clear filters** resets the search, category and sort together. Press Ctrl+K to focus search or Escape to close app details. Select **Details** to review the complete address before choosing **Visit official website**.
 
 RC7 lets you combine search terms in any order and look up apps by publisher domain. If the desktop catalog fails to load, Compass explains what happened and offers **Retry**.
 
-The desktop catalog includes 190 publisher listings across nine categories, including Education. Compass shows whether it is connecting to the desktop or reading the local catalog and opens the catalog as soon as it is ready.
+The desktop catalog includes 268 reviewed publisher listings across nine categories. The Turkish interface also finds common Turkish search terms such as `ses düzenleme` and `şifre`.
 
 **Safe** (**Güvenli** in Turkish) identifies a reviewed publisher starting address. The check covers the address shown on the card. The browser and publisher handle redirects and downloaded files. **Caution** describes details such as a beta release or evaluation license. If an address fails the catalog check, Compass shows **Blocked** and skips opening it. The Gaming category includes Steam, Epic Games Launcher, Battle.net, and PS Remote Play.
 

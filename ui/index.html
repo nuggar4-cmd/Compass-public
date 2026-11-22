@@ -19,7 +19,7 @@
     <button class="nav" data-view="checker"><span class="nav-icon" aria-hidden="true">◎</span><span data-tr="Bağlantı denetimi">Link check</span></button>
     <button class="nav" data-view="privacy"><span class="nav-icon" aria-hidden="true">◇</span><span data-tr="Gizlilik ve güvenlik">Privacy &amp; trust</span></button>
   </nav>
-  <div class="sidebar-foot"><span class="mini-mark" aria-hidden="true">⟐</span><div><span data-tr="Masaüstü için Compass">Compass for desktop</span><small id="app-version"></small></div></div>
+  <div class="sidebar-foot"><small id="app-version"></small></div>
 </aside>
 <main id="main-content" tabindex="-1">
   <header class="topbar">
@@ -33,18 +33,14 @@
     </div>
   </header>
   <div class="page" id="discover-page">
-    <section class="hero">
-      <div class="hero-copy">
-        <h1><span data-tr="Uygulamaları kaynağında bul">Find apps at the source</span><span class="hero-period">.</span></h1>
-        <p data-tr="Kategorilere göz at veya yazılımı adıyla, kullanım alanıyla ya da yayıncısıyla ara.">Browse by category or find software by app, task, or publisher.</p>
+    <header class="catalog-heading">
+      <div>
+        <h1 id="discover-title" data-tr="Yazılımı kaynağında bul">Find software at the source</h1>
+        <h1 id="library-title" data-tr="Tüm uygulamalar" hidden>All apps</h1>
+        <p data-tr="Masaüstü uygulamalarının resmî yayıncı sayfalarına ulaş.">Find official publisher pages for desktop apps.</p>
       </div>
-      <div class="compass-art" aria-hidden="true">
-        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
-        <span class="north">N</span><span class="east">E</span><span class="south">S</span><span class="west">W</span>
-        <div class="needle"><div class="needle-top"></div><div class="needle-bottom"></div><div class="needle-center"></div></div>
-      </div>
-    </section>
-    <h1 id="library-title" data-tr="Tüm uygulamalar" hidden>All apps</h1>
+      <button id="quick-check" class="secondary" type="button"><span data-tr="Bağlantı denetle">Check a link</span><span aria-hidden="true">↗</span></button>
+    </header>
     <section class="catalog" aria-label="App catalog" data-tr-label="Uygulama kataloğu">
       <noscript><p class="empty">Enable JavaScript to browse the Compass catalog.</p></noscript>
       <div id="catalog-loading" class="startup-card" role="status" aria-atomic="true" tabindex="-1" hidden>
@@ -76,6 +72,7 @@
               <select id="sort" aria-label="Sort apps" data-tr-label="Uygulamaları sırala">
                 <option value="featured" data-tr="Öne çıkanlar">Featured</option>
                 <option value="az" data-tr="Ad (A–Z)">Name (A–Z)</option>
+                <option value="recent" data-tr="Son eklenenler">Recently added</option>
               </select>
             </label>
           </div>
@@ -83,11 +80,18 @@
         </div>
         <div class="section-heading">
           <div>
-            <h2 id="results-title">App catalog</h2>
+            <div class="results-heading">
+              <h2 id="results-title">App catalog</h2>
+              <span id="result-count" class="result-count" role="status"></span>
+            </div>
             <p class="trust-summary"><span data-tr="Güvenli etiketi, kontrol edilen yayıncı adresini gösterir.">The Safe label marks the publisher address Compass checked.</span> <button class="trust-details" id="trust-details" data-tr="Kontrol kapsamı">What we check</button></p>
           </div>
           <div class="catalog-actions">
-            <span id="result-count" class="result-count" role="status"></span>
+            <div id="layout-picker" class="layout-picker" role="group" aria-label="Catalog display" data-tr-label="Katalog görünümü">
+              <button type="button" data-layout="cards" aria-pressed="true" aria-controls="cards"><span class="layout-icon layout-icon-cards" aria-hidden="true"></span><span data-tr="Kartlar">Cards</span></button>
+              <button type="button" data-layout="list" aria-pressed="false" aria-controls="cards"><span class="layout-icon layout-icon-list" aria-hidden="true"></span><span data-tr="Liste">List</span></button>
+            </div>
+            <button id="clear-filters" class="secondary" type="button" aria-controls="cards" data-tr="Filtreleri temizle" hidden>Clear filters</button>
             <button id="suggest-link" class="suggest-link" aria-describedby="suggest-link-info" data-tr="Bağlantı öner" hidden>Suggest a link</button>
             <span id="suggest-link-info" data-tr="Öneriler GitHub’da herkese açıktır ve GitHub hesabıyla gönderilir." hidden>Suggestions are public on GitHub. GitHub sign-in is required.</span>
           </div>
@@ -125,7 +129,7 @@
             <p id="link-check-reason"></p>
           </div>
           <div class="checker-explanation">
-            <button class="checker-ai" id="explain-link" type="button"><span aria-hidden="true">✦</span> <span data-tr="Yerel AI ile açıkla">Explain with local AI</span></button>
+            <button class="checker-ai" id="explain-link" type="button" data-tr="Yerel AI ile açıkla">Explain with local AI</button>
             <p id="ai-explanation" class="checker-status" role="status" aria-atomic="true" hidden></p>
           </div>
         </div>

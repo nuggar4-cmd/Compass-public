@@ -1,6 +1,7 @@
 from dataclasses import replace
 from http.client import HTTPException
 import json
+from socket import SHUT_RDWR
 import unittest
 from unittest.mock import patch
 
@@ -66,6 +67,7 @@ class LinkInspectionTests(unittest.TestCase):
 class LocalExplanationTests(unittest.TestCase):
     def setUp(self):
         self.connection_class = self.enterContext(patch.object(link_check, 'HTTPConnection'))
+        self.watchdog_class = self.enterContext(patch.object(link_check, 'Timer'))
         self.connection = self.connection_class.return_value
         self.reply = self.connection.getresponse.return_value.__enter__.return_value
         self.reply.status = 200
@@ -85,6 +87,7 @@ class LocalExplanationTests(unittest.TestCase):
             'explanation': 'Uygulamayı Compass’ta adıyla ara veya yayıncıya daha önceden güvendiğin bir adresten ulaş.',
         })
         self.connection_class.assert_called_once_with('127.0.0.1', 11434, timeout=10)
+        self.connection.connect.assert_called_once_with()
         method, route, raw, headers = self.connection.request.call_args.args
         self.assertEqual((method, route), ('POST', '/api/chat'))
         self.assertEqual(headers['Content-Type'], 'application/json')
@@ -94,6 +97,7 @@ class LocalExplanationTests(unittest.TestCase):
         self.assertNotIn('tools', request)
         self.assertEqual(request['messages'][1]['content'], 'Result reason: unlisted. Language: tr.')
         self.reply.read.assert_called_once_with(link_check._MAX_AI_RESPONSE + 1)
+        self.watchdog_class.return_value.cancel.assert_called_once_with()
         self.connection.close.assert_called_once()
 
     def test_arbitrary_reason_and_language_cannot_reach_the_model(self):
@@ -128,6 +132,33 @@ class LocalExplanationTests(unittest.TestCase):
             with self.subTest(error=error):
                 self.connection.request.side_effect = error
                 self.assertEqual(link_check.explain_link('unlisted', 'en'), {'status': 'unavailable'})
+
+    def test_deadline_interrupts_the_transport_even_after_response_detaches_it(self):
+        transport = self.connection.sock
+        response_context = self.connection.getresponse.return_value
+
+        def detach_response():
+            self.connection.sock = None
+            return response_context
+
+        def interrupt_read(_size):
+            _, interrupt = self.watchdog_class.call_args.args
+            interrupt(*self.watchdog_class.call_args.kwargs['args'])
+            raise TimeoutError
+
+        self.connection.getresponse.side_effect = detach_response
+        self.reply.read.side_effect = interrupt_read
+        self.assertEqual(link_check.explain_link('unlisted', 'en'), {'status': 'unavailable'})
+        transport.shutdown.assert_called_once_with(SHUT_RDWR)
+        self.watchdog_class.return_value.start.assert_called_once_with()
+        self.watchdog_class.return_value.cancel.assert_called_once_with()
+        self.connection.close.assert_called_once_with()
+
+    def test_successful_response_at_total_deadline_falls_back(self):
+        self.set_message('{"choice":"reason"}')
+        with patch.object(link_check, 'monotonic', side_effect=(100, 102, 110)):
+            self.assertEqual(link_check.explain_link('unlisted', 'en'), {'status': 'unavailable'})
+        self.assertEqual(self.watchdog_class.call_args.args[0], 8)
 
     def test_only_one_explanation_can_use_the_provider(self):
         self.set_message('{"choice":"reason"}')

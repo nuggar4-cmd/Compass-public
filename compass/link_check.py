@@ -4,6 +4,9 @@ from http.client import HTTPConnection, HTTPException
 from ipaddress import ip_address
 import json
 import re
+from socket import SHUT_RDWR
+from threading import Timer
+from time import monotonic
 from unicodedata import category
 from urllib.parse import urlsplit
 
@@ -13,6 +16,7 @@ from . import catalog
 MAX_LINK_LENGTH = 2048
 LOCAL_MODEL = 'qwen2.5:0.5b'
 _MAX_AI_RESPONSE = 8192
+_AI_DEADLINE = 10
 _LOCAL_SUFFIXES = frozenset({
     'arpa', 'example', 'home', 'internal', 'invalid', 'lan', 'local', 'localdomain', 'localhost', 'onion', 'test',
 })
@@ -157,6 +161,14 @@ _CHOICE_SCHEMA = {
 }
 
 
+def _interrupt_transport(transport):
+    try:
+        transport.shutdown(SHUT_RDWR)
+    except OSError:
+        # A response that completed at the deadline may have closed it already.
+        pass
+
+
 def explain_link(reason, language):
     unavailable = {'status': 'unavailable'}
     if not isinstance(reason, str) or reason not in _EXPLANATIONS or language not in ('en', 'tr'):
@@ -175,15 +187,25 @@ def explain_link(reason, language):
         'keep_alive': '1m',
     }).encode('utf-8')
     # HTTPConnection talks to the literal loopback endpoint, ignores proxies and never follows redirects.
-    connection = HTTPConnection('127.0.0.1', 11434, timeout=10)
+    deadline = monotonic() + _AI_DEADLINE
+    connection = HTTPConnection('127.0.0.1', 11434, timeout=_AI_DEADLINE)
+    watchdog = None
     try:
+        connection.connect()
+        remaining = deadline - monotonic()
+        if remaining <= 0:
+            return unavailable
+        # Keep the transport when HTTPConnection transfers it to a closing response.
+        watchdog = Timer(remaining, _interrupt_transport, args=(connection.sock,))
+        watchdog.daemon = True
+        watchdog.start()
         connection.request('POST', '/api/chat', request, {'Content-Type': 'application/json', 'Connection': 'close'})
         with connection.getresponse() as response:
             content_type = response.getheader('Content-Type', '').split(';', 1)[0].strip().lower()
             if response.status != 200 or content_type != 'application/json':
                 return unavailable
             data = response.read(_MAX_AI_RESPONSE + 1)
-        if len(data) > _MAX_AI_RESPONSE:
+        if monotonic() >= deadline or len(data) > _MAX_AI_RESPONSE:
             return unavailable
         reply = json.loads(data)
         if (not isinstance(reply, dict) or reply.get('done') is not True
@@ -197,7 +219,9 @@ def explain_link(reason, language):
         if index is None:
             return unavailable
         return {'status': 'ready', 'explanation': _EXPLANATIONS[reason][language][index]}
-    except (OSError, HTTPException, TypeError, ValueError, RecursionError):
+    except (OSError, HTTPException, TypeError, ValueError, RuntimeError):
         return unavailable
     finally:
+        if watchdog is not None:
+            watchdog.cancel()
         connection.close()

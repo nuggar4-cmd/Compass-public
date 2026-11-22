@@ -44,6 +44,10 @@ const selectLanguage = value => {
   $('language').dispatchEvent(new Event('change'));
 };
 selectLanguage('en');
+const listLayout = document.querySelector('[data-layout="list"]');
+listLayout.click();
+check('compact list display is available', $('cards').classList.contains('list-layout') &&
+  listLayout.getAttribute('aria-pressed') === 'true');
 $('search').value = 'studio obsproject.com';
 $('search').dispatchEvent(new Event('input'));
 check('search across name and publisher domain', document.querySelectorAll('.card').length === 1 &&
@@ -55,9 +59,13 @@ selectLanguage('tr');
 check('Turkish publisher badge and Education category', document.documentElement.lang === 'tr' &&
   document.querySelector('.card[data-app-id="obs"] .security-label--verified')?.textContent === 'Güvenli' &&
   document.querySelector('[data-category="Education"]')?.textContent.includes('Eğitim'));
-selectLanguage('en');
-$('search').value = '';
+$('search').value = 'ses düzenleme';
 $('search').dispatchEvent(new Event('input'));
+check('Turkish search aliases find audio editors', details('audacity'));
+selectLanguage('en');
+$('clear-filters').click();
+check('clear filters restores the full catalog and keeps the display', !$('search').value &&
+  $('cards').classList.contains('list-layout') && document.querySelectorAll('.card').length === expectedCount);
 document.querySelector('[data-category="Gaming"]').click();
 details('epic-games').click();
 check('verified publisher and preview caution',
@@ -167,7 +175,7 @@ def smoke():
         main.main()
     for result in results:
         print(f'PASS: {result}')
-    if errors or len(results) != 15:
+    if errors or len(results) != 18:
         raise SystemExit('\n'.join(errors) or 'Missing Linux smoke results')
 
 
