@@ -1,0 +1,37 @@
+name: Report a Compass bug / Compass hatası bildir
+description: Tell us what went wrong in Compass. Compass’ta karşılaştığın hatayı anlat.
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Reports are public. Leave out email addresses, passwords, tokens, and other personal information.
+        Bildirimler herkese açıktır. E-posta adresi, parola, erişim anahtarı veya kişisel bilgi paylaşma.
+  - type: input
+    id: version
+    attributes:
+      label: Compass version / Compass sürümü
+      placeholder: 1.0.0rc13
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: Operating system / İşletim sistemi
+      placeholder: Windows 11 x64 / Ubuntu 24.04
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps / İzlediğin adımlar
+      description: What did you do before the bug appeared? Hata görünmeden önce ne yaptın?
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: What happened and what did you expect? / Ne oldu, ne bekliyordun?
+    validations:
+      required: true
