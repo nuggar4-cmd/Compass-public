@@ -43,7 +43,7 @@ SCRIPT = r"""
     }
     check('desktop entry point', new URLSearchParams(location.search).get('desktop') === '1');
     check('only explicit bridge methods', Object.keys(window.pywebview.api).sort().join(',') ===
-      'app_info,catalog,open_official,smoke_choose_confirmation,smoke_report,suggest_link');
+      'app_info,catalog,explain_link,inspect_link,open_official,smoke_choose_confirmation,smoke_report,suggest_link');
     const catalog = await window.pywebview.api.catalog();
     check('actual bridge catalog', catalog.length === expectedCount);
     const {version} = await window.pywebview.api.app_info();
@@ -102,6 +102,17 @@ SCRIPT = r"""
       }
       checks.push('native confirmation defaults to Cancel');
     }
+    document.querySelector('[data-view="discover"]').click();
+    document.querySelector('[data-view="checker"]').click();
+    const address = document.getElementById('link-address');
+    const checker = document.getElementById('link-check-form');
+    const badge = document.getElementById('link-check-badge');
+    address.value = 'https://www.7-zip.org/';
+    checker.requestSubmit();
+    check('exact publisher address verified in the desktop checker', await waitFor(() => badge.textContent === 'Safe'));
+    const unlisted = await window.pywebview.api.inspect_link('https://www.microsoft.com/support/');
+    const insecure = await window.pywebview.api.inspect_link('http://www.7-zip.org/');
+    check('unlisted and insecure addresses never get a Safe verdict', unlisted.status === 'unverified' && insecure.status === 'blocked');
     document.querySelector('[data-view="discover"]').click();
     const suggest = document.getElementById('suggest-link');
     check('suggestion button is available', suggest && suggest.getClientRects().length > 0 && !suggest.disabled);

@@ -88,7 +88,10 @@ def start_webview(webview, url, version):
         width=1100, height=740, min_size=(600, 480),
         background_color='#0b0e14', text_select=False,
     )
-    window.expose(bridge.app_info, bridge.catalog, bridge.open_official, bridge.suggest_link)
+    window.expose(
+        bridge.app_info, bridge.catalog, bridge.inspect_link, bridge.explain_link,
+        bridge.open_official, bridge.suggest_link,
+    )
     unsupported_renderer = False
 
     def verify_renderer(renderer):

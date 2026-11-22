@@ -1,8 +1,10 @@
 """GTK and WebKitGTK desktop renderer for the Debian package."""
 
 import json
+from threading import Thread
 
 from .bridge import Bridge
+from .link_check import MAX_LINK_LENGTH
 
 UI_ORIGIN = 'compass://ui'
 START_URI = f'{UI_ORIGIN}/index.html?desktop=1'
@@ -21,6 +23,8 @@ BRIDGE_SCRIPT = """
     app_info: () => call(['app_info']),
     open_official: id => call(['open_official', id]),
     suggest_link: () => call(['suggest_link']),
+    inspect_link: value => call(['inspect_link', value]),
+    explain_link: (reason, language) => call(['explain_link', reason, language]),
   }};
 })();
 """
@@ -133,20 +137,57 @@ def run(ui_directory, version):
         request.deny()
         return True
 
+    explanation_pending = False
+
+    def start_explanation(request, value, reply):
+        nonlocal explanation_pending
+        if explanation_pending:
+            reply.return_value(value.new_from_json(value.get_context(), '{"status":"unavailable"}'))
+            return
+
+        # WebKit's boxed copy retains the pending reply beyond the signal handler.
+        held_reply = reply.copy()
+        value_type = type(value)
+        reply_context = value.get_context()
+
+        def finish(result):
+            nonlocal explanation_pending
+            explanation_pending = False
+            held_reply.return_value(value_type.new_from_json(reply_context, json.dumps(result)))
+            return GLib.SOURCE_REMOVE
+
+        def explain():
+            GLib.idle_add(finish, bridge.explain_link(request[1], request[2]))
+
+        explanation_pending = True
+        try:
+            Thread(target=explain, daemon=True).start()
+        except RuntimeError:
+            finish({'status': 'unavailable'})
+
     def handle_message(_manager, value, reply):
         try:
             data = value.to_json(0)
             origin = (view.get_uri() or '').split('#', 1)[0]
-            if not data or len(data) > 256 or origin != START_URI:
+            if not data or len(data) > MAX_LINK_LENGTH * 12 + 64 or origin != START_URI:
                 raise ValueError('Invalid Compass request')
             request = json.loads(data)
-            if request == ['catalog']:
+            if not isinstance(request, list):
+                raise ValueError('Invalid Compass request')
+            if len(request) == 2 and request[0] == 'inspect_link':
+                result = bridge.inspect_link(request[1])
+            elif len(data) > 256:
+                raise ValueError('Invalid Compass request')
+            elif len(request) == 3 and request[0] == 'explain_link':
+                start_explanation(request, value, reply)
+                return True
+            elif request == ['catalog']:
                 result = bridge.catalog()
             elif request == ['app_info']:
                 result = bridge.app_info()
             elif request == ['suggest_link']:
                 result = bridge.suggest_link()
-            elif isinstance(request, list) and len(request) == 2 and request[0] == 'open_official':
+            elif len(request) == 2 and request[0] == 'open_official':
                 result = bridge.open_official(request[1])
             else:
                 raise ValueError('Unknown Compass request')

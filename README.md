@@ -30,11 +30,19 @@ Enter an app name or keyword in search, or narrow the list by category. Press Ct
 
 RC7 lets you combine search terms in any order and look up apps by publisher domain. If the desktop catalog fails to load, Compass explains what happened and offers **Retry**.
 
-The desktop catalog includes 129 publisher listings across nine categories, including Education. Compass shows whether it is connecting to the desktop or reading the local catalog and opens the catalog as soon as it is ready.
+The desktop catalog includes 190 publisher listings across nine categories, including Education. Compass shows whether it is connecting to the desktop or reading the local catalog and opens the catalog as soon as it is ready.
 
 **Safe** (**Güvenli** in Turkish) identifies a reviewed publisher starting address. The check covers the address shown on the card. The browser and publisher handle redirects and downloaded files. **Caution** describes details such as a beta release or evaluation license. If an address fails the catalog check, Compass shows **Blocked** and skips opening it. The Gaming category includes Steam, Epic Games Launcher, Battle.net, and PS Remote Play.
 
 The [approved publisher destinations](APPROVED_SITES.md) are bundled. Compass has no accounts, telemetry, search-history storage, downloads, installers or automatic updates. Its Windows loopback listener serves only the four bundled interface assets and closes with the app. The initial publisher address is checked against the catalog. Once the browser opens it, redirects, privacy and downloads are handled by the browser and publisher.
+
+## Check a link on desktop
+
+Open **Link check** and paste a complete HTTPS address. **Safe** means the starting address matches a reviewed catalog entry. A well-formed address outside the catalog shows **Unverified**. Unsupported addresses, including local network and non-HTTPS addresses, show **Blocked** with a reason. Compass checks the pasted address locally without opening or looking up the page. This check covers the starting address. The content of the page, redirects, and downloaded files require their own checks.
+
+**Explain with local AI** is optional. On a computer running [Ollama](https://ollama.com/download), run `ollama pull qwen2.5:0.5b` once, then use the button in Compass. The Ollama service must be running on `127.0.0.1:11434` on the same computer. To disable Ollama cloud features, set `OLLAMA_NO_CLOUD=1` in the environment that starts `ollama serve`. [Ollama setup](https://docs.ollama.com/quickstart) · [Ollama local-only settings](https://docs.ollama.com/faq) · [Qwen 2.5 0.5B model](https://ollama.com/library/qwen2.5:0.5b)
+
+Compass sends only a fixed result code and interface language to the local model. The model chooses which explanation to show. The catalog and URL rules determine the status, including when Ollama is unavailable. Compass clears the pasted text when you leave the checker.
 
 ## Suggest a catalog link
 

@@ -161,3 +161,71 @@ These official publisher and project pages returned HTML over HTTPS at the exact
 | microsoft-teams | https://www.microsoft.com/en-us/microsoft-teams/download-app | www.microsoft.com |
 | session | https://getsession.org/download | getsession.org |
 | zulip | https://zulip.com/apps/ | zulip.com |
+
+## 2026-11-22 RC10 additions
+
+These official publisher and project addresses returned HTML over HTTPS at the exact addresses listed.
+
+| Catalog ID | Publisher page | Exact initial hostname |
+| --- | --- | --- |
+| natron | https://natrongithub.github.io/ | natrongithub.github.io |
+| opentoonz | https://opentoonz.github.io/e/ | opentoonz.github.io |
+| pencil2d | https://www.pencil2d.org/download/ | www.pencil2d.org |
+| openscad | https://openscad.org/downloads.html | openscad.org |
+| sweet-home-3d | https://www.sweethome3d.com/download/ | www.sweethome3d.com |
+| prusa-slicer | https://www.prusa3d.com/p/prusaslicer/ | www.prusa3d.com |
+| paint-net | https://paint.net/download.html | paint.net |
+| xnview-mp | https://www.xnview.com/en/xnview/ | www.xnview.com |
+| irfanview | https://www.irfanview.com/main_download_engl.htm | www.irfanview.com |
+| aegisub | https://aegisub.org/downloads/ | aegisub.org |
+| jellyfin | https://jellyfin.org/downloads/clients/ | jellyfin.org |
+| texstudio | https://www.texstudio.org/ | www.texstudio.org |
+| focuswriter | https://gottcode.org/focuswriter/ | gottcode.org |
+| cherrytree | https://www.giuspen.net/cherrytree/ | www.giuspen.net |
+| qownnotes | https://www.qownnotes.org/ | www.qownnotes.org |
+| xournal-plus-plus | https://xournalpp.github.io/installation/ | xournalpp.github.io |
+| pdfsam-basic | https://pdfsam.org/pdfsam-basic/ | pdfsam.org |
+| gnucash | https://www.gnucash.org/download.phtml | www.gnucash.org |
+| projectlibre | https://projectlibre.com/projectlibre-desktop/ | projectlibre.com |
+| apache-netbeans | https://netbeans.apache.org/front/main/download/ | netbeans.apache.org |
+| intellij-idea | https://www.jetbrains.com/idea/download/ | www.jetbrains.com |
+| julia | https://julialang.org/downloads/ | julialang.org |
+| kate | https://kate-editor.org/get-it/ | kate-editor.org |
+| cmake | https://cmake.org/download/ | cmake.org |
+| godot | https://godotengine.org/download/ | godotengine.org |
+| qgis | https://qgis.org/download/ | qgis.org |
+| kstars | https://kstars.kde.org/download/ | kstars.kde.org |
+| kgeography | https://apps.kde.org/kgeography/ | apps.kde.org |
+| step-physics | https://apps.kde.org/step/ | apps.kde.org |
+| balabolka | https://www.cross-plus-a.com/balabolka.htm | www.cross-plus-a.com |
+| kmag | https://apps.kde.org/kmag/ | apps.kde.org |
+| kmouth | https://apps.kde.org/kmouth/ | apps.kde.org |
+| librewolf | https://librewolf.net/installation/ | librewolf.net |
+| mullvad-browser | https://mullvad.net/en/browser | mullvad.net |
+| waterfox | https://www.waterfox.com/download/ | www.waterfox.com |
+| zen-browser | https://zen-browser.app/download/ | zen-browser.app |
+| floorp | https://floorp.app/en/download | floorp.app |
+| duckduckgo-browser | https://duckduckgo.com/windows | duckduckgo.com |
+| opera-gx | https://www.opera.com/gx | www.opera.com |
+| lutris | https://lutris.net/downloads | lutris.net |
+| retroarch | https://www.retroarch.com/ | www.retroarch.com |
+| dolphin-emulator | https://github.com/dolphin-emu/dolphin | github.com |
+| pcsx2 | https://pcsx2.net/downloads/ | pcsx2.net |
+| ppsspp | https://www.ppsspp.org/download/ | www.ppsspp.org |
+| openemu | https://openemu.org/ | openemu.org |
+| bottles | https://usebottles.com/download/ | usebottles.com |
+| steam-link | https://store.steampowered.com/remoteplay | store.steampowered.com |
+| openrgb | https://openrgb.org/ | openrgb.org |
+| fan-control | https://getfancontrol.com/ | getfancontrol.com |
+| gpu-z | https://www.techpowerup.com/gpuz/ | www.techpowerup.com |
+| cpu-z | https://www.cpuid.com/softwares/cpu-z.html | www.cpuid.com |
+| crystaldiskmark | https://crystalmark.info/en/software/crystaldiskmark/ | crystalmark.info |
+| process-explorer | https://learn.microsoft.com/en-us/sysinternals/downloads/process-explorer | learn.microsoft.com |
+| intel-driver-assistant | https://www.intel.com/content/www/us/en/support/detect.html | www.intel.com |
+| mattermost | https://mattermost.com/download/ | mattermost.com |
+| webex | https://www.webex.com/downloads.html | www.webex.com |
+| viber-desktop | https://www.viber.com/en/download/ | www.viber.com |
+| wire | https://wire.com/en/app-download | wire.com |
+| ferdium | https://ferdium.org/download | ferdium.org |
+| jitsi-meet-desktop | https://github.com/jitsi/jitsi-meet-electron | github.com |
+| ollama | https://ollama.com/download/linux | ollama.com |

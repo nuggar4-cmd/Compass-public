@@ -18,6 +18,23 @@
     ['Could not open the website. Please try again.', 'Site açılamadı. Lütfen tekrar dene.'],
     ['Compass blocked this address because it did not pass the catalog check.', 'Bu adres katalog denetiminden geçmediği için engellendi.'],
   ]);
+  const checkReasons = new Map([
+    ['publisher-listed', ['verified', 'The full address matches a reviewed publisher page in the Compass catalog.', 'Adresin tamamı Compass kataloğunda incelenmiş bir yayıncı sayfasıyla eşleşiyor.']],
+    ['unlisted', ['unverified', 'Compass has no verified match for this address. Find the publisher’s official page before opening it.', 'Compass bu adres için doğrulanmış bir eşleşme bulamadı. Açmadan önce yayıncının resmî sayfasını bul.']],
+    ['empty', ['blocked', 'Paste the full HTTPS address to check it.', 'Denetlemek için tam HTTPS adresini yapıştır.']],
+    ['malformed', ['blocked', 'The address format is invalid. Avoid opening it.', 'Adresin biçimi geçersiz. Bu bağlantıyı açma.']],
+    ['scheme', ['blocked', 'Compass checks addresses that start with HTTPS. Avoid opening this link.', 'Compass HTTPS ile başlayan adresleri denetler. Bu bağlantıyı açma.']],
+    ['credentials', ['blocked', 'The address contains a username or password. Avoid opening it.', 'Adres kullanıcı adı veya parola içeriyor. Bu bağlantıyı açma.']],
+    ['nonpublic', ['blocked', 'The address needs a public domain name. Avoid opening it.', 'Denetim için herkese açık bir alan adı gerekiyor. Bu bağlantıyı açma.']],
+    ['port', ['blocked', 'The address specifies a connection port that Compass does not review. Avoid opening it.', 'Adres, Compass’ın denetim kapsamı dışında bir bağlantı noktası belirtiyor. Bu bağlantıyı açma.']],
+    ['encoded-authority', ['blocked', 'The server name contains characters Compass cannot verify. Avoid opening this link.', 'Adresin sunucu adında denetlenemeyen karakterler var. Bu bağlantıyı açma.']],
+    ['local-address', ['blocked', 'The address uses a private or local IP address. Avoid opening it.', 'Adres özel veya yerel bir IP adresi kullanıyor. Bu bağlantıyı açma.']],
+  ]);
+  const checkLabels = {
+    verified: ['verified', 'Safe', 'Güvenli'],
+    unverified: ['caution', 'Unverified', 'Doğrulanamadı'],
+    blocked: ['blocked', 'Blocked', 'Engellendi'],
+  };
   const localizedText = Array.from(document.querySelectorAll('[data-tr]'), el => [el, el.textContent]);
   const localizedAttributes = [['data-tr-label', 'aria-label'], ['data-tr-placeholder', 'placeholder']]
     .flatMap(([translation, attribute]) => Array.from(document.querySelectorAll(`[${translation}]`),
@@ -28,6 +45,7 @@
   let catalogAttempt;
   let catalogError;
   let toastTimer;
+  let linkCheck = {};
 
   const copy = (english, turkish) => document.documentElement.lang === 'tr' ? turkish : english;
   const categoryLabel = category => copy(category, turkishCategories.get(category) || category);
@@ -55,6 +73,7 @@
     document.querySelectorAll('.filter').forEach(button => { button.textContent = categoryLabel(button.dataset.category); });
     updatePageTitle();
     updateStartupCopy();
+    renderLinkCheck();
     if (state.apps.length) render();
   }
 
@@ -93,6 +112,11 @@
   }
 
   function setView(view) {
+    if (state.view === 'checker' && view !== 'checker') {
+      $('link-address').value = '';
+      linkCheck = {};
+      renderLinkCheck();
+    }
     state.view = view;
     document.querySelectorAll('.nav').forEach(button => {
       const active = button.dataset.view === view;
@@ -101,12 +125,111 @@
       else button.removeAttribute('aria-current');
     });
     $('privacy-page').hidden = view !== 'privacy';
-    $('discover-page').hidden = view === 'privacy';
+    $('checker-page').hidden = view !== 'checker';
+    $('discover-page').hidden = view === 'privacy' || view === 'checker';
     updatePageTitle();
     document.querySelector('.hero').hidden = view === 'library';
     $('library-title').hidden = view !== 'library';
     window.scrollTo(0, 0);
+    if (view === 'checker') renderLinkCheck();
     $('page-title').focus({ preventScroll: true });
+  }
+
+  function checkerBridge() {
+    const api = desktop ? window.pywebview?.api : null;
+    return typeof api?.inspect_link === 'function' ? api : null;
+  }
+
+  function renderLinkCheck() {
+    const api = checkerBridge();
+    const { checking, error, result, explanation } = linkCheck;
+    $('link-address').disabled = !api;
+    $('inspect-link').disabled = !api;
+    $('inspect-link').setAttribute('aria-disabled', String(checking === true));
+    const status = $('checker-availability');
+    if (!api) {
+      status.textContent = desktop
+        ? copy('The desktop connection for link checks is unavailable.', 'Bağlantı denetimi için masaüstü bağlantısına erişilemiyor.')
+        : copy('Use the Compass desktop app to check a link.', 'Bağlantı denetimi için Compass masaüstü uygulamasını aç.');
+    } else if (checking) {
+      status.textContent = copy('Checking the address…', 'Adres denetleniyor…');
+    } else {
+      status.textContent = error ? copy('Compass could not check this address. Try again.', 'Compass bu adresi denetleyemedi. Tekrar dene.') : '';
+    }
+
+    const verdict = $('link-check-result');
+    const badge = $('link-check-badge');
+    const publisher = $('link-check-publisher');
+    const reason = $('link-check-reason');
+    verdict.hidden = !result;
+    if (result) {
+      const [tone, english, turkish] = checkLabels[result.status];
+      badge.className = `security-label security-label--${tone}`;
+      badge.textContent = copy(english, turkish);
+      publisher.textContent = result.publisher;
+      publisher.hidden = !result.publisher;
+      reason.textContent = copy(...checkReasons.get(result.reason).slice(1));
+    } else {
+      badge.textContent = '';
+      publisher.textContent = '';
+      reason.textContent = '';
+    }
+
+    const explain = $('explain-link');
+    const working = explanation?.status === 'working';
+    explain.disabled = typeof api?.explain_link !== 'function';
+    explain.setAttribute('aria-disabled', String(working));
+    const explanationLine = $('ai-explanation');
+    if (working) {
+      explanationLine.textContent = copy('Asking the local AI…', 'Yerel AI açıklama hazırlıyor…');
+    } else if (explanation?.language === document.documentElement.lang) {
+      explanationLine.textContent = explanation.text || copy(
+        'Local AI is unavailable. Start Ollama with the qwen2.5:0.5b model installed, then try again.',
+        'Yerel AI kullanılamıyor. Ollama’yı başlat ve qwen2.5:0.5b modeli yüklüyken tekrar dene.');
+    } else {
+      explanationLine.textContent = '';
+    }
+    explanationLine.hidden = !explanationLine.textContent;
+  }
+
+  async function inspectLink(event) {
+    event.preventDefault();
+    const api = checkerBridge();
+    if (!api || linkCheck.checking) return;
+    const request = linkCheck = { checking: true };
+    renderLinkCheck();
+    try {
+      const response = await api.inspect_link($('link-address').value);
+      const [status] = checkReasons.get(response?.reason) || [];
+      if (!status || status !== response.status) throw new Error('Invalid inspection result');
+      const publisher = status === 'verified' && typeof response.publisher === 'string' ? response.publisher : '';
+      request.result = { status, reason: response.reason, publisher };
+    } catch (_) {
+      request.error = true;
+    } finally {
+      request.checking = false;
+      if (linkCheck === request) renderLinkCheck();
+    }
+  }
+
+  async function explainLink() {
+    const api = checkerBridge();
+    const request = linkCheck;
+    if (typeof api?.explain_link !== 'function' || !request.result || request.explanation?.status === 'working') return;
+    const language = document.documentElement.lang;
+    request.explanation = { status: 'working', language };
+    renderLinkCheck();
+    let explanation = '';
+    try {
+      const response = await api.explain_link(request.result.reason, language);
+      if (response?.status === 'ready' && typeof response.explanation === 'string' && response.explanation.length <= 700) {
+        explanation = response.explanation.trim();
+      }
+    } catch (_) {
+      // The inspection still works when optional AI is unavailable.
+    }
+    request.explanation = { status: 'finished', language, text: explanation };
+    if (request === linkCheck) renderLinkCheck();
   }
 
   function reset() {
@@ -278,6 +401,7 @@
     attempt.requested = true;
     clearInterval(attempt.bridgePoll);
     updateStartupCopy();
+    renderLinkCheck();
     try {
       const apps = await api.catalog();
       if (catalogAttempt !== attempt) return;
@@ -350,6 +474,12 @@
   document.querySelector('.brand').addEventListener('click', event => { event.preventDefault(); reset(); setView('discover'); });
   $('trust-details').addEventListener('click', () => setView('privacy'));
   $('back-discover').addEventListener('click', () => setView('discover'));
+  $('link-address').addEventListener('input', () => {
+    linkCheck = {};
+    renderLinkCheck();
+  });
+  $('link-check-form').addEventListener('submit', inspectLink);
+  $('explain-link').addEventListener('click', explainLink);
   $('retry-catalog').addEventListener('click', loadDesktopCatalog);
   $('suggest-link').addEventListener('click', async event => {
     const button = event.currentTarget;
@@ -405,7 +535,7 @@
     if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
       event.preventDefault();
       if ($('app-dialog').open) return;
-      if (state.view === 'privacy') setView('discover');
+      if (state.view === 'privacy' || state.view === 'checker') setView('discover');
       if (!$('catalog-results').hidden) $('search').focus();
       else if (!$('catalog-loading').hidden) $('catalog-loading').focus();
       else if (!$('load-error').hidden && !$('retry-catalog').hidden) $('retry-catalog').focus();
@@ -415,6 +545,7 @@
   applyLanguage(preferredLanguage());
   if (desktop) {
     window.addEventListener('pywebviewready', () => {
+      renderLinkCheck();
       if (catalogAttempt) requestDesktopCatalog();
       else if (desktopBridge()) loadDesktopCatalog();
     });

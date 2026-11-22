@@ -72,6 +72,14 @@ $('open-official').click();
 check('cancellation stays in Compass', await waitFor(() => $('dialog-status').textContent === 'Opening cancelled.'));
 $('open-official').click();
 check('approval closes details', await waitFor(() => !$('app-dialog').open));
+document.querySelector('[data-view="checker"]').click();
+$('link-address').value = APPROVED_CHECK_ADDRESS;
+$('link-check-form').requestSubmit();
+check('exact publisher address verified in the desktop checker', await waitFor(() => $('link-check-badge').textContent === 'Safe'));
+const unlisted = await api.inspect_link('https://www.microsoft.com/support/');
+const insecure = await api.inspect_link('http://www.7-zip.org/');
+check('unlisted and insecure addresses never get a Safe verdict', unlisted.status === 'unverified' && insecure.status === 'blocked');
+document.querySelector('[data-view="discover"]').click();
 const suggest = $('suggest-link');
 if (!suggest || !suggest.getClientRects().length || suggest.disabled) throw new Error('Suggestion button unavailable');
 suggest.click();
@@ -79,7 +87,7 @@ check('native suggestion confirmation cancels', await waitFor(() => $('toast').t
 suggest.click();
 check('native suggestion confirmation accepts', await waitFor(() => $('toast').textContent === 'Opened the GitHub suggestion form.'));
 return checks;
-""".replace('EXPECTED_CATALOG_COUNT', str(len(CATALOG)))
+""".replace('EXPECTED_CATALOG_COUNT', str(len(CATALOG))).replace('APPROVED_CHECK_ADDRESS', repr(APPROVED_URL))
 
 
 def smoke():
@@ -159,7 +167,7 @@ def smoke():
         main.main()
     for result in results:
         print(f'PASS: {result}')
-    if errors or len(results) != 13:
+    if errors or len(results) != 15:
         raise SystemExit('\n'.join(errors) or 'Missing Linux smoke results')
 
 

@@ -1,6 +1,7 @@
 """Small desktop bridge: explicit confirmation is enforced in Python."""
 from threading import Lock
 import webbrowser
+from . import link_check
 from .catalog import BY_ID, destination, public_catalog
 
 SUGGESTION_URL = 'https://github.com/nuggar4-cmd/Compass-public/issues/new?template=catalog-suggestion.yml'
@@ -10,6 +11,7 @@ class Bridge:
         self._confirm = confirm
         self._opener = opener or (lambda url: webbrowser.open(url, new=2))
         self._opening = Lock()
+        self._explaining = Lock()
         self._version = version
 
     def app_info(self):
@@ -17,6 +19,17 @@ class Bridge:
 
     def catalog(self):
         return public_catalog()
+
+    def inspect_link(self, value):
+        return link_check.inspect_link(value)
+
+    def explain_link(self, reason, language):
+        if not self._explaining.acquire(blocking=False):
+            return {'status': 'unavailable'}
+        try:
+            return link_check.explain_link(reason, language)
+        finally:
+            self._explaining.release()
 
     def open_official(self, app_id):
         try:

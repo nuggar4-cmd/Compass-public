@@ -16,6 +16,7 @@
   <nav aria-label="Main navigation" data-tr-label="Ana gezinme">
     <button class="nav active" data-view="discover" aria-current="page"><span class="nav-icon" aria-hidden="true">▦</span><span data-tr="Keşfet">Discover</span></button>
     <button class="nav" data-view="library"><span class="nav-icon" aria-hidden="true">☷</span><span data-tr="Tüm uygulamalar">All apps</span><span id="nav-count" class="counter" aria-hidden="true" hidden></span></button>
+    <button class="nav" data-view="checker"><span class="nav-icon" aria-hidden="true">◎</span><span data-tr="Bağlantı denetimi">Link check</span></button>
     <button class="nav" data-view="privacy"><span class="nav-icon" aria-hidden="true">◇</span><span data-tr="Gizlilik ve güvenlik">Privacy &amp; trust</span></button>
   </nav>
   <div class="sidebar-foot"><span class="mini-mark" aria-hidden="true">⟐</span><div><span data-tr="Masaüstü için Compass">Compass for desktop</span><small id="app-version"></small></div></div>
@@ -100,6 +101,43 @@
       </div>
     </section>
   </div>
+  <section class="page checker-page" id="checker-page" aria-labelledby="checker-title" hidden>
+    <header class="checker-heading">
+      <h1 id="checker-title" data-tr="Bağlantı denetimi">Link check</h1>
+      <p class="intro" data-tr="Bir web adresini açmadan önce bu cihazda denetle.">Check a web address on this device before opening it.</p>
+    </header>
+    <div class="checker-layout">
+      <div class="checker-panel">
+        <form id="link-check-form" novalidate>
+          <label for="link-address" data-tr="Bağlantı adresi">Link address</label>
+          <div class="checker-form-row">
+            <input id="link-address" type="text" inputmode="url" dir="ltr" placeholder="https://…" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" aria-describedby="checker-availability" disabled>
+            <button id="inspect-link" class="primary" type="submit" data-tr="Kontrol et" disabled>Check link</button>
+          </div>
+        </form>
+        <p id="checker-availability" class="checker-status" role="status" aria-atomic="true"></p>
+        <div id="link-check-result" class="checker-result" hidden>
+          <div role="status" class="checker-verdict" aria-atomic="true">
+            <div class="checker-verdict-heading">
+              <span id="link-check-badge"></span>
+              <strong id="link-check-publisher" hidden></strong>
+            </div>
+            <p id="link-check-reason"></p>
+          </div>
+          <div class="checker-explanation">
+            <button class="checker-ai" id="explain-link" type="button"><span aria-hidden="true">✦</span> <span data-tr="Yerel AI ile açıkla">Explain with local AI</span></button>
+            <p id="ai-explanation" class="checker-status" role="status" aria-atomic="true" hidden></p>
+          </div>
+        </div>
+      </div>
+      <aside class="checker-scope">
+        <h2 data-tr="Denetim kapsamı">What Compass checks</h2>
+        <p data-tr="Compass adres biçimini ve katalogdaki resmî yayıncı sayfalarıyla tam eşleşmeyi denetler. Yönlendirmeler ve indirilen dosyalar ayrı denetim gerektirir.">Compass checks the address format and looks for an exact match in the publisher catalog. Redirects and downloaded files require separate checks.</p>
+        <h2 data-tr="Yerel AI açıklaması">Local AI explanation</h2>
+        <p data-tr="Adres bu cihazda kalır. Açıklama istediğinde yerel AI yalnızca denetimin gerekçe kodunu ve seçtiğin dili alır.">The address stays on this device. If you request an explanation, the local AI only receives the result’s reason code and your selected language.</p>
+      </aside>
+    </div>
+  </section>
   <section class="page privacy-page" id="privacy-page" hidden>
     <h1 data-tr="Gizlilik ve güvenlik">Privacy &amp; trust</h1>
     <p class="intro" data-tr="Compass, cihazında çalışan bir yazılım kataloğudur. Hangi yayıncı sitesini açacağına sen karar verirsin.">Compass is a local software catalog. You choose which publisher websites to open.</p>
